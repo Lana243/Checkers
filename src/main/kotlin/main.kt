@@ -1,4 +1,4 @@
 fun main(args: Array<String>){
-    val name = "Sveta"
+    val name = "Denis"
     println("My name is $name")
 }
