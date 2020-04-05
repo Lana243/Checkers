@@ -65,17 +65,12 @@ class CheckersModel() : BaseModel(8) {
                     t = "."
                 } else {
                     if (board[i][j].figure!!.color == Color.WHITE) {
-                        if (board[i][j].figure!!.type == FigureType.Ordinary) {
-                            t = "w"
-                        } else {
-                            t = "W"
-                        }
+                        t = "w"
                     } else {
-                        if (board[i][j].figure!!.type == FigureType.Ordinary) {
-                            t = "b"
-                        } else {
-                            t = "B"
-                        }
+                        t = "b"
+                    }
+                    if (board[i][j].figure!!.type == FigureType.Queen) {
+                        t.toUpperCase()
                     }
                 }
                 print(t)
