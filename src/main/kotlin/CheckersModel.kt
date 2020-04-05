@@ -1,7 +1,13 @@
 import kotlin.math.abs
 
 class CheckersModel() : BaseModel(8) {
+    private var whoMoves = Color.WHITE
+
     override fun canMove(turn: BaseTurn): Boolean {
+        if (turn.playerColor != whoMoves) {
+            //ходит не тот, кто должен бы
+            return false
+        }
         //TODO("Проверка выхода за границы")
         val squareFrom = board[turn.from.first][turn.from.second]
         val squareTo = board[turn.to.first][turn.to.second]
@@ -37,14 +43,18 @@ class CheckersModel() : BaseModel(8) {
         run {
             board[turn.to.first][turn.to.second].figure = board[turn.from.first][turn.from.second].figure
             board[turn.from.first][turn.from.second].figure = null
+            whoMoves = if (whoMoves == Color.WHITE)
+                Color.BLACK
+            else
+                Color.WHITE
+            updateState()
         }
         //TODO("Сделать съедание шашек")
         //TODO("Сделать превращение в дамку")
     }
 
-    override fun isEnded(): Boolean {
-        TODO("Сделать") //To change body of created functions use File | Settings | File Templates.
-        return false
+    override fun updateState() {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun printBoardOnConsole() {
