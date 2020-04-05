@@ -1,0 +1,92 @@
+import kotlin.math.abs
+
+class CheckersModel() : BaseModel(8) {
+    override fun canMove(turn: BaseTurn): Boolean {
+        //TODO("Проверка выхода за границы")
+        val squareFrom = board[turn.from.first][turn.from.second]
+        val squareTo = board[turn.to.first][turn.to.second]
+        if (!squareFrom.color || !squareTo.color) {
+            return false
+        }
+        if (squareFrom.figure != null) {
+            if (squareTo.figure != null) {
+                //клетка "куда" не пустая
+                return false
+            }
+            if (squareFrom.figure!!.color != turn.playerColor) {
+                //фигура на клетку "откуда" не совпадает с цветом ходящего
+                return false;
+            }
+            val verticals = turn.to.second - turn.from.second
+            val horizontals = turn.to.first - turn.from.first
+            if ((horizontals == if (turn.playerColor == Color.WHITE) 1 else -1) && (abs(verticals) == 1)) {
+                //Просто ход без съедания
+                return true
+            }
+            //TODO("Проверка хода со съеданием")
+            return false
+        } else {
+            //клетка "откуда" пустая
+            return false
+        }
+    }
+
+    override fun move(turn: BaseTurn) {
+        if (!canMove(turn))
+            return
+        run {
+            board[turn.to.first][turn.to.second].figure = board[turn.from.first][turn.from.second].figure
+            board[turn.from.first][turn.from.second].figure = null
+        }
+        //TODO("Сделать съедание шашек")
+        //TODO("Сделать превращение в дамку")
+    }
+
+    override fun isEnded(): Boolean {
+        TODO("Сделать") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun printBoardOnConsole() {
+        for (i in boardSize-1 downTo 0) {
+            for (j in 0 until boardSize) {
+                var t = "."
+                if (board[i][j].figure == null) {
+                    t = "."
+                } else {
+                    if (board[i][j].figure!!.color == Color.WHITE) {
+                        if (board[i][j].figure!!.type == FigureType.Ordinary) {
+                            t = "w"
+                        } else {
+                            t = "W"
+                        }
+                    } else {
+                        if (board[i][j].figure!!.type == FigureType.Ordinary) {
+                            t = "b"
+                        } else {
+                            t = "B"
+                        }
+                    }
+                }
+                print(t)
+            }
+            println();
+        }
+    }
+
+    init {
+        for (i in 0 until boardSize) {
+            for (j in 0 until boardSize) {
+                if ((i + j) % 2 == 0) {
+                    board[i][j].color = true
+                    if (i <= 2)
+                        board[i][j].figure = Figure("w")
+                    if (i >= 5)
+                        board[i][j].figure = Figure("b")
+                } else {
+                    board[i][j].color = false
+                }
+            }
+        }
+    }
+}
