@@ -26,10 +26,22 @@ class CheckersModel() : BaseModel(8) {
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
             if ((horizontals == if (turn.playerColor == Color.WHITE) 1 else -1) && (abs(verticals) == 1)) {
-                //Просто ход без съедания
+                turn.Move = MoveType.ONESTEP//Просто ход без съедания
                 return true
             }
-            //TODO("Проверка хода со съеданием")
+            if ((abs(horizontals) == 2) && (abs(verticals) == 2)) { //Если просто съедаем через клетку
+                val squareToEat = board[(turn.from.first + turn.to.first) / 2][(turn.from.second + turn.to.second) / 2];
+                if ((squareToEat.figure != null) && (squareToEat.figure?.color != squareFrom.figure!!.color)) { //проверяем что там стоит шашка другого цвета
+                    turn.Move = MoveType.SIMPLEEAT
+                    return true
+                }
+            }
+            /*if ((abs(horizontals) == abs(verticals)) && (squareFrom.figure!!.type == FigureType.Queen)) { //съедаем через несколько клеток(должна быть дамкой)
+                var count: Int = 0
+                for (i in 1 until abs(horizontals) + 1) {
+
+                }
+            }*/
             return false
         } else {
             //клетка "откуда" пустая
@@ -48,6 +60,9 @@ class CheckersModel() : BaseModel(8) {
             else
                 Color.WHITE
             updateState()
+        }
+        if (turn.Move == MoveType.SIMPLEEAT) {
+            board[(turn.from.first + turn.to.first) / 2][(turn.from.second + turn.to.second) / 2].figure = null
         }
         //TODO("Сделать съедание шашек")
         //TODO("Сделать превращение в дамку")
