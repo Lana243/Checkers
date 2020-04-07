@@ -1,4 +1,5 @@
 enum class Color {
     BLACK,
-    WHITE
+    WHITE,
+    UNKNOWN
 }
