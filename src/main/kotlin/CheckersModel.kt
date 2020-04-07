@@ -49,9 +49,10 @@ class CheckersModel() : BaseModel(8) {
     }
 
     private fun makeQueen(turn: BaseTurn) {
-        if (turn.to.first == 0 && turn.playerColor == Color.BLACK ||
-            turn.to.first == boardSize - 1 && turn.playerColor == Color.WHITE)
-            board[turn.to.first][turn.to.second].figure?.type ?: FigureType.Queen
+        if ((turn.to.first == 0 && turn.playerColor == Color.BLACK) ||
+            (turn.to.first == boardSize - 1 && turn.playerColor == Color.WHITE))
+            board[turn.to.first][turn.to.second].figure!!.type = FigureType.Queen
+
     }
 
     override fun move(turn: BaseTurn) {
@@ -92,13 +93,14 @@ class CheckersModel() : BaseModel(8) {
                         "b"
                     }
                     if (board[i][j].figure!!.type == FigureType.Queen) {
-                        t.toUpperCase()
+                        t = t.toUpperCase()
                     }
                 }
                 print(t)
             }
             println()
         }
+        println()
     }
 
     init {
