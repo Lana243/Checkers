@@ -1,13 +1,9 @@
 class Figure(col: String) {
 
-    val color : Color
+    val color : Color = if (col[0] == 'w')
+        Color.WHITE
+    else
+        Color.BLACK
     var type : FigureType = FigureType.Ordinary
-
-    init {
-        color = if (col[0] == 'w')
-            Color.WHITE
-        else
-            Color.BLACK
-    }
 
 }

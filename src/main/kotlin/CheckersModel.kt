@@ -21,7 +21,7 @@ class CheckersModel() : BaseModel(8) {
             }
             if (squareFrom.figure!!.color != turn.playerColor) {
                 //фигура на клетку "откуда" не совпадает с цветом ходящего
-                return false;
+                return false
             }
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
@@ -37,6 +37,12 @@ class CheckersModel() : BaseModel(8) {
         }
     }
 
+    private fun makeQueen(turn: BaseTurn) {
+        if (turn.to.first == 0 && turn.playerColor == Color.BLACK ||
+            turn.to.first == boardSize - 1 && turn.playerColor == Color.WHITE)
+            board[turn.to.first][turn.to.second].figure?.type ?: FigureType.Queen
+    }
+
     override fun move(turn: BaseTurn) {
         if (!canMove(turn))
             return
@@ -50,7 +56,7 @@ class CheckersModel() : BaseModel(8) {
             updateState()
         }
         //TODO("Сделать съедание шашек")
-        //TODO("Сделать превращение в дамку")
+        makeQueen(turn)
     }
 
     override fun updateState() {
@@ -64,10 +70,10 @@ class CheckersModel() : BaseModel(8) {
                 if (board[i][j].figure == null) {
                     t = "."
                 } else {
-                    if (board[i][j].figure!!.color == Color.WHITE) {
-                        t = "w"
+                    t = if (board[i][j].figure!!.color == Color.WHITE) {
+                        "w"
                     } else {
-                        t = "b"
+                        "b"
                     }
                     if (board[i][j].figure!!.type == FigureType.Queen) {
                         t.toUpperCase()
@@ -75,7 +81,7 @@ class CheckersModel() : BaseModel(8) {
                 }
                 print(t)
             }
-            println();
+            println()
         }
     }
 
