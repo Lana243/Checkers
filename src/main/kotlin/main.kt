@@ -5,6 +5,6 @@ fun main(args: Array<String>){
     checkersModel.printBoardOnConsole()
     checkersModel.move(BaseTurn(Color.BLACK, Pair(5, 5), Pair(4, 4)))
     checkersModel.printBoardOnConsole()
-    checkersModel.move(BaseTurn(Color.WHITE, Pair(3, 3), Pair(4, 4)))
+    checkersModel.move(BaseTurn(Color.WHITE, Pair(3, 3), Pair(5, 5)))
     checkersModel.printBoardOnConsole()
 }
