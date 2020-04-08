@@ -22,15 +22,19 @@ class CheckersModel() : BaseModel(8) {
     /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
     Its return value has 3 options:
         if turn is illegal, it returns null,
-        if turn illegal but there aren't any checker will be eaten,
+        if turn is legal but there aren't any checker will be eaten,
             it returns square, from which the turn started
-        if turn illegal and some checker must be eaten,
+        if turn is legal and some checker must be eaten,
             it return square, where this checker is located */
     override fun canMove(turn: BaseTurn): Square? {
         if (turn.playerColor != whoMoves) {
             //player's color isn't correct
             return null
         }
+        if (turn.to.first < 0 || turn.to.first >= boardSize || turn.to.second < 0 || turn.to.second >= boardSize)
+            return null
+        if (turn.from.first < 0 || turn.from.first >= boardSize || turn.from.second < 0 || turn.from.second >= boardSize)
+            return null
         //TODO("Checking than move coordinates are not out of board")
         val squareFrom = board[turn.from.first][turn.from.second]
         val squareTo = board[turn.to.first][turn.to.second]
