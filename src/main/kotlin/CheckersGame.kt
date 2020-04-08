@@ -9,7 +9,7 @@ class CheckersGame (private val model : CheckersModel, playerWhite : BasePlayer,
             if (turn == null) {
                 println("Invalid format. Please, try again")
             } else {
-                if (!model.canMove(turn)) {
+                if (!model.canMove(turn).first) {
                     println("Illegal turn. Please, try again")
                 } else {
                     model.move(turn)
