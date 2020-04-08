@@ -4,5 +4,5 @@ abstract class BaseModel(val boardSize: Int, val board : BaseBoard) {
     abstract fun updateState()
 
     var gameState = GameState.PLAYING
-
+    var whoMoves = 1
 }

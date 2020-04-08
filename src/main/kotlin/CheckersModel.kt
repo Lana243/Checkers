@@ -2,8 +2,6 @@ import kotlin.math.abs
 
 class CheckersModel() : BaseModel(8, CheckersBoard(8)) {
 
-    private var whoMoves = 1
-
     /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
     Its return value has 3 options:
         if turn is illegal, it returns null,
