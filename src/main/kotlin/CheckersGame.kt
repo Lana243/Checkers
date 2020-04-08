@@ -4,7 +4,7 @@ class CheckersGame (private val model : CheckersModel, playerWhite : BasePlayer,
 
     fun game() {
         while (true) {
-            model.printBoardOnConsole()
+            model.board.print()
             val turn = players[whoMoves].makeTurn(model)
             if (turn == null) {
                 println("Invalid format. Please, try again")
