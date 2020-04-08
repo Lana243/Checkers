@@ -19,6 +19,13 @@ class CheckersModel() : BaseModel(8) {
 
     private var whoMoves = 1
 
+    /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
+    Its return value has 3 options:
+        if turn is illegal, it returns null,
+        if turn illegal but there aren't any checker will be eaten,
+            it returns square, from which the turn started
+        if turn illegal and some checker must be eaten,
+            it return square, where this checker is located */
     override fun canMove(turn: BaseTurn): Square? {
         if (turn.playerColor != whoMoves) {
             //player's color isn't correct
