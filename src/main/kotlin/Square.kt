@@ -1,3 +1,3 @@
 class Square(var color: Int) {
-    var figure : Figure? = null;
+    var figure : Figure? = null
 }

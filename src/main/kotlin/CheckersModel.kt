@@ -1,26 +1,43 @@
 import kotlin.math.abs
 
 class CheckersModel() : BaseModel(8) {
+    init {
+        for (i in 0 until boardSize) {
+            for (j in 0 until boardSize) {
+                if ((i + j) % 2 == 0) {
+                    board[i][j].color = true
+                    if (i <= 2)
+                        board[i][j].figure = Figure("w")
+                    if (i >= 5)
+                        board[i][j].figure = Figure("b")
+                } else {
+                    board[i][j].color = false
+                }
+            }
+        }
+    }
+
     private var whoMoves = 1
 
     override fun canMove(turn: BaseTurn): Pair<Boolean, Any?> {
         if (turn.playerColor != whoMoves) {
-            //ходит не тот, кто должен бы
+            //player's color isn't correct
             return Pair(false, null)
         }
-        //TODO("Проверка выхода за границы")
+        //TODO("Checking than move coordinates are not out of board")
         val squareFrom = board[turn.from.first][turn.from.second]
         val squareTo = board[turn.to.first][turn.to.second]
         if (squareFrom.color == 1 || squareTo.color == 1) {
             return Pair(false, null)
         }
         if (squareFrom.figure != null) {
+            val squareFromFigure : Figure = squareFrom.figure!!
             if (squareTo.figure != null) {
-                //клетка "куда" не пустая
+                //square to is not empty - can't move there
                 return Pair(false, null)
             }
-            if (squareFrom.figure!!.color != turn.playerColor) {
-                //фигура на клетку "откуда" не совпадает с цветом ходящего
+            if (squareFromFigure.color != turn.playerColor) {
+                //figure's color on "from" square isn't equal to player's color - illegal move
                 return Pair(false, null)
             }
             val verticals = turn.to.second - turn.from.second
@@ -28,10 +45,12 @@ class CheckersModel() : BaseModel(8) {
             if ((horizontals == if (turn.playerColor == 1) 1 else -1) && (abs(verticals) == 1)) {
                 return Pair(true, null)
             }
+            //if ordinary checker make "eaten" move
             if ((abs(horizontals) == 2) && (abs(verticals) == 2)
-                    && (board[turn.from.first][turn.from.second].figure!!.type == FigureType.Ordinary)) { //Если просто съедаем через клетку
+                    && (squareFromFigure.type == FigureType.Ordinary)) {
                 val squareToEat = board[(turn.from.first + turn.to.first) / 2][(turn.from.second + turn.to.second) / 2]
-                if ((squareToEat.figure != null) && (squareToEat.figure?.color != squareFrom.figure!!.color)) { //проверяем что там стоит шашка другого цвета
+                //checking, that there is another color's checker on "eaten" square
+                if ((squareToEat.figure != null) && (squareToEat.figure?.color != squareFromFigure.color)) {
                     return Pair(true, squareToEat)
                 }
             }
@@ -43,7 +62,7 @@ class CheckersModel() : BaseModel(8) {
             }*/
             return Pair(false, null)
         } else {
-            //клетка "откуда" пустая
+            //square "from" is empty
             return Pair(false, null)
         }
     }
@@ -59,28 +78,27 @@ class CheckersModel() : BaseModel(8) {
         val canMoveResult = canMove(turn)
         if (!canMove(turn).first)
             return
-        run {
-            board[turn.to.first][turn.to.second].figure = board[turn.from.first][turn.from.second].figure
-            board[turn.from.first][turn.from.second].figure = null
-            whoMoves *= -1
-            updateState()
-        }
+        board[turn.to.first][turn.to.second].figure = board[turn.from.first][turn.from.second].figure
+        board[turn.from.first][turn.from.second].figure = null
+        whoMoves *= -1
+        updateState()
+      
         if (canMoveResult.second != null) {
             (canMoveResult.second as Square).figure = null
         }
 
-        //TODO("Сделать съедание шашек")
+        //TODO("Make checker eating")
         makeQueen(turn)
     }
 
     override fun updateState() {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented")
     }
 
     override fun printBoardOnConsole() {
         for (i in boardSize - 1 downTo 0) {
             for (j in 0 until boardSize) {
-                var t = "."
+                var t : String
                 if (board[i][j].figure == null) {
                     t = "."
                 } else {
@@ -98,21 +116,5 @@ class CheckersModel() : BaseModel(8) {
             println()
         }
         println()
-    }
-
-    init {
-        for (i in 0 until boardSize) {
-            for (j in 0 until boardSize) {
-                if ((i + j) % 2 == 0) {
-                    board[i][j].color = -1
-                    if (i <= 2)
-                        board[i][j].figure = Figure("w")
-                    if (i >= 5)
-                        board[i][j].figure = Figure("b")
-                } else {
-                    board[i][j].color = 1
-                }
-            }
-        }
     }
 }
