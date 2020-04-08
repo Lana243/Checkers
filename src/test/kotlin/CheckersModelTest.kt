@@ -5,7 +5,7 @@ class TestCanMove {
 
     @Test
     fun `Test Move of Ordinary Checker 1`() {
-        var m = CheckersModel()
+        val m = CheckersModel()
         assertTrue(m.canMove(BaseTurn(1, Pair(0, 0), Pair(1, 1))) == null,
             "Moved into not empty square")
         assertTrue(m.canMove(BaseTurn(-1, Pair(5, 0), Pair(4, 1))) == null,
