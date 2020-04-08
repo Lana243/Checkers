@@ -1,4 +1,4 @@
-class ConsoleUIPlayer(private val name : String, col : Color) : BasePlayer(col) {
+class ConsoleUIPlayer(private val name : String, col : Int) : BasePlayer(col) {
     override fun makeTurn(model : BaseModel): BaseTurn? {
         println("Player $name - it's your turn.")
         val input = readLine()

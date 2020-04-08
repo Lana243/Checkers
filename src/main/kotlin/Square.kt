@@ -1,3 +1,3 @@
-class Square(var color: Boolean) {
+class Square(var color: Int) {
     var figure : Figure? = null
 }

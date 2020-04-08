@@ -17,7 +17,7 @@ class CheckersModel() : BaseModel(8) {
         }
     }
 
-    private var whoMoves = Color.WHITE
+    private var whoMoves = 1
 
     override fun canMove(turn: BaseTurn): Pair<Boolean, Any?> {
         if (turn.playerColor != whoMoves) {
@@ -27,7 +27,7 @@ class CheckersModel() : BaseModel(8) {
         //TODO("Checking than move coordinates are not out of board")
         val squareFrom = board[turn.from.first][turn.from.second]
         val squareTo = board[turn.to.first][turn.to.second]
-        if (!squareFrom.color || !squareTo.color) {
+        if (squareFrom.color == 1 || squareTo.color == 1) {
             return Pair(false, null)
         }
         if (squareFrom.figure != null) {
@@ -42,7 +42,7 @@ class CheckersModel() : BaseModel(8) {
             }
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
-            if ((horizontals == if (turn.playerColor == Color.WHITE) 1 else -1) && (abs(verticals) == 1)) {
+            if ((horizontals == if (turn.playerColor == 1) 1 else -1) && (abs(verticals) == 1)) {
                 return Pair(true, null)
             }
             //if ordinary checker make "eaten" move
@@ -68,8 +68,8 @@ class CheckersModel() : BaseModel(8) {
     }
 
     private fun makeQueen(turn: BaseTurn) {
-        if ((turn.to.first == 0 && turn.playerColor == Color.BLACK) ||
-            (turn.to.first == boardSize - 1 && turn.playerColor == Color.WHITE))
+        if ((turn.to.first == 0 && turn.playerColor == -1) ||
+            (turn.to.first == boardSize - 1 && turn.playerColor == 1))
             board[turn.to.first][turn.to.second].figure!!.type = FigureType.Queen
 
     }
@@ -80,11 +80,9 @@ class CheckersModel() : BaseModel(8) {
             return
         board[turn.to.first][turn.to.second].figure = board[turn.from.first][turn.from.second].figure
         board[turn.from.first][turn.from.second].figure = null
-        whoMoves = if (whoMoves == Color.WHITE)
-            Color.BLACK
-        else
-            Color.WHITE
+        whoMoves *= -1
         updateState()
+      
         if (canMoveResult.second != null) {
             (canMoveResult.second as Square).figure = null
         }
@@ -104,7 +102,7 @@ class CheckersModel() : BaseModel(8) {
                 if (board[i][j].figure == null) {
                     t = "."
                 } else {
-                    t = if (board[i][j].figure!!.color == Color.WHITE) {
+                    t = if (board[i][j].figure!!.color == 1) {
                         "w"
                     } else {
                         "b"
