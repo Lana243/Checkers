@@ -5,13 +5,13 @@ class CheckersModel() : BaseModel(8) {
         for (i in 0 until boardSize) {
             for (j in 0 until boardSize) {
                 if ((i + j) % 2 == 0) {
-                    board[i][j].color = true
+                    board[i][j].color = -1
                     if (i <= 2)
                         board[i][j].figure = Figure("w")
                     if (i >= 5)
                         board[i][j].figure = Figure("b")
                 } else {
-                    board[i][j].color = false
+                    board[i][j].color = 1
                 }
             }
         }
