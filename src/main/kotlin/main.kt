@@ -1,4 +1,5 @@
 fun main(args: Array<String>){
-    val test = "lalala"
-    println("$test")
+    val game = CheckersGame(CheckersModel(), ConsoleUIPlayer("White Player", 1), ConsoleUIPlayer("Black Player", -1))
+    game.game()
 }
+
