@@ -3,6 +3,7 @@
 /vcs.xml
 /jarRepositories.xml
 /gradle.xml
+/compiler.xml
 /codeStyles
 /libraries
 /modules
