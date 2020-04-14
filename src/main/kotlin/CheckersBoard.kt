@@ -57,5 +57,4 @@ class CheckersBoard(boardSize: Int) : BaseBoard(boardSize) {
         println()
     }
 
-
 }
