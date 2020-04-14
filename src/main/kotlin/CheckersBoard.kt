@@ -1,32 +1,35 @@
 class CheckersBoard(private val boardSize: Int) : BaseBoard {
+    private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) -1 else 1)}
     init {
         setStartPosition()
     }
 
-    private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) -1 else 1)}
+    private fun getIndex(i : Int, j : Int): Int {
+        return i * boardSize + j;
+    }
 
     override fun setStartPosition() {
         for (i in 0 until boardSize) {
             for (j in 0 until boardSize) {
-                if (i < 3 && board[i * boardSize + j].color == -1) {
-                    board[i * boardSize + j].figure = Figure(1)
+                if (i < 3 && board[getIndex(i, j)].color == -1) {
+                    board[getIndex(i, j)].figure = Figure(1)
                 }
-                if (i == 3 || i == 4 || board[i * boardSize + j].color == 1) {
-                    board[i * boardSize + j].figure = null
+                if (i == 3 || i == 4 || board[getIndex(i, j)].color == 1) {
+                    board[getIndex(i, j)].figure = null
                 }
-                if (i >= 5 && board[i * boardSize + j].color == -1) {
-                    board[i * boardSize + j].figure = Figure(-1)
+                if (i >= 5 && board[getIndex(i, j)].color == -1) {
+                    board[getIndex(i, j)].figure = Figure(-1)
                 }
             }
         }
     }
 
     override operator fun get(i: Int, j: Int) : Square {
-        return board[i * boardSize + j]
+        return board[getIndex(i, j)]
     }
 
     override operator fun get(coords: Pair<Int, Int>): Square {
-        return board[coords.first * boardSize + coords.second]
+        return board[getIndex(coords.first, coords.second)]
     }
 
     override operator fun set(i: Int, j: Int, newSquare: Square) {
@@ -34,7 +37,7 @@ class CheckersBoard(private val boardSize: Int) : BaseBoard {
     }
 
     override operator fun set(coords: Pair<Int, Int>, newSquare: Square) {
-        board[coords.first * boardSize + coords.second] = newSquare
+        board[getIndex(coords.first, coords.second)] = newSquare
     }
 
     override fun print() {
