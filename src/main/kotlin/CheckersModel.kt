@@ -18,7 +18,7 @@ class CheckersModel() : BaseModel(8, CheckersBoard(8)) {
             return null
         if (turn.from.first < 0 || turn.from.first >= boardSize || turn.from.second < 0 || turn.from.second >= boardSize)
             return null
-        //TODO("Checking than move coordinates are not out of board")
+
         val squareFrom = board[turn.from]
         val squareTo = board[turn.to]
         if (squareFrom.color == 1 || squareTo.color == 1) {
