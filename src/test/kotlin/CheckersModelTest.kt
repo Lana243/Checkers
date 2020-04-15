@@ -55,4 +55,18 @@ class TestCanMove {
             "Wrong square returned: eaten checker expected")
         assertNull(m.canMove(BaseTurn(Color.WHITE, Pair(5, 0), Pair(4, 1))), "Player moved wrong checker")
     }
+
+    @Test
+    fun `Test Color class`() {
+        val black = Color.BLACK
+        val white = Color.WHITE
+        assertSame(black.getDirection(), -1, "Wrong result in getDirection() for black")
+        assertSame(white.getDirection(), 1, "Wrong result in getDirection() for white")
+        assertSame(black.nextColor(), Color.WHITE, "Wrong result in nextColor() for black")
+        assertSame(white.nextColor(), Color.BLACK, "Wrong result in nextColor() for white")
+        assertSame(black.queenLine(8), 0, "Wrong queen line for black")
+        assertSame(black.queenLine(2), 0, "Wrong queen line for black")
+        assertSame(white.queenLine(8), 7, "Wrong queen line for white")
+        assertSame(white.queenLine(2), 1, "Wrong queen line for white")
+    }
 }
