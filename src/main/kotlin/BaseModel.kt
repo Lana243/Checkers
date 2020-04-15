@@ -1,4 +1,4 @@
-abstract class BaseModel(val boardSize: Int) {
+abstract class BaseModel() {
     abstract fun canMove(turn: BaseTurn) : Square?
     abstract fun move(turn: BaseTurn)
     abstract fun updateState()

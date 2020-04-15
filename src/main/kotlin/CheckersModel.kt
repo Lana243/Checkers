@@ -1,6 +1,6 @@
 import kotlin.math.abs
 
-class CheckersModel() : BaseModel(8) {
+class CheckersModel() : BaseModel() {
     val board = CheckersBoard(8)
     /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
     Its return value has 3 options:
@@ -14,10 +14,9 @@ class CheckersModel() : BaseModel(8) {
             //player's color isn't correct
             return null
         }
-        if (turn.to.first < 0 || turn.to.first >= boardSize || turn.to.second < 0 || turn.to.second >= boardSize)
+        if (!turn.isValid(board.boardSize)) {
             return null
-        if (turn.from.first < 0 || turn.from.first >= boardSize || turn.from.second < 0 || turn.from.second >= boardSize)
-            return null
+        }
 
         val squareFrom = board[turn.from]
         val squareTo = board[turn.to]
@@ -64,7 +63,7 @@ class CheckersModel() : BaseModel(8) {
 
     private fun makeQueen(turn: BaseTurn) {
         if ((turn.to.first == 0 && turn.playerColor == -1) ||
-            (turn.to.first == boardSize - 1 && turn.playerColor == 1))
+            (turn.to.first == board.boardSize - 1 && turn.playerColor == 1))
             board[turn.to].figure!!.type = FigureType.Queen
 
     }
