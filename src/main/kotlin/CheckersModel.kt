@@ -18,8 +18,7 @@ class CheckersModel : BaseModel() {
             return null
         }
 
-        val squareFrom = board[turn.from]
-        val squareTo = board[turn.to]
+        val (squareFrom, squareTo) = board[turn]
         if (squareFrom.color == 1 || squareTo.color == 1) {
             return null
         }

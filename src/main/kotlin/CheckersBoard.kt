@@ -32,6 +32,10 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return board[getIndex(coords.first, coords.second)]
     }
 
+    operator fun get(turn : BaseTurn) : Pair<Square, Square> {
+        return get(turn.from) to get(turn.to)
+    }
+
     override operator fun set(i: Int, j: Int, newSquare: Square) {
         set(Pair(i, j), newSquare)
     }
