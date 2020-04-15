@@ -43,17 +43,16 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
     override fun print() {
         for (i in boardSize - 1 downTo 0) {
             for (j in 0 until boardSize) {
-                var t : String
-                if (board[i * boardSize + j].figure == null) {
-                    t = "."
-                } else {
-                    t = if (board[i * boardSize + j].figure!!.color == 1) {
-                        "w"
+                val t = this[i, j].figure.let {
+                    if (it == null) {
+                        "."
                     } else {
-                        "b"
-                    }
-                    if (board[i * boardSize + j].figure!!.type == FigureType.Queen) {
-                        t = t.toUpperCase()
+                        val letter = if (it.color == 1) "w" else "b"
+                        if (it.type == FigureType.Queen) {
+                            letter.toUpperCase()
+                        } else {
+                            letter
+                        }
                     }
                 }
                 print(t)
