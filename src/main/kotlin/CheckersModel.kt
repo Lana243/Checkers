@@ -23,8 +23,8 @@ class CheckersModel : BaseModel() {
         if (squareFrom.color == 1 || squareTo.color == 1) {
             return null
         }
-        if (squareFrom.figure != null) {
-            val squareFromFigure : Figure = squareFrom.figure!!
+        val squareFromFigure = squareFrom.figure
+        if (squareFromFigure != null) {
             if (squareTo.figure != null) {
                 //square to is not empty - can't move there
                 return null
