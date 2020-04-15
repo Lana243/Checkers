@@ -34,7 +34,7 @@ class CheckersModel : BaseModel() {
             }
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
-            if ((horizontals == if (turn.playerColor == 1) 1 else -1) && (abs(verticals) == 1)) {
+            if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1) {
                 //move without eating
                 return squareFrom
             }
@@ -61,10 +61,8 @@ class CheckersModel : BaseModel() {
     }
 
     private fun makeQueen(turn: BaseTurn) {
-        if ((turn.to.first == 0 && turn.playerColor == -1) ||
-            (turn.to.first == board.boardSize - 1 && turn.playerColor == 1))
+        if (turn.to.first == turn.playerColor.queenLine(board.boardSize))
             board[turn.to].figure!!.type = FigureType.Queen
-
     }
 
     override fun move(turn: BaseTurn)  {
@@ -72,7 +70,7 @@ class CheckersModel : BaseModel() {
                 "Turn isn't valid now, but model is trying to apply it.")
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
-        whoMoves *= -1
+        whoMoves = whoMoves.nextColor()
         updateState()
 
         canMoveResult.figure = null

@@ -4,7 +4,7 @@ class CheckersGame (private val model : CheckersModel, playerWhite : BasePlayer,
     fun play() {
         while (true) {
             model.board.print()
-            val turn = players[if (model.whoMoves == 1) 0 else 1].makeTurn(model)
+            val turn = players[if (model.whoMoves == Color.WHITE) 0 else 1].makeTurn(model)
             //TODO("Add checking that game is not ended (state, updateState())
             if (model.canMove(turn) == null) {
                 println("Illegal turn. Please, try again")

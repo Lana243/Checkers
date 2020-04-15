@@ -4,5 +4,5 @@ abstract class BaseModel() {
     abstract fun updateState()
 
     var gameState = GameState.PLAYING
-    var whoMoves = 1
+    var whoMoves = Color.WHITE
 }

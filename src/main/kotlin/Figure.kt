@@ -1,6 +1,4 @@
-class Figure(val color : Int) {
-  
-    constructor(col : String) : this(if (col[0] == 'w') 1 else -1)
+class Figure(val color : Color) {
   
     var type : FigureType = FigureType.Ordinary
 }
