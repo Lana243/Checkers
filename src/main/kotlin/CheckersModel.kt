@@ -40,8 +40,8 @@ class CheckersModel() : BaseModel() {
                 return squareFrom
             }
             //if ordinary checker make "eaten" move
-            if ((abs(horizontals) == 2) && (abs(verticals) == 2)
-                    && (squareFromFigure.type == FigureType.Ordinary)) {
+            if (abs(horizontals) == 2 && abs(verticals) == 2
+                    && squareFromFigure.type == FigureType.Ordinary) {
                 val squareToEat = board[(turn.from.first + turn.to.first) / 2, (turn.from.second + turn.to.second) / 2]
                 //checking, that there is another color's checker on "eaten" square
                 if ((squareToEat.figure != null) && (squareToEat.figure?.color != squareFromFigure.color)) {
