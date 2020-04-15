@@ -1,6 +1,6 @@
 import kotlin.math.abs
 
-class CheckersModel() : BaseModel() {
+class CheckersModel : BaseModel() {
     val board = CheckersBoard(8)
     /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
     Its return value has 3 options:
@@ -68,8 +68,9 @@ class CheckersModel() : BaseModel() {
 
     }
 
-    override fun move(turn: BaseTurn) {
-        val canMoveResult = canMove(turn) ?: return
+    override fun move(turn: BaseTurn)  {
+        val canMoveResult = canMove(turn) ?: throw IllegalStateException(
+                "Turn isn't valid now, but model is trying to apply it.")
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
         whoMoves *= -1

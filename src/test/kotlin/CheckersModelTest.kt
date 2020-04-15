@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 class TestCanMove {
 
     @Test
-    fun `Test isValid fun for Turn`() {
+    fun `Test isValid Function for Turn`() {
         val turn1 = BaseTurn(1, 0 to 0, 2 to 2)
         assertFalse(turn1.isValid(2), "isValid while 'to' coords are outside the board")
         assertTrue(turn1.isValid(3), "!isValid while all coords are inside the board")
