@@ -15,7 +15,7 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
                     figure = if (color == 1 || i == 3 || i == 4) {
                         null
                     } else {
-                        Figure(if (i < 3) 1 else -1)
+                        Figure(if (i < 3) Color.WHITE else Color.BLACK)
                     }
                 }
             }
@@ -49,7 +49,7 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
                     if (it == null) {
                         "."
                     } else {
-                        val letter = if (it.color == 1) "w" else "b"
+                        val letter = if (it.color == Color.WHITE) "w" else "b"
                         if (it.type == FigureType.Queen) {
                             letter.toUpperCase()
                         } else {
