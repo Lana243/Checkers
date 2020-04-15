@@ -11,14 +11,12 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
     override fun setStartPosition() {
         for (i in 0 until boardSize) {
             for (j in 0 until boardSize) {
-                if (i < 3 && board[getIndex(i, j)].color == -1) {
-                    board[getIndex(i, j)].figure = Figure(1)
-                }
-                if (i == 3 || i == 4 || board[getIndex(i, j)].color == 1) {
-                    board[getIndex(i, j)].figure = null
-                }
-                if (i >= 5 && board[getIndex(i, j)].color == -1) {
-                    board[getIndex(i, j)].figure = Figure(-1)
+                this[i, j].apply {
+                    figure = if (color == 1 || i == 3 || i == 4) {
+                        null
+                    } else {
+                        Figure(if (i < 3) 1 else -1)
+                    }
                 }
             }
         }
@@ -32,6 +30,10 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return board[getIndex(coords.first, coords.second)]
     }
 
+    operator fun get(turn : BaseTurn) : Pair<Square, Square> {
+        return get(turn.from) to get(turn.to)
+    }
+
     override operator fun set(i: Int, j: Int, newSquare: Square) {
         set(Pair(i, j), newSquare)
     }
@@ -43,17 +45,16 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
     override fun print() {
         for (i in boardSize - 1 downTo 0) {
             for (j in 0 until boardSize) {
-                var t : String
-                if (board[i * boardSize + j].figure == null) {
-                    t = "."
-                } else {
-                    t = if (board[i * boardSize + j].figure!!.color == 1) {
-                        "w"
+                val t = this[i, j].figure.let {
+                    if (it == null) {
+                        "."
                     } else {
-                        "b"
-                    }
-                    if (board[i * boardSize + j].figure!!.type == FigureType.Queen) {
-                        t = t.toUpperCase()
+                        val letter = if (it.color == 1) "w" else "b"
+                        if (it.type == FigureType.Queen) {
+                            letter.toUpperCase()
+                        } else {
+                            letter
+                        }
                     }
                 }
                 print(t)
