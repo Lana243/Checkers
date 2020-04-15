@@ -1,9 +1,27 @@
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class TestCanMove {
+
+    @Test
+    fun `Test isValid Function for Turn`() {
+        val turn1 = BaseTurn(1, 0 to 0, 2 to 2)
+        assertFalse(turn1.isValid(2), "isValid while 'to' coords are outside the board")
+        assertTrue(turn1.isValid(3), "!isValid while all coords are inside the board")
+        assertTrue(turn1.isValid(5),"!isValid while all coords are inside the board")
+        val turn2 = BaseTurn(-1, 2 to 2, 0 to 0)
+        assertFalse(turn2.isValid(2), "isValid while 'from' coords are outside the board")
+        assertTrue(turn2.isValid(3), "!isValid while all coords are inside the board")
+        assertTrue(turn2.isValid(5),"!isValid while all coords are inside the board")
+        val turn3 = BaseTurn(1, 6 to 5, 3 to 6)
+        assertFalse(turn3.isValid(6), "isValid while 'from' and 'to' coords are outside the board")
+        assertFalse(turn3.isValid(2), "isValid while 'from' and 'to' coords are outside the board")
+        assertTrue(turn2.isValid(10), "!isValid while all coords are inside the board")
+        assertTrue(turn2.isValid(7),"!isValid while all coords are inside the board")
+    }
 
     @Test
     fun `Test Move of Ordinary Checker 1`() {
