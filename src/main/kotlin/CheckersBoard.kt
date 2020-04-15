@@ -11,14 +11,14 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
     override fun setStartPosition() {
         for (i in 0 until boardSize) {
             for (j in 0 until boardSize) {
-                if (i < 3 && board[getIndex(i, j)].color == -1) {
-                    board[getIndex(i, j)].figure = Figure(1)
+                if (i < 3 && this[i, j].color == -1) {
+                    this[i, j].figure = Figure(1)
                 }
-                if (i == 3 || i == 4 || board[getIndex(i, j)].color == 1) {
-                    board[getIndex(i, j)].figure = null
+                if (i == 3 || i == 4 || this[i, j].color == 1) {
+                    this[i, j].figure = null
                 }
-                if (i >= 5 && board[getIndex(i, j)].color == -1) {
-                    board[getIndex(i, j)].figure = Figure(-1)
+                if (i >= 5 && this[i, j].color == -1) {
+                    this[i, j].figure = Figure(-1)
                 }
             }
         }
