@@ -78,6 +78,18 @@ class TestEating {
             }
         }.toList()
     }
+
+    @TestFactory
+    fun `Test CheckersModel canEat() method`() : Collection<DynamicTest> {
+        return testListWithOutQueen.map {
+            dynamicTest("Test on $it") {
+                it.model.whoMoves = Color.WHITE
+                assertEquals(it.model.canEat(), it.whiteCanEatList.isNotEmpty(), "Method canEat() works incorrectly")
+                it.model.whoMoves = Color.BLACK
+                assertEquals(it.model.canEat(), it.blackCanEatList.isNotEmpty(), "Method canEat() works incorrectly")
+            }
+        }.toList()
+    }
 }
 
 class TestTurnClassMethods {

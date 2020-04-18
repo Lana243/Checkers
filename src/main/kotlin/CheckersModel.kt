@@ -60,6 +60,11 @@ class CheckersModel : BaseModel() {
         }
     }
 
+    fun canEat() : Boolean {
+        val figuresCoords = board.getCoords(whoMoves)
+        return false
+    }
+
     private fun makeQueen(turn: BaseTurn) {
         if (turn.to.first == turn.playerColor.queenLine(board.boardSize))
             board[turn.to].figure!!.type = FigureType.Queen
