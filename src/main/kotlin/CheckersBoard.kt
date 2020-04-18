@@ -44,6 +44,11 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return list
     }
 
+    //This method checks whether the coords is valid
+    fun isValidCoords(i : Int, j : Int) : Boolean {
+        return (i >= 0 && j >= 0 && i < boardSize && j < boardSize)
+    }
+
     override operator fun get(i: Int, j: Int) : Square {
         return board[getIndex(i, j)]
     }

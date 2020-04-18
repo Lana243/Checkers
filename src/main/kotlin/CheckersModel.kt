@@ -60,8 +60,20 @@ class CheckersModel : BaseModel() {
         }
     }
 
+    //Method checks whether one of the moving player checker eat
     fun canEat() : Boolean {
         val figuresCoords = board.getCoords(whoMoves)
+
+        for ((i, j) in figuresCoords) {
+            if (board[i, j].figure?.type == FigureType.Ordinary) {
+                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                    if (board.isValidCoords(i + 2*di, j + 2*dj) &&
+                            board[i+2*di, j+2*dj].figure == null &&
+                            board[i+di, j+dj].figure?.color ?: whoMoves == whoMoves.nextColor())
+                        return true
+                }
+            }
+        }
         return false
     }
 
