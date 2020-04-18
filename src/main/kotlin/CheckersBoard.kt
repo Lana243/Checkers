@@ -8,6 +8,14 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return i * boardSize + j
     }
 
+    fun setEmptyPosition() {
+        for (i in 0 until boardSize) {
+            for (j in 0 until boardSize) {
+                this[i, j].figure = null
+            }
+        }
+    }
+
     override fun setStartPosition() {
         for (i in 0 until boardSize) {
             for (j in 0 until boardSize) {
@@ -20,6 +28,20 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
                 }
             }
         }
+    }
+
+    //fun returns coords of squares that contain figures with playerColor
+    fun getCoords(playerColor: Color) : List<Pair<Int, Int>> {
+        val list = emptyList<Pair<Int, Int>>().toMutableList()
+        for (i in 0 until boardSize) {
+            for (j in 0 until boardSize) {
+                this[i, j].figure?.let {
+                    if (it.color == playerColor)
+                        list.add(i to j)
+                }
+            }
+        }
+        return list
     }
 
     override operator fun get(i: Int, j: Int) : Square {
