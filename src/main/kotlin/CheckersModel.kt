@@ -1,4 +1,5 @@
 import kotlin.math.abs
+import kotlin.math.sign
 
 class CheckersModel : BaseModel() {
     val board = CheckersBoard(8)
@@ -14,6 +15,7 @@ class CheckersModel : BaseModel() {
             //player's color isn't correct
             return null
         }
+
         if (!turn.isValid(board.boardSize)) {
             return null
         }
@@ -34,28 +36,54 @@ class CheckersModel : BaseModel() {
             }
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
-            if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1) {
-                //move without eating
-                return squareFrom
+            if (abs(verticals) != abs(horizontals)) {
+                //Move is not diagonal
+                return null
             }
-            //if ordinary checker make "eaten" move
-            if (abs(horizontals) == 2 && abs(verticals) == 2
-                    && squareFromFigure.type == FigureType.Ordinary) {
-                val squareToEat = board[(turn.from.first + turn.to.first) / 2, (turn.from.second + turn.to.second) / 2]
-                //checking, that there is another color's checker on "eaten" square
-                if ((squareToEat.figure != null) && (squareToEat.figure?.color != squareFromFigure.color)) {
-                    return squareToEat
+            var numBetween = 0
+            var squareBetween = squareFrom
+            for (d in 1 until abs(verticals)) {
+                val x = turn.from.first + horizontals.sign * d
+                val y = turn.from.second + verticals.sign * d
+                if (board[x, y].figure != null) {
+                    if (board[x, y].figure?.color == whoMoves) {
+                        //The checker between 'from' and 'to' squares has same color with moving player
+                        return null
+                    } else {
+                        numBetween++
+                        squareBetween = board[x, y]
+                    }
                 }
             }
-            /*if ((abs(horizontals) == abs(verticals)) && (squareFrom.figure!!.type == FigureType.Queen)) { //съедаем через несколько клеток(должна быть дамкой)
-                var count: Int = 0
-                for (i in 1 until abs(horizontals) + 1) {
-
+            if (numBetween > 1) {
+                //More then 1 checker between 'from' and 'to' squares
+                return null
+            }
+            if (squareFromFigure.type == FigureType.Ordinary) {
+                if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1 && !canEat()) {
+                    //Move without eating
+                    return squareFrom
                 }
-            }*/
-            return null
+                if (abs(horizontals) == 2 && numBetween == 1) {
+                    //Move with eating
+                    return squareBetween
+                }
+                //Incorrect move
+                return null
+            } else {
+                if (numBetween == 0 && !canEat()) {
+                    //Move without eating
+                    return squareFrom
+                }
+                if (numBetween == 1) {
+                    //Move with eating
+                    return squareBetween
+                }
+                //Incorrect move
+                return null
+            }
         } else {
-            //square "from" is empty
+            //Square "from" is empty
             return null
         }
     }
@@ -87,12 +115,13 @@ class CheckersModel : BaseModel() {
                 "Turn isn't valid now, but model is trying to apply it.")
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
-        whoMoves = whoMoves.nextColor()
-        updateState()
-
         canMoveResult.figure = null
-        //TODO("Make Queen eating")
+        updateState()
         makeQueen(turn)
+
+        if (canMoveResult === board[turn.from] || !canEat()) {
+            whoMoves = whoMoves.nextColor()
+        }
     }
 
     override fun updateState() {
