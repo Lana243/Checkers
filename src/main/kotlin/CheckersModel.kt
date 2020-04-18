@@ -100,6 +100,25 @@ class CheckersModel : BaseModel() {
                             board[i+di, j+dj].figure?.color ?: whoMoves == whoMoves.nextColor())
                         return true
                 }
+            } else {
+                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                    var findOpponent = false
+                    var d = 1
+                    loop@ while (board.isValidCoords(i + d*di, j + d*dj)) {
+                        val fig = board[i + d*di, j + d*dj].figure
+                        if (fig == null) {
+                            if (findOpponent)
+                                return true
+                        } else {
+                            if (fig.color == whoMoves) {
+                                break@loop
+                            } else {
+                                findOpponent = true
+                            }
+                        }
+                        d++
+                    }
+                }
             }
         }
         return false
