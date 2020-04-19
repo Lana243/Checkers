@@ -1,5 +1,5 @@
 fun main(args: Array<String>){
-    val game = CheckersGame(CheckersModel(), ConsoleUIPlayer("White Player", Color.WHITE), MinimaxAlphaBetaPlayer("Black Player", Color.BLACK))
+    val game = CheckersGame(CheckersModel(), MinimaxAlphaBetaPlayer("White Player", Color.WHITE), MinimaxPlayer("Black Player", Color.BLACK))
     game.play()
 }
 

@@ -13,3 +13,12 @@ fun GameState.getColor() : Color? {
         GameState.BLACK_WINS -> Color.BLACK
     }
 }
+
+fun GameState.toString() : String {
+    return when (this) {
+        GameState.BLACK_WINS -> "Black wins"
+        GameState.WHITE_WINS -> "White wins"
+        GameState.DRAW -> "Draw"
+        GameState.PLAYING -> "Game isn't ended"
+    }
+}

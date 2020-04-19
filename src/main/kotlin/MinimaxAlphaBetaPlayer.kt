@@ -6,7 +6,7 @@ class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(name, c
         val turn = minimaxAlphaBetaRecursive(tmpModel, 0, 6).second!!
         return turn
     }
-    private fun minimaxAlphaBetaRecursive(model: CheckersModel, depth: Int, maxDepth: Int, tmpBest: Double = Double.MIN_VALUE, changeColor: Boolean = false): Pair<Double, BaseTurn?> {
+    private fun minimaxAlphaBetaRecursive(model: CheckersModel, depth: Int, maxDepth: Int, tmpBest: Double = Double.MIN_VALUE / 10, changeColor: Boolean = false): Pair<Double, BaseTurn?> {
         val isTerminalStateResult = isTerminalState(model, depth, maxDepth)
         if (isTerminalStateResult != null) {
             return isTerminalStateResult to null
@@ -17,7 +17,7 @@ class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(name, c
         else
             model.possibleTurns()
 
-        var bestVal = -100000.0
+        var bestVal = Double.MIN_VALUE / 10
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)

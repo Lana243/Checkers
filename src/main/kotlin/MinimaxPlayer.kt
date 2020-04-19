@@ -44,7 +44,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         else
             model.possibleTurns()
 
-        var bestVal = -100000.0
+        var bestVal = Double.MIN_VALUE / 10
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
@@ -70,7 +70,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
     protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Double? {
         if (model.gameState != GameState.PLAYING) {
-            return if (model.gameState.getColor() == model.whoMoves) Double.MAX_VALUE else Double.MIN_VALUE
+            return if (model.gameState.getColor() == model.whoMoves) Double.MAX_VALUE / 5 else Double.MIN_VALUE / 5
         }
         if (depth >= maxDepth && (!model.canEat() || depth >= maxDepth * 5)) {
             return calcValue(model)
