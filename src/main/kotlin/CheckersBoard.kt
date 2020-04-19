@@ -4,8 +4,34 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         setStartPosition()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other is CheckersBoard) {
+            if (boardSize != other.boardSize)
+                return false
+            else {
+                for (i in 0 until  boardSize) {
+                    for (j in 0 until  boardSize) {
+                        if (this[i, j] != other[i, j])
+                            return false
+                    }
+                }
+                return true
+            }
+        } else {
+            return false
+        }
+    }
+
     private fun getIndex(i : Int, j : Int): Int {
         return i * boardSize + j
+    }
+
+    fun setEmptyPosition() {
+        for (i in 0 until boardSize) {
+            for (j in 0 until boardSize) {
+                this[i, j].figure = null
+            }
+        }
     }
 
     override fun setStartPosition() {
@@ -20,6 +46,25 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
                 }
             }
         }
+    }
+
+    //fun returns coords of squares that contain figures with playerColor
+    fun getCoords(playerColor: Color) : List<Pair<Int, Int>> {
+        val list = emptyList<Pair<Int, Int>>().toMutableList()
+        for (i in 0 until boardSize) {
+            for (j in 0 until boardSize) {
+                this[i, j].figure?.let {
+                    if (it.color == playerColor)
+                        list.add(i to j)
+                }
+            }
+        }
+        return list
+    }
+
+    //This method checks whether the coords is valid
+    fun isValidCoords(i : Int, j : Int) : Boolean {
+        return (i >= 0 && j >= 0 && i < boardSize && j < boardSize)
     }
 
     override operator fun get(i: Int, j: Int) : Square {
