@@ -1,8 +1,12 @@
 import kotlin.math.abs
 import kotlin.math.sign
 
-class CheckersModel : BaseModel() {
-    val board = CheckersBoard(8)
+class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() {
+
+    constructor(model : CheckersModel) : this(CheckersBoard(model.board))  {
+        whoMoves = model.whoMoves
+        gameState = model.gameState
+    }
     /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
     Its return value has 3 options:
         if turn is illegal, it returns null,
@@ -135,16 +139,39 @@ class CheckersModel : BaseModel() {
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
         canMoveResult.figure = null
-        updateState()
         makeQueen(turn)
-
         if (canMoveResult === board[turn.from] || !canEat()) {
             whoMoves = whoMoves.nextColor()
         }
+        updateState()
     }
 
     override fun updateState() {
-        //TODO("not implemented")
+        if (board.countCheckers(Color.WHITE) == 0) {
+            gameState = GameState.BLACK_WINS
+        }
+        if (board.countCheckers(Color.BLACK) == 0) {
+            gameState = GameState.WHITE_WINS
+        }
+        if (possibleTurns().isEmpty()) {
+            gameState = if (whoMoves == Color.BLACK)
+                GameState.WHITE_WINS
+            else
+                GameState.BLACK_WINS
+        }
     }
 
+    fun possibleTurns() : List<BaseTurn> {
+        val list = emptyList<BaseTurn>().toMutableList()
+        for ((iFrom, jFrom) in board.getCoords(whoMoves)) {
+            for ((iTo, jTo) in List(board.boardSize * board.boardSize)
+            { it -> it / board.boardSize to it % board.boardSize}) {
+                val turn = BaseTurn(whoMoves, iFrom to jFrom, iTo to jTo)
+                if (canMove(turn) != null) {
+                    list.add(turn)
+                }
+            }
+        }
+        return list
+    }
 }

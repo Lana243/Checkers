@@ -1,4 +1,1 @@
-class Figure(val color : Color) {
-  
-    var type : FigureType = FigureType.Ordinary
-}
+data class Figure(val color : Color, var type : FigureType = FigureType.Ordinary)
