@@ -2,7 +2,7 @@ class Square(val color: Int) {
     var figure : Figure? = null
 
     constructor(square: Square) : this(square.color) {
-        figure = square.figure
+        figure = if (square.figure == null) null else Figure(square.figure!!)
     }
 
 

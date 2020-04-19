@@ -4,24 +4,33 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
     override fun makeTurn(model: BaseModel): BaseTurn {
         val tmpModel = CheckersModel(model as CheckersModel)
-        return minimaxRecursive(tmpModel, 0, 10).second!!
+        println(tmpModel.hashCode())
+        val turn = minimaxRecursive(tmpModel, 0, 5).second!!
+        println(tmpModel.hashCode())
+        return turn
     }
 
-    val turnsByHash : MutableMap<Int, BaseTurn> = mutableMapOf()
+    private val turnsByHash : MutableMap<Int, BaseTurn> = mutableMapOf()
 
     //Function that performs the necessary moves
     private fun minimaxRecursive(model : CheckersModel, depth: Int, maxDepth: Int) : Pair<Double, BaseTurn?> {
-        if (depth == maxDepth) {
+        if (model.gameState != GameState.PLAYING) {
+            model.board.print()
+            return 100.0 * (if (model.gameState.getColor() == model.whoMoves) 1 else -1) to null
+        }
+        if (depth >= maxDepth && (!model.canEat() || depth >= maxDepth * 5)) {
             return calcValue(model) to null
         }
-        if (model.gameState != GameState.PLAYING) {
-            return 10.0 * (if (model.gameState.getColor() == model.whoMoves) 1 else -1) to null
-        }
+        //Maybe, we already had this position in not so much depth, then we can use early result
+        val turns = if (turnsByHash[model.hashCode()] != null)
+            listOf(turnsByHash[model.hashCode()]!!)
+        else
+            model.possibleTurns()
 
-        val turns = model.possibleTurns()
-        var bestVal = -10.0
+        var bestVal = -100000.0
         var bestTurn = turns[0]
         val whoMoves = model.whoMoves
+        val eatingChecker = model.eatingChecker
         for (turn in turns) {
             val squareFrom = model.board[turn.from]
             val squareFromFigure = squareFrom.figure?.copy()
@@ -44,18 +53,25 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
             squareTo.figure = squareToFigure
             model.whoMoves = whoMoves
             model.gameState = GameState.PLAYING
+            model.eatingChecker = eatingChecker
+            if (depth == 0) {
+                println(turn.toString() + " : " + ans)
+            }
             if (ans > bestVal) {
                 bestVal = ans
                 bestTurn = turn
             }
         }
+        if (depth < maxDepth / 2) {
+            turnsByHash[model.hashCode()] = bestTurn
+        }
         return bestVal to bestTurn
     }
 
     private fun calcValue(model: CheckersModel): Double {
-        val currentNum = model.board.getCoords(model.whoMoves).size
-        val anotherNum = model.board.getCoords(model.whoMoves.nextColor()).size
-        return (currentNum - anotherNum).toDouble() / 12 * 10
+        val currentNum = model.board.countCheckers(model.whoMoves)
+        val anotherNum = model.board.countCheckers(model.whoMoves.nextColor())
+        return (currentNum - anotherNum).toDouble() / 12.0 * 10.0
     }
 
 
