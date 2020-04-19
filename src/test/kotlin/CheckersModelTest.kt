@@ -2,9 +2,6 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
-import org.junit.platform.commons.util.BlacklistedExceptions
-import java.util.*
-import java.util.concurrent.BlockingDeque
 import kotlin.test.*
 
 class TestEating {
