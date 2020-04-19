@@ -6,6 +6,7 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
     constructor(model : CheckersModel) : this(CheckersBoard(model.board))  {
         whoMoves = model.whoMoves
         gameState = model.gameState
+        eatingChecker = model.eatingChecker
     }
 
     var eatingChecker : Square? = null

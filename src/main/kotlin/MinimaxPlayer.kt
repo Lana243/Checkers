@@ -2,9 +2,16 @@ import java.lang.Exception
 
 open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
+    var recCount = 0
+
     override fun makeTurn(model: BaseModel): BaseTurn {
+        if ((model as CheckersModel).possibleTurns().size == 1) {
+            return (model as CheckersModel).possibleTurns()[0]
+        }
         val tmpModel = CheckersModel(model as CheckersModel)
+        recCount = 0
         val turn = minimaxRecursive(tmpModel, 0, 5).second!!
+        println(recCount)
         return turn
     }
 
@@ -34,17 +41,18 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
     //Function that performs the necessary moves
     private fun minimaxRecursive(model : CheckersModel, depth: Int, maxDepth: Int) : Pair<Double, BaseTurn?> {
+        recCount++
         val isTerminalStateResult = isTerminalState(model, depth, maxDepth)
         if (isTerminalStateResult != null) {
             return isTerminalStateResult to null
         }
         //Maybe, we already had this position in not so much depth, then we can use early result
-        val turns = if (turnsByHash[model.hashCode()] != null)
+        val turns =/* if (turnsByHash[model.hashCode()] != null)
             listOf(turnsByHash[model.hashCode()]!!)
-        else
+        else*/
             model.possibleTurns()
 
-        var bestVal = Double.MIN_VALUE / 10
+        var bestVal = -(Double.MAX_VALUE / 10)
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
@@ -57,6 +65,9 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
             val ans = minimaxRecursive(model, depth + if (model.whoMoves == retainer.whoMoves) 0 else 1, maxDepth).first *
                     (if (model.whoMoves == retainer.whoMoves) 1 else -1)
             retainer.reset(model)
+            if (depth == 0) {
+                println(turn.toString() + " : " + ans)
+            }
             if (ans > bestVal) {
                 bestVal = ans
                 bestTurn = turn
@@ -70,7 +81,11 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
     protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Double? {
         if (model.gameState != GameState.PLAYING) {
-            return if (model.gameState.getColor() == model.whoMoves) Double.MAX_VALUE / 5 else Double.MIN_VALUE / 5
+            var value = Double.MAX_VALUE / 5 + (100.0 - depth)
+            if (model.gameState.getColor() != model.whoMoves) {
+                value *= -1.0
+            }
+            return value
         }
         if (depth >= maxDepth && (!model.canEat() || depth >= maxDepth * 5)) {
             return calcValue(model)
@@ -83,8 +98,8 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         val anotherNum = model.board.countCheckers(model.whoMoves.nextColor())
         val currentQueenNum = model.board.countQueenCheckers(model.whoMoves)
         val anotherQueenNum = model.board.countQueenCheckers(model.whoMoves.nextColor())
-        return (currentQueenNum - anotherQueenNum).toDouble() * 3.3 +
-                (currentNum - anotherNum).toDouble() * 0.8
+        return (currentQueenNum - anotherQueenNum).toDouble() * 30.0 +
+                (currentNum - anotherNum).toDouble() * 3.0
     }
 
 
