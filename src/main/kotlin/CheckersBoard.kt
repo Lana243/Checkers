@@ -80,6 +80,16 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return count
     }
 
+    //This method counts number of queen checkers with color = color
+    fun countQueenCheckers(color: Color): Int {
+        var count = 0
+        for (i in 0 until boardSize)
+            for (j in 0 until boardSize)
+                if (this[i, j].figure?.color == color && this[i, j].figure?.type == FigureType.Queen)
+                    count++
+        return count
+    }
+
     //This method checks whether the coords is valid
     fun isValidCoords(i : Int, j : Int) : Boolean {
         return (i >= 0 && j >= 0 && i < boardSize && j < boardSize)
@@ -132,4 +142,5 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         result = 31 * result + board.contentHashCode()
         return result
     }
+
 }

@@ -4,9 +4,7 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
     override fun makeTurn(model: BaseModel): BaseTurn {
         val tmpModel = CheckersModel(model as CheckersModel)
-        println(tmpModel.hashCode())
         val turn = minimaxRecursive(tmpModel, 0, 5).second!!
-        println(tmpModel.hashCode())
         return turn
     }
 
@@ -15,7 +13,6 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
     //Function that performs the necessary moves
     private fun minimaxRecursive(model : CheckersModel, depth: Int, maxDepth: Int) : Pair<Double, BaseTurn?> {
         if (model.gameState != GameState.PLAYING) {
-            model.board.print()
             return 100.0 * (if (model.gameState.getColor() == model.whoMoves) 1 else -1) to null
         }
         if (depth >= maxDepth && (!model.canEat() || depth >= maxDepth * 5)) {
@@ -44,7 +41,7 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
                 println(turn.toString())
                 model.board.print()
             }
-            val ans = minimaxRecursive(model, depth+1, maxDepth).first *
+            val ans = minimaxRecursive(model, depth + if (model.whoMoves == whoMoves) 0 else 1, maxDepth).first *
                     (if (model.whoMoves == whoMoves) 1 else -1)
             squareEaten?.let {
                 it.figure = eatenFigure
@@ -54,7 +51,7 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
             model.whoMoves = whoMoves
             model.gameState = GameState.PLAYING
             model.eatingChecker = eatingChecker
-            if (depth == 0) {
+            if (depth <= 2) {
                 println(turn.toString() + " : " + ans)
             }
             if (ans > bestVal) {
@@ -71,7 +68,10 @@ class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
     private fun calcValue(model: CheckersModel): Double {
         val currentNum = model.board.countCheckers(model.whoMoves)
         val anotherNum = model.board.countCheckers(model.whoMoves.nextColor())
-        return (currentNum - anotherNum).toDouble() / 12.0 * 10.0
+        val currentQueenNum = model.board.countQueenCheckers(model.whoMoves)
+        val anotherQueenNum = model.board.countQueenCheckers(model.whoMoves.nextColor())
+        return (currentQueenNum - anotherQueenNum).toDouble() * 3.3 +
+                (currentNum - anotherNum).toDouble() * 0.8
     }
 
 
