@@ -1,3 +1,5 @@
+package core
+
 abstract class BaseModel() {
     abstract fun canMove(turn: BaseTurn) : Square?
     abstract fun move(turn: BaseTurn)

@@ -1,4 +1,6 @@
-class Square(val color: Int) {
+package core
+
+class Square(var color: Int) {
     var figure : Figure? = null
 
     override fun equals(other: Any?): Boolean {

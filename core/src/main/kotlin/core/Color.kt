@@ -1,3 +1,5 @@
+package core
+
 enum class Color() {
     WHITE,
     BLACK;

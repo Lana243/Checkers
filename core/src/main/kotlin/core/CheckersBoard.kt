@@ -1,3 +1,4 @@
+package core
 class CheckersBoard(val boardSize: Int) : BaseBoard {
     private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) -1 else 1)}
     init {

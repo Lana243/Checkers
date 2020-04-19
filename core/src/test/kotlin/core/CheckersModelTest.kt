@@ -1,3 +1,5 @@
+package core
+
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.Test
@@ -36,7 +38,7 @@ class TestEating {
             emptyList()
     )
     private val withOutQueens3 = TestSet(
-            listOf(0 to 0, 0 to 2, 0 to 6, 1 to 1, 1 to 7, 2 to 4, 3 to 7,4 to 2),
+            listOf(0 to 0, 0 to 2, 0 to 6, 1 to 1, 1 to 7, 2 to 4, 3 to 7, 4 to 2),
             listOf(1 to 3, 1 to 5),
             emptyList(),
             listOf(1 to 3, 1 to 5)

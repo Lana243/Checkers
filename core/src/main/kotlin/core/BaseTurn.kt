@@ -1,3 +1,4 @@
+package core
 data class BaseTurn(val playerColor: Color, val from: Pair<Int, Int>, val to: Pair<Int, Int>)
 
 //Fun checking that all coordinates in the turn are inside the board.

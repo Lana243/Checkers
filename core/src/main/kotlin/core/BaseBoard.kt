@@ -1,3 +1,5 @@
+package core
+
 interface BaseBoard {
 
     fun setStartPosition()
