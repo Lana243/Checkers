@@ -1,11 +1,19 @@
 import java.lang.Exception
+import java.util.logging.Level
+import java.util.logging.LogManager
+import java.util.logging.Logger
 
 open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(name, color) {
+
+    companion object {
+        private val logger = Logger.getLogger(this::class.simpleName)
+    }
+
     override fun makeTurn(model: BaseModel): BaseTurn {
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
         val turn = minimaxAlphaBetaRecursive(tmpModel, 0, 6).second!!
-        println(recCount)
+        logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
 
@@ -28,7 +36,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
             try {
                 model.move(turn)
             } catch (e : Exception) {
-                println(turn.toString())
+                logger.log(Level.WARNING, turn.toString())
                 model.board.print()
             }
             val ans = minimaxAlphaBetaRecursive(model,
@@ -39,7 +47,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
                     model.whoMoves == retainer.whoMoves).first * (if (model.whoMoves == retainer.whoMoves) 1 else -1)
             retainer.reset(model)
             if (depth == 0) {
-                println(turn.toString() + " : " + ans)
+                logger.log(Level.INFO, turn.toString() + " : " + ans)
             }
             if (ans > bestVal) {
                 bestVal = ans

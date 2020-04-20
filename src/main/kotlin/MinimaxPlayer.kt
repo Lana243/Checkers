@@ -1,6 +1,12 @@
 import java.lang.Exception
+import java.util.logging.Level
+import java.util.logging.Logger
 
 open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
+
+    companion object {
+        private val logger = Logger.getLogger(this::class.simpleName)
+    }
 
     var recCount = 0
 
@@ -11,7 +17,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
         val turn = minimaxRecursive(tmpModel, 0, 5).second!!
-        println(recCount)
+        logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
 
@@ -59,14 +65,14 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
             try {
                 model.move(turn)
             } catch (e : Exception) {
-                println(turn.toString())
+                logger.log(Level.WARNING, turn.toString())
                 model.board.print()
             }
             val ans = minimaxRecursive(model, depth + if (model.whoMoves == retainer.whoMoves) 0 else 1, maxDepth).first *
                     (if (model.whoMoves == retainer.whoMoves) 1 else -1)
             retainer.reset(model)
             if (depth == 0) {
-                println(turn.toString() + " : " + ans)
+                logger.log(Level.INFO, turn.toString() + " : " + ans)
             }
             if (ans > bestVal) {
                 bestVal = ans
