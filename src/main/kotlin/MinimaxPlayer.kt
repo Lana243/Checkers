@@ -46,7 +46,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
     protected val turnsByHash : MutableMap<Int, BaseTurn> = mutableMapOf()
 
     //Function that performs the necessary moves
-    private fun minimaxRecursive(model : CheckersModel, depth: Int, maxDepth: Int) : Pair<Double, BaseTurn?> {
+    private fun minimaxRecursive(model : CheckersModel, depth: Int, maxDepth: Int) : Pair<Int, BaseTurn?> {
         recCount++
         val isTerminalStateResult = isTerminalState(model, depth, maxDepth)
         if (isTerminalStateResult != null) {
@@ -58,7 +58,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         else*/
             model.possibleTurns()
 
-        var bestVal = -(Double.MAX_VALUE / 10)
+        var bestVal = -(Int.MAX_VALUE / 10)
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
@@ -85,11 +85,11 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         return bestVal to bestTurn
     }
 
-    protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Double? {
+    protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Int? {
         if (model.gameState != GameState.PLAYING) {
-            var value = Double.MAX_VALUE / 5 + (100.0 - depth)
+            var value = Int.MAX_VALUE / 5 + (100 - depth)
             if (model.gameState.getColor() != model.whoMoves) {
-                value *= -1.0
+                value *= -1
             }
             return value
         }
@@ -99,13 +99,13 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         return null
     }
 
-    protected open fun calcValue(model: CheckersModel): Double {
+    protected open fun calcValue(model: CheckersModel): Int {
         val currentNum = model.board.countCheckers(model.whoMoves)
         val anotherNum = model.board.countCheckers(model.whoMoves.nextColor())
         val currentQueenNum = model.board.countQueenCheckers(model.whoMoves)
         val anotherQueenNum = model.board.countQueenCheckers(model.whoMoves.nextColor())
-        return (currentQueenNum - anotherQueenNum).toDouble() * 30.0 +
-                (currentNum - anotherNum).toDouble() * 3.0
+        return (currentQueenNum - anotherQueenNum) * 30 +
+                (currentNum - anotherNum) * 3
     }
 
 
