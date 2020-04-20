@@ -37,8 +37,6 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
                     if (model.whoMoves == retainer.whoMoves) alpha else bestVal,
                     if (model.whoMoves == retainer.whoMoves) beta else alpha,
                     model.whoMoves == retainer.whoMoves).first * (if (model.whoMoves == retainer.whoMoves) 1 else -1)
-            ans *= 100
-            ans += calcValue(model)
             retainer.reset(model)
             if (depth == 0) {
                 println(turn.toString() + " : " + ans)
