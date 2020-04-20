@@ -31,7 +31,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
                 println(turn.toString())
                 model.board.print()
             }
-            var ans = minimaxAlphaBetaRecursive(model,
+            val ans = minimaxAlphaBetaRecursive(model,
                     depth + if (model.whoMoves == retainer.whoMoves) 0 else 1,
                     maxDepth,
                     if (model.whoMoves == retainer.whoMoves) alpha else bestVal,
