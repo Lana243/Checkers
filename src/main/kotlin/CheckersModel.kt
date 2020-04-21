@@ -123,7 +123,8 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
             for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
                 if (board.isValidCoords(i + 2*di, j + 2*dj) &&
                         board[i+2*di, j+2*dj].figure == null &&
-                        board[i+di, j+dj].figure?.color ?: whoMoves == whoMoves.nextColor())
+                        board[i+di, j+dj].figure?.color ?: whoMoves == whoMoves.nextColor() &&
+                        !board[i+di, j+dj].eaten)
                     return true
             }
         } else {
@@ -131,6 +132,9 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
                 var findOpponent = false
                 var d = 1
                 loop@ while (board.isValidCoords(i + d*di, j + d*dj)) {
+                    if (board[i + d*di, j + d*dj].eaten) {
+                        break@loop
+                    }
                     val fig = board[i + d*di, j + d*dj].figure
                     if (fig == null) {
                         if (findOpponent)
@@ -157,7 +161,7 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
     }
 
     private fun updateEatenList() {
-        for (i in 0..eatenList.size) {
+        for (i in 0 until eatenList.size) {
             eatenList[i].eaten = false
         }
         eatenList.clear()
