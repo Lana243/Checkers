@@ -90,6 +90,24 @@ class TestEating {
             }
         }.toList()
     }
+
+    @Test
+    fun `Test CheckersModel ban to eat twice`() {
+        var testBoard = TestSet(
+            listOf(5 to 5),
+            listOf(1 to 1, 3 to 3, 6 to 6),
+            emptyList(),
+            emptyList())
+        assertSame(testBoard.model.canMove(BaseTurn(Color.WHITE, 5 to 5, 7 to 7)), testBoard.model.board[6, 6])
+        testBoard.model.move(BaseTurn(Color.WHITE, 5 to 5, 7 to 7))
+        assertNull(testBoard.model.canMove(BaseTurn(Color.WHITE, 7 to 7, 3 to 3)))
+        assertEquals(testBoard.model.whoMoves, Color.BLACK)
+        assertSame(testBoard.model.canMove(BaseTurn(Color.BLACK, 1 to 1, 0 to 0)), testBoard.model.board[1, 1])
+        testBoard.model.move(BaseTurn(Color.BLACK, 1 to 1, 0 to 0))
+        assertEquals(testBoard.model.board[7, 7].figure!!.type, FigureType.Queen)
+        assertNull(testBoard.model.canMove(BaseTurn(Color.WHITE, 7 to 7, 3 to 3)))
+    }
+
 }
 
 class TestTurnClassMethods {
@@ -263,8 +281,6 @@ class CommonLogicTest {
         wrongMove(BaseTurn(Color.WHITE, 2 to 2, 5 to 5))
         wrongMove(BaseTurn(Color.WHITE, 3 to 7, 4 to 6))
         makeMove(BaseTurn(Color.WHITE, 3 to 7, 5 to 5), false)
-        board[4 to 6].figure = null
-        compareBoardAndModel()
 
         wrongMove(BaseTurn(Color.BLACK, 6 to 4, 4 to 6))
         wrongMove(BaseTurn(Color.BLACK, 5 to 5, 3 to 3))
@@ -273,6 +289,7 @@ class CommonLogicTest {
         wrongMove(BaseTurn(Color.WHITE, 5 to 5, 4 to 6))
         wrongMove(BaseTurn(Color.WHITE, 5 to 5, 4 to 4))
         makeMove(BaseTurn(Color.WHITE, 5 to 5, 3 to 3), true)
+        board[4 to 6].figure = null
         board[4, 4].figure = null
         compareBoardAndModel()
 
@@ -297,7 +314,6 @@ class CommonLogicTest {
         wrongMove(BaseTurn(Color.WHITE, 3 to 7, 4 to 6))
         makeMove(BaseTurn(Color.WHITE, 3 to 7, 5 to 5), false)
         board[4, 6].figure = null
-        compareBoardAndModel()
 
         wrongMove(BaseTurn(Color.WHITE, 5 to 5, 3 to 7))
         makeMove(BaseTurn(Color.WHITE, 5 to 5, 7 to 7), true)
@@ -332,7 +348,6 @@ class CommonLogicTest {
         wrongMove(BaseTurn(Color.WHITE, 7 to 7, 3 to 5))
         wrongMove(BaseTurn(Color.WHITE, 3 to 1, 4 to 2))
         makeMove(BaseTurn(Color.WHITE, 7 to 7, 4 to 4), false)
-        board[6, 6].figure = null
 
         wrongMove(BaseTurn(Color.WHITE, 4 to 4, 5 to 5))
         wrongMove(BaseTurn(Color.WHITE, 4 to 4, 6 to 6))
@@ -344,6 +359,7 @@ class CommonLogicTest {
         wrongMove(BaseTurn(Color.WHITE, 4 to 4, 2 to 6))
         wrongMove(BaseTurn(Color.WHITE, 3 to 1, 4 to 2))
         makeMove(BaseTurn(Color.WHITE, 4 to 4, 7 to 1), true)
+        board[6, 6].figure = null
         board[6 to 2].figure = null
         compareBoardAndModel()
 

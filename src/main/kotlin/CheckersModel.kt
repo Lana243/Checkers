@@ -10,6 +10,7 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
     }
 
     var eatingChecker : Square? = null
+    private var eatenList = ArrayList<Square>()
     /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
     Its return value has 3 options:
         if turn is illegal, it returns null,
@@ -57,6 +58,11 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
             for (d in 1 until abs(verticals)) {
                 val x = turn.from.first + horizontals.sign * d
                 val y = turn.from.second + verticals.sign * d
+
+                if (board[x, y].eaten) {
+                    //square contained eaten checker
+                    return null
+                }
                 if (board[x, y].figure != null) {
                     if (board[x, y].figure?.color == whoMoves) {
                         //The checker between 'from' and 'to' squares has same color with moving player
@@ -111,21 +117,25 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
         return false
     }
 
-    fun canEat(squareFromCoords : Pair<Int, Int>): Boolean {
+    private fun canEat(squareFromCoords : Pair<Int, Int>): Boolean {
         val (i, j) = squareFromCoords
         if (board[i, j].figure?.type == FigureType.Ordinary) {
             for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
-                if (board.isValidCoords(i + 2*di, j + 2*dj) &&
-                        board[i+2*di, j+2*dj].figure == null &&
-                        board[i+di, j+dj].figure?.color ?: whoMoves == whoMoves.nextColor())
+                if (board.isValidCoords(i + 2 * di, j + 2 * dj) &&
+                        board[i + 2 * di, j + 2 * dj].figure == null &&
+                        board[i + di, j + dj].figure?.color ?: whoMoves == whoMoves.nextColor() &&
+                        !board[i + di, j + dj].eaten)
                     return true
             }
         } else {
             for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
                 var findOpponent = false
                 var d = 1
-                loop@ while (board.isValidCoords(i + d*di, j + d*dj)) {
-                    val fig = board[i + d*di, j + d*dj].figure
+                loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
+                    if (board[i + d * di, j + d * dj].eaten) {
+                        break@loop
+                    }
+                    val fig = board[i + d * di, j + d * dj].figure
                     if (fig == null) {
                         if (findOpponent)
                             return true
@@ -150,9 +160,20 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
             board[turn.to].figure!!.type = FigureType.Queen
     }
 
+    private fun updateEatenList() {
+        for (i in 0 until eatenList.size) {
+            eatenList[i].eaten = false
+        }
+        eatenList.clear()
+    }
+
     override fun move(turn: BaseTurn)  {
         val canMoveResult = canMove(turn) ?: throw IllegalStateException(
                 "Turn isn't valid now, but model is trying to apply it.")
+        if (canMoveResult !== board[turn.from]) {
+            canMoveResult.eaten = true
+            eatenList.add(canMoveResult)
+        }
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
         canMoveResult.figure = null
@@ -160,6 +181,7 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
         if (canMoveResult === board[turn.from] || !canEat(turn.to)) {
             whoMoves = whoMoves.nextColor()
             eatingChecker = null
+            updateEatenList()
         } else {
             eatingChecker = board[turn.to]
         }
