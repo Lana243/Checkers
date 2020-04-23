@@ -1,8 +1,9 @@
 import java.lang.Exception
 import java.util.*
 import java.util.logging.Level
-import java.util.logging.LogManager
 import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(name, color) {
 
@@ -13,12 +14,18 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
     override fun makeTurn(model: BaseModel): BaseTurn {
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
-        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, 6).second!!
+        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, 8).second!!
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
 
-    private fun minimaxAlphaBetaRecursive(model: CheckersModel, depth: Int, maxDepth: Int, alpha: Int = -(Int.MAX_VALUE / 10), beta: Int = (Int.MAX_VALUE / 10), changeColor: Boolean = false): Pair<Int, BaseTurn?> {
+    private fun minimaxAlphaBetaRecursive(model: CheckersModel,
+                                          depth: Int,
+                                          maxDepth: Int,
+                                          alpha: Int = -(Int.MAX_VALUE / 10),
+                                          beta: Int = -(Int.MAX_VALUE / 10),
+                                          changeColor: Boolean = false)
+            : Pair<Int, BaseTurn?> {
 
         recCount++
 
@@ -45,18 +52,18 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
             val ans = minimaxAlphaBetaRecursive(model,
                     depth + if (model.whoMoves == retainer.whoMoves) 0 else 1,
                     maxDepth,
-                    if (model.whoMoves == retainer.whoMoves) alpha else bestVal,
-                    if (model.whoMoves == retainer.whoMoves) beta else alpha,
-                    model.whoMoves == retainer.whoMoves).first * (if (model.whoMoves == retainer.whoMoves) 1 else -1)
+                    if (model.whoMoves == retainer.whoMoves) alpha else max(bestVal, beta),
+                    if (model.whoMoves == retainer.whoMoves) min(beta, -bestVal) else alpha,
+                    model.whoMoves != retainer.whoMoves).first * (if (model.whoMoves == retainer.whoMoves) 1 else -1)
             retainer.reset(model)
-            if (depth == 0) {
+            if (depth <= 0) {
                 logger.log(Level.INFO, turn.toString() + " : " + ans)
             }
             if (ans > bestVal) {
                 bestVal = ans
                 bestTurn = turn
             }
-            if (changeColor && (-bestVal <= alpha || bestVal >= beta)) {
+            if (changeColor && -bestVal <= alpha) {
                 return bestVal to bestTurn
             }
         }
