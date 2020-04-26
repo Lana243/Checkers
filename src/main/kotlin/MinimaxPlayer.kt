@@ -2,7 +2,7 @@ import java.lang.Exception
 import java.util.logging.Level
 import java.util.logging.Logger
 
-open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
+open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer(color) {
 
     companion object {
         private val logger = Logger.getLogger(this::class.simpleName)
@@ -16,7 +16,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         }
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
-        val turn = minimaxRecursive(tmpModel, 0, 5).second!!
+        val turn = minimaxRecursive(tmpModel, 0, maxDepth).second!!
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
@@ -96,7 +96,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
     protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Int? {
         if (model.gameState != GameState.PLAYING) {
             var value = Int.MAX_VALUE / 5 + (100 - depth)
-            if (model.gameState.getColor() != model.whoMoves) {
+            if (model.gameState.winnerColor() != model.whoMoves) {
                 value *= -1
             }
             return value
@@ -115,6 +115,4 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         return (currentQueenNum - anotherQueenNum) * 30 +
                 (currentNum - anotherNum) * 3
     }
-
-
 }

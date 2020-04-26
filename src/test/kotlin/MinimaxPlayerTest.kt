@@ -6,7 +6,8 @@ class MinimaxPlayerTest {
         var b = 0
         var w = 0
         for (i in 0 until 5) {
-            val game = CheckersGame(CheckersModel(), MinimaxAlphaBetaPlayer("White Player", Color.WHITE), MinimaxPlayer("Black Player", Color.BLACK))
+            val game = CheckersGame(CheckersModel(), MinimaxAlphaBetaPlayer("White Player", Color.WHITE, 8),
+                                    MinimaxPlayer("Black Player", Color.BLACK, 5))
             game.play()
             when (game.model.gameState) {
                 GameState.BLACK_WINS -> b += 2

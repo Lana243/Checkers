@@ -5,7 +5,7 @@ enum class GameState {
     DRAW
 }
 
-fun GameState.getColor() : Color? {
+fun GameState.winnerColor() : Color? {
     return when (this) {
         GameState.PLAYING, GameState.DRAW ->
            null

@@ -8,7 +8,7 @@ data class Square(val color: Int) {
     var eaten = false;
     
     constructor(square: Square) : this(square.color) {
-        figure = if (square.figure == null) null else Figure(square.figure!!)
+        figure = square.figure?.let { Figure(it) }
         eaten = square.eaten
     }
 }

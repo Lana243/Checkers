@@ -184,7 +184,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
             }
             FigureType.Queen -> {
                 for ((di, dj) in directions) {
-                    var findOpponent = false
+                    var opponentFound = false
                     var d = 1
                     while (board.isValidCoords(i + d * di, j + d * dj)) {
                         val currentSquare = board[i + d * di, j + d * dj]
@@ -193,15 +193,15 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                         }
                         val fig = currentSquare.figure
                         if (fig == null) {
-                            if (findOpponent)
+                            if (opponentFound)
                                 return true
                         } else {
                             if (fig.color == whoMoves) {
                                 break
                             } else {
-                                if (findOpponent)
+                                if (opponentFound)
                                     break
-                                findOpponent = true
+                                opponentFound = true
                             }
                         }
                         d++
@@ -218,9 +218,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
     }
 
     private fun updateEatenList() {
-        for (i in 0 until eatenList.size) {
-            eatenList[i].eaten = false
-        }
+        for (s in eatenList) { s.eaten = false }
         eatenList.clear()
     }
 

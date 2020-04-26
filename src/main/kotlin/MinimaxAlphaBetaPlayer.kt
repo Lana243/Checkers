@@ -5,7 +5,7 @@ import java.util.logging.Logger
 import kotlin.math.max
 import kotlin.math.min
 
-open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(name, color) {
+open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDepth: Int) : MinimaxPlayer(name, color, maxDepth) {
 
     companion object {
         private val logger = Logger.getLogger(this::class.simpleName)
@@ -14,16 +14,17 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
     override fun makeTurn(model: BaseModel): BaseTurn {
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
-        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, 8).second!!
+        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, maxDepth).second!!
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
 
+    private val myMinValue = Int.MIN_VALUE / 10
     private fun minimaxAlphaBetaRecursive(model: CheckersModel,
                                           depth: Int,
                                           maxDepth: Int,
-                                          alpha: Int = -(Int.MAX_VALUE / 10),
-                                          beta: Int = -(Int.MAX_VALUE / 10),
+                                          alpha: Int = myMinValue,
+                                          beta: Int = myMinValue,
                                           changeColor: Boolean = false)
             : Pair<Int, BaseTurn?> {
 
@@ -41,7 +42,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
         else*/
             model.possibleTurns().toMutableList()
         sortTurns(turns)
-        var bestVal = -(Int.MAX_VALUE / 10)
+        var bestVal = myMinValue
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
