@@ -150,6 +150,10 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         }
     }
 
+    companion object {
+        private val directions = listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)
+    }
+
     /**
      * Method checks whether one of the moving player checker eat
      * @return Boolean
@@ -163,7 +167,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         val (i, j) = squareFromCoords
         when (board[i, j].figure?.type) {
             FigureType.Ordinary -> {
-                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                for ((di, dj) in directions) {
                     if (board.isValidCoords(i + 2 * di, j + 2 * dj) &&
                         board[i + 2 * di, j + 2 * dj].figure == null &&
                         board[i + di, j + dj].figure?.color ?: whoMoves == whoMoves.nextColor() &&
@@ -173,7 +177,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 }
             }
             FigureType.Queen -> {
-                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                for ((di, dj) in directions) {
                     var findOpponent = false
                     var d = 1
                     loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
