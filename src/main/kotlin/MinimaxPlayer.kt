@@ -14,7 +14,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
         if ((model as CheckersModel).possibleTurns().size == 1) {
             return (model as CheckersModel).possibleTurns()[0]
         }
-        val tmpModel = model.copy()
+        val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
         val turn = minimaxRecursive(tmpModel, 0, 5).second!!
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
