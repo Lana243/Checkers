@@ -46,15 +46,8 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
      */
 
     fun getCoords(playerColor: Color) : List<Pair<Int, Int>> {
-        val list = emptyList<Pair<Int, Int>>().toMutableList()
-        for (i in 0 until boardSize) {
-            for (j in 0 until boardSize) {
-                this[i, j].figure?.let {
-                    if (it.color == playerColor)
-                        list.add(i to j)
-                }
-            }
-        }
+        val list = mutableListOf<Pair<Int, Int>>()
+        forEachSquare { i, j, s -> if (s.figure?.color == playerColor) list.add(i to j)}
         return list
     }
 
