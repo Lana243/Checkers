@@ -3,12 +3,6 @@ import kotlin.math.sign
 
 data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() {
 
-    constructor(model : CheckersModel) : this(CheckersBoard(model.board))  {
-        whoMoves = model.whoMoves
-        gameState = model.gameState
-        eatingChecker = model.eatingChecker
-    }
-
     var eatingChecker : Square? = null
     private var eatenList = ArrayList<Square>()
     /**
@@ -253,13 +247,5 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
             }
         }
         return list
-    }
-
-    override fun hashCode(): Int {
-        var result = whoMoves.hashCode()
-        result = 31 * result + board.hashCode()
-        result = 31 * result + gameState.hashCode()
-        result = 31 * result + eatingChecker.hashCode()
-        return result
     }
 }
