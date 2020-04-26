@@ -6,9 +6,13 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
     }
     
     constructor(other: CheckersBoard) : this(other.boardSize) {
+        forEachSquare { i, j, _ -> this[i, j] = Square(other[i, j])}
+    }
+
+    private fun forEachSquare(action: (Int, Int, Square) -> Unit) {
         for (i in 0 until boardSize)
             for (j in 0 until boardSize)
-                this[i, j] = Square(other[i, j])
+                action(i, j, this[i, j])
     }
 
     override fun equals(other: Any?) = other is CheckersBoard && boardSize == other.boardSize && board.contentEquals(other.board)
@@ -18,11 +22,7 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
     }
 
     fun setEmptyPosition() {
-        for (i in 0 until boardSize) {
-            for (j in 0 until boardSize) {
-                this[i, j].figure = null
-            }
-        }
+        forEachSquare { _, _, s -> s.figure = null}
     }
 
     override fun setStartPosition() {
