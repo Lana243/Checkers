@@ -182,10 +182,10 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 for ((di, dj) in directions) {
                     var findOpponent = false
                     var d = 1
-                    loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
+                    while (board.isValidCoords(i + d * di, j + d * dj)) {
                         val currentSquare = board[i + d * di, j + d * dj]
                         if (currentSquare.eaten) {
-                            break@loop
+                            break
                         }
                         val fig = currentSquare.figure
                         if (fig == null) {
@@ -193,10 +193,10 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                                 return true
                         } else {
                             if (fig.color == whoMoves) {
-                                break@loop
+                                break
                             } else {
                                 if (findOpponent)
-                                    break@loop
+                                    break
                                 findOpponent = true
                             }
                         }
