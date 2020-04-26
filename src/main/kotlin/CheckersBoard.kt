@@ -64,28 +64,14 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
      * @param color Color
      * @return Int
      */
-    fun countCheckers(color: Color) : Int {
-        var count = 0
-        for (i in 0 until boardSize)
-            for (j in 0 until boardSize)
-                if (this[i, j].figure?.color == color)
-                    count++
-        return count
-    }
+    fun countCheckers(color: Color) : Int = board.count { it.figure?.color == color }
 
     /**
      * This method counts number of queen checkers with color = color
      * @param color Color
      * @return Int
      */
-    fun countQueenCheckers(color: Color): Int {
-        var count = 0
-        for (i in 0 until boardSize)
-            for (j in 0 until boardSize)
-                if (this[i, j].figure?.color == color && this[i, j].figure?.type == FigureType.Queen)
-                    count++
-        return count
-    }
+    fun countQueenCheckers(color: Color): Int = board.count { it.figure?.color == color && it.figure?.type == FigureType.Queen }
 
     /**
      * This method checks whether the coords is valid

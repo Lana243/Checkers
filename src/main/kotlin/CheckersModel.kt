@@ -1,7 +1,7 @@
 import kotlin.math.abs
 import kotlin.math.sign
 
-class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() {
+data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() {
 
     constructor(model : CheckersModel) : this(CheckersBoard(model.board))  {
         whoMoves = model.whoMoves
