@@ -1,3 +1,4 @@
+import java.awt.desktop.QuitEvent
 import kotlin.math.abs
 import kotlin.math.sign
 
@@ -7,6 +8,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         whoMoves = model.whoMoves
         gameState = model.gameState
         eatingChecker = model.eatingChecker
+        queenMovesInRow = model.queenMovesInRow
     }
 
     /**
@@ -17,6 +19,8 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
     var eatingChecker : Square? = null
 
     private var eatenList = ArrayList<Square>()
+
+    private var queenMovesInRow = 0
     /**
      * This functions checking turn for legacy and rules and also find checker, that will be eaten.
          Its return value has 3 options:
@@ -227,6 +231,13 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
             canMoveResult.eaten = true
             eatenList.add(canMoveResult)
         }
+
+        if (board[turn.from].figure?.type == FigureType.Queen &&
+                board[turn.from] === canMoveResult) {
+            queenMovesInRow++
+        } else
+            queenMovesInRow = 0
+
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
         canMoveResult.figure = null
@@ -253,6 +264,15 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 GameState.WHITE_WINS
             else
                 GameState.BLACK_WINS
+        }
+        /**
+         * Russian checkers rules contains rule, that if
+         *   opponents make 15 moves (for each player)
+         *   in a row without eating and with queen checkers only,
+         *   the game is ending with Draw result.
+         */
+        if (queenMovesInRow >= 30) {
+            gameState = GameState.DRAW
         }
     }
 
