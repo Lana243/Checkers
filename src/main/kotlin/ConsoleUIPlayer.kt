@@ -13,7 +13,7 @@ class ConsoleUIPlayer(private val name : String,
         }
     }
 
-    private fun readTurn(): BaseTurn? {
+    private fun readTurn(): BaseTurn {
         when (inputType) {
             0 -> {
                 val input = readLine() ?: ""
@@ -29,6 +29,6 @@ class ConsoleUIPlayer(private val name : String,
                 return BaseTurn(color, Pair(x1, y1), Pair(x2, y2))
             }
         }
-        return null
+        throw Exception("Wrong turn")
     }
 }
