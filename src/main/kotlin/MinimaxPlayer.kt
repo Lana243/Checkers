@@ -1,4 +1,5 @@
 import java.lang.Exception
+import java.lang.IllegalStateException
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -74,7 +75,7 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
             val retainer = ModelRetainer(model, turn)
             try {
                 model.move(turn)
-            } catch (e : Exception) {
+            } catch (e : IllegalStateException) {
                 logger.log(Level.WARNING, turn.toString())
                 model.board.print()
             }
