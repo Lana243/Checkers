@@ -1,12 +1,5 @@
-class CheckersBoard(val boardSize: Int) : BaseBoard {
+data class CheckersBoard(val boardSize: Int) : BaseBoard {
     private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) -1 else 1)}
-
-    constructor(other: CheckersBoard) : this(other.boardSize) {
-        for (i in 0 until boardSize)
-            for (j in 0 until boardSize)
-                this[i, j] = Square(other[i, j])
-    }
-
 
     init {
         setStartPosition()
