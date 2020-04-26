@@ -117,11 +117,4 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
         }
         println()
     }
-
-    override fun hashCode(): Int {
-        var result = boardSize
-        result = 31 * result + board.contentHashCode()
-        return result
-    }
-
 }
