@@ -19,12 +19,11 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
         return turn
     }
 
-    private val myMinValue = Int.MIN_VALUE / 10
     private fun minimaxAlphaBetaRecursive(model: CheckersModel,
                                           depth: Int,
                                           maxDepth: Int,
-                                          alpha: Int = myMinValue,
-                                          beta: Int = myMinValue,
+                                          alpha: Int = MIN_VALUE,
+                                          beta: Int = MIN_VALUE,
                                           changeColor: Boolean = false)
             : Pair<Int, BaseTurn?> {
 
@@ -42,7 +41,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
         else*/
             model.possibleTurns().toMutableList()
         sortTurns(turns)
-        var bestVal = myMinValue
+        var bestVal = MIN_VALUE
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)

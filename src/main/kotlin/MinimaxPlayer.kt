@@ -5,6 +5,8 @@ import java.util.logging.Logger
 open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer(color) {
 
     companion object {
+        const val MIN_VALUE = -(Int.MAX_VALUE / 5)
+        const val MAX_VALUE = (Int.MAX_VALUE / 5)
         private val logger = Logger.getLogger(this::class.simpleName)
     }
 
@@ -12,7 +14,7 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
 
     override fun makeTurn(model: BaseModel): BaseTurn {
         if ((model as CheckersModel).possibleTurns().size == 1) {
-            return (model as CheckersModel).possibleTurns()[0]
+            return model.possibleTurns()[0]
         }
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
@@ -66,7 +68,7 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
         else*/
             model.possibleTurns()
 
-        var bestVal = -(Int.MAX_VALUE / 10)
+        var bestVal = MIN_VALUE
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
@@ -95,7 +97,7 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
 
     protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Int? {
         if (model.gameState != GameState.PLAYING) {
-            var value = Int.MAX_VALUE / 5 + (100 - depth)
+            var value = MAX_VALUE - depth
             if (model.gameState.winnerColor() != model.whoMoves) {
                 value *= -1
             }
