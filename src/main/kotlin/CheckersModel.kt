@@ -3,7 +3,13 @@ import kotlin.math.sign
 
 data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() {
 
+    /**
+     * We divided one long turn with many eaten checkers into many turns with one eaten checker
+     * So we have to check that during one turn player moves only one checker
+     * @param eatingChecker is the checker that player moves during one turn
+     */
     var eatingChecker : Square? = null
+
     private var eatenList = ArrayList<Square>()
     /**
      * This functions checking turn for legacy and rules and also find checker, that will be eaten.
