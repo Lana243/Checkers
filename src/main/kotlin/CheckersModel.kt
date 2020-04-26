@@ -7,6 +7,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         whoMoves = model.whoMoves
         gameState = model.gameState
         eatingChecker = model.eatingChecker
+        queenMovesInRow = model.queenMovesInRow
     }
 
     /**
@@ -17,6 +18,8 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
     var eatingChecker : Square? = null
 
     private var eatenList = ArrayList<Square>()
+
+    private var queenMovesInRow = 0
     /**
      * This functions checking turn for legacy and rules and also find checker, that will be eaten.
          Its return value has 3 options:
@@ -75,26 +78,27 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 return null
             }
             var numBetween = 0
-            var squareBetween = squareFrom
+            var betweenSquare = squareFrom
             for (d in 1 until abs(verticals)) {
                 val x = turn.from.first + horizontals.sign * d
                 val y = turn.from.second + verticals.sign * d
+                val currentSquare = board[x, y]
 
-                if (board[x, y].eaten) {
+                if (currentSquare.eaten) {
                     /**
                      * square contained eaten checker
                      */
                     return null
                 }
-                if (board[x, y].figure != null) {
-                    if (board[x, y].figure?.color == whoMoves) {
+                currentSquare.figure?.let {
+                    if (it.color == whoMoves) {
                         /**
                          * The checker between 'from' and 'to' squares has same color with moving player
                          */
                         return null
                     } else {
                         numBetween++
-                        squareBetween = board[x, y]
+                        betweenSquare = board[x, y]
                     }
                 }
             }
@@ -116,7 +120,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                         /**
                          * Move with eating
                          */
-                        return squareBetween
+                        return betweenSquare
                     }
                     /**
                      * Incorrect move
@@ -134,7 +138,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                         /**
                          * Move with eating
                          */
-                        return squareBetween
+                        return betweenSquare
                     }
                     /**
                      * Incorrect move
@@ -150,51 +154,53 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         }
     }
 
+    companion object {
+        private val directions = listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)
+    }
+
     /**
      * Method checks whether one of the moving player checker eat
      * @return Boolean
      */
     fun canEat() : Boolean {
         val figuresCoords = board.getCoords(whoMoves)
-
-        for ((i, j) in figuresCoords) {
-            if (canEat(i to j))
-                return true
-        }
-        return false
+        return figuresCoords.any { canEat(it) }
     }
 
     private fun canEat(squareFromCoords : Pair<Int, Int>): Boolean {
         val (i, j) = squareFromCoords
         when (board[i, j].figure?.type) {
             FigureType.Ordinary -> {
-                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
-                    if (board.isValidCoords(i + 2 * di, j + 2 * dj) &&
-                        board[i + 2 * di, j + 2 * dj].figure == null &&
-                        board[i + di, j + dj].figure?.color ?: whoMoves == whoMoves.nextColor() &&
-                        !board[i + di, j + dj].eaten
-                    )
-                        return true
+                for ((di, dj) in directions) {
+                    if (board.isValidCoords(i + 2 * di, j + 2 * dj)) {
+                        val nextSquare = board[i + di, j + dj]
+                        val afterNextSquare = board[i + 2 * di, j + 2 * dj]
+                        if (afterNextSquare.figure == null &&
+                                nextSquare.figure?.color == whoMoves.nextColor() &&
+                                !nextSquare.eaten)
+                            return true
+                    }
                 }
             }
             FigureType.Queen -> {
-                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                for ((di, dj) in directions) {
                     var opponentFound = false
                     var d = 1
-                    loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
-                        if (board[i + d * di, j + d * dj].eaten) {
-                            break@loop
+                    while (board.isValidCoords(i + d * di, j + d * dj)) {
+                        val currentSquare = board[i + d * di, j + d * dj]
+                        if (currentSquare.eaten) {
+                            break
                         }
-                        val fig = board[i + d * di, j + d * dj].figure
+                        val fig = currentSquare.figure
                         if (fig == null) {
                             if (opponentFound)
                                 return true
                         } else {
                             if (fig.color == whoMoves) {
-                                break@loop
+                                break
                             } else {
                                 if (opponentFound)
-                                    break@loop
+                                    break
                                 opponentFound = true
                             }
                         }
@@ -223,6 +229,13 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
             canMoveResult.eaten = true
             eatenList.add(canMoveResult)
         }
+
+        if (board[turn.from].figure?.type == FigureType.Queen &&
+                board[turn.from] === canMoveResult) {
+            queenMovesInRow++
+        } else
+            queenMovesInRow = 0
+
         board[turn.to].figure = board[turn.from].figure
         board[turn.from].figure = null
         canMoveResult.figure = null
@@ -250,14 +263,24 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
             else
                 GameState.BLACK_WINS
         }
+        /**
+         * Russian checkers rules contains rule, that if
+         *   opponents make 15 moves (for each player)
+         *   in a row without eating and with queen checkers only,
+         *   the game is ending with Draw result.
+         */
+        if (queenMovesInRow >= 30) {
+            gameState = GameState.DRAW
+        }
     }
 
     fun possibleTurns() : List<BaseTurn> {
-        val list = emptyList<BaseTurn>().toMutableList()
-        for ((iFrom, jFrom) in board.getCoords(whoMoves)) {
-            for ((iTo, jTo) in List(board.boardSize * board.boardSize)
-            { it -> it / board.boardSize to it % board.boardSize}) {
-                val turn = BaseTurn(whoMoves, iFrom to jFrom, iTo to jTo)
+        val list = mutableListOf<BaseTurn>()
+        val bs = board.boardSize
+        for (ijFrom in board.getCoords(whoMoves)) {
+            for (i in 0 until bs * bs) {
+                val ijTo = (i / bs to i % bs)
+                val turn = BaseTurn(whoMoves, ijFrom, ijTo)
                 if (canMove(turn) != null) {
                     list.add(turn)
                 }

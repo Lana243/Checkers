@@ -9,13 +9,12 @@ class MinimaxPlayerTest {
             val game = CheckersGame(CheckersModel(), MinimaxAlphaBetaPlayer("White Player", Color.WHITE, 8),
                                     MinimaxPlayer("Black Player", Color.BLACK, 5))
             game.play()
-            if (game.model.gameState == GameState.BLACK_WINS) {
-                b++
-            } else {
-                if (game.model.gameState == GameState.WHITE_WINS)
-                    w++
+            when (game.model.gameState) {
+                GameState.BLACK_WINS -> b += 2
+                GameState.WHITE_WINS -> w += 2
+                GameState.DRAW -> {b++; w++}
             }
         }
-        assert(w >= 3)
+        assert(w >= 6)
     }
 }
