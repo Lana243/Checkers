@@ -2,7 +2,7 @@ import java.lang.Exception
 import java.util.logging.Level
 import java.util.logging.Logger
 
-open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer(color) {
+open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer<CheckersModel>(color) {
 
     companion object {
         const val MIN_VALUE = -(Int.MAX_VALUE / 5)
@@ -12,11 +12,11 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
 
     var recCount = 0
 
-    override fun makeTurn(model: BaseModel): BaseTurn {
-        if ((model as CheckersModel).possibleTurns().size == 1) {
+    override fun makeTurn(model: CheckersModel): BaseTurn {
+        if (model.possibleTurns().size == 1) {
             return model.possibleTurns()[0]
         }
-        val tmpModel = CheckersModel(model as CheckersModel)
+        val tmpModel = CheckersModel(model)
         recCount = 0
         val turn = minimaxRecursive(tmpModel, 0, maxDepth).second!!
         logger.log(Level.INFO, "Number of recursive calls is $recCount")

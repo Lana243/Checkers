@@ -1,3 +1,3 @@
-abstract class BasePlayer(val color : Color) {
-    abstract fun makeTurn(model : BaseModel) : BaseTurn
+abstract class BasePlayer<ModelT : BaseModel>(val color : Color) {
+    abstract fun makeTurn(model : ModelT) : BaseTurn
 }
