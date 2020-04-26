@@ -98,40 +98,43 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                  */
                 return null
             }
-            if (squareFromFigure.type == FigureType.Ordinary) {
-                if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1 && !canEat()) {
+            when (squareFromFigure.type) {
+                FigureType.Ordinary -> {
+                    if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1 && !canEat()) {
+                        /**
+                         * Move without eating
+                         */
+                        return squareFrom
+                    }
+                    if (abs(horizontals) == 2 && numBetween == 1) {
+                        /**
+                         * Move with eating
+                         */
+                        return squareBetween
+                    }
                     /**
-                     * Move without eating
+                     * Incorrect move
                      */
-                    return squareFrom
+                    return null
                 }
-                if (abs(horizontals) == 2 && numBetween == 1) {
+                FigureType.Queen -> {
+                    if (numBetween == 0 && !canEat()) {
+                        /**
+                         * Move without eating
+                         */
+                        return squareFrom
+                    }
+                    if (numBetween == 1) {
+                        /**
+                         * Move with eating
+                         */
+                        return squareBetween
+                    }
                     /**
-                     * Move with eating
+                     * Incorrect move
                      */
-                    return squareBetween
+                    return null
                 }
-                /**
-                 * Incorrect move
-                 */
-                return null
-            } else {
-                if (numBetween == 0 && !canEat()) {
-                    /**
-                     * Move without eating
-                     */
-                    return squareFrom
-                }
-                if (numBetween == 1) {
-                    /**
-                     * Move with eating
-                     */
-                    return squareBetween
-                }
-                /**
-                 * Incorrect move
-                 */
-                return null
             }
         } else {
             /**
