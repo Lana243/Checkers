@@ -157,36 +157,40 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
 
     private fun canEat(squareFromCoords : Pair<Int, Int>): Boolean {
         val (i, j) = squareFromCoords
-        if (board[i, j].figure?.type == FigureType.Ordinary) {
-            for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
-                if (board.isValidCoords(i + 2 * di, j + 2 * dj) &&
+        when (board[i, j].figure?.type) {
+            FigureType.Ordinary -> {
+                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                    if (board.isValidCoords(i + 2 * di, j + 2 * dj) &&
                         board[i + 2 * di, j + 2 * dj].figure == null &&
                         board[i + di, j + dj].figure?.color ?: whoMoves == whoMoves.nextColor() &&
-                        !board[i + di, j + dj].eaten)
-                    return true
+                        !board[i + di, j + dj].eaten
+                    )
+                        return true
+                }
             }
-        } else {
-            for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
-                var findOpponent = false
-                var d = 1
-                loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
-                    if (board[i + d * di, j + d * dj].eaten) {
-                        break@loop
-                    }
-                    val fig = board[i + d * di, j + d * dj].figure
-                    if (fig == null) {
-                        if (findOpponent)
-                            return true
-                    } else {
-                        if (fig.color == whoMoves) {
+            FigureType.Queen -> {
+                for ((di, dj) in listOf(-1 to -1, 1 to -1, 1 to 1, -1 to 1)) {
+                    var findOpponent = false
+                    var d = 1
+                    loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
+                        if (board[i + d * di, j + d * dj].eaten) {
                             break@loop
-                        } else {
-                            if (findOpponent)
-                                break@loop
-                            findOpponent = true
                         }
+                        val fig = board[i + d * di, j + d * dj].figure
+                        if (fig == null) {
+                            if (findOpponent)
+                                return true
+                        } else {
+                            if (fig.color == whoMoves) {
+                                break@loop
+                            } else {
+                                if (findOpponent)
+                                    break@loop
+                                findOpponent = true
+                            }
+                        }
+                        d++
                     }
-                    d++
                 }
             }
         }
