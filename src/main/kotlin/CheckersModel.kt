@@ -1,4 +1,3 @@
-import java.awt.desktop.QuitEvent
 import kotlin.math.abs
 import kotlin.math.sign
 
@@ -79,26 +78,27 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 return null
             }
             var numBetween = 0
-            var squareBetween = squareFrom
+            var betweenSquare = squareFrom
             for (d in 1 until abs(verticals)) {
                 val x = turn.from.first + horizontals.sign * d
                 val y = turn.from.second + verticals.sign * d
+                val currentSquare = board[x, y]
 
-                if (board[x, y].eaten) {
+                if (currentSquare.eaten) {
                     /**
                      * square contained eaten checker
                      */
                     return null
                 }
-                if (board[x, y].figure != null) {
-                    if (board[x, y].figure?.color == whoMoves) {
+                currentSquare.figure?.let {
+                    if (it.color == whoMoves) {
                         /**
                          * The checker between 'from' and 'to' squares has same color with moving player
                          */
                         return null
                     } else {
                         numBetween++
-                        squareBetween = board[x, y]
+                        betweenSquare = board[x, y]
                     }
                 }
             }
@@ -120,7 +120,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                         /**
                          * Move with eating
                          */
-                        return squareBetween
+                        return betweenSquare
                     }
                     /**
                      * Incorrect move
@@ -138,7 +138,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                         /**
                          * Move with eating
                          */
-                        return squareBetween
+                        return betweenSquare
                     }
                     /**
                      * Incorrect move
