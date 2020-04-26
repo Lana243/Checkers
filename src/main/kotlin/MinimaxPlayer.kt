@@ -96,7 +96,7 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
     protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Int? {
         if (model.gameState != GameState.PLAYING) {
             var value = Int.MAX_VALUE / 5 + (100 - depth)
-            if (model.gameState.getColor() != model.whoMoves) {
+            if (model.gameState.winnerColor() != model.whoMoves) {
                 value *= -1
             }
             return value
