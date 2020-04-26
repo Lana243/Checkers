@@ -69,9 +69,9 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
                 return bestVal to bestTurn
             }
         }
-        if (depth < maxDepth / 2) {
+        /*if (depth < maxDepth / 2) {
             turnsByHash[model.hashCode()] = bestTurn
-        }
+        }*/
         return bestVal to bestTurn
     }
 
