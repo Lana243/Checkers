@@ -12,23 +12,7 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         setStartPosition()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is CheckersBoard) {
-            if (boardSize != other.boardSize)
-                return false
-            else {
-                for (i in 0 until  boardSize) {
-                    for (j in 0 until  boardSize) {
-                        if (this[i, j] != other[i, j])
-                            return false
-                    }
-                }
-                return true
-            }
-        } else {
-            return false
-        }
-    }
+    override fun equals(other: Any?) = other is CheckersBoard && boardSize == other.boardSize && board.contentEquals(other.board)
 
     private fun getIndex(i : Int, j : Int): Int {
         return i * boardSize + j
