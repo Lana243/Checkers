@@ -11,17 +11,24 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
 
     var eatingChecker : Square? = null
     private var eatenList = ArrayList<Square>()
-    /* This functions checking turn for legacy and rules and also find checker, that will be eaten.
-    Its return value has 3 options:
-        if turn is illegal, it returns null,
-        if turn is legal but there aren't any checker will be eaten,
-            it returns square, from which the turn started
-        if turn is legal and some checker must be eaten,
-            it return square, where this checker is located */
+    /**
+     * This functions checking turn for legacy and rules and also find checker, that will be eaten.
+         Its return value has 3 options:
+            if turn is illegal,
+                it returns null,
+            if turn is legal but there aren't any checker will be eaten,
+                it returns square, from which the turn started
+            if turn is legal and some checker must be eaten,
+                it return square, where this checker is located
+     * @param turn BaseTurn
+     * @return Square?
+     */
     override fun canMove(turn: BaseTurn): Square? {
 
         if (turn.playerColor != whoMoves) {
-            //player's color isn't correct
+            /**
+             * player's color isn't correct
+             */
             return null
         }
 
@@ -31,7 +38,9 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
 
         val (squareFrom, squareTo) = board[turn]
         if (eatingChecker != null && eatingChecker != squareFrom) {
-            //try to move not the checker that now in eating process
+            /**
+             * try to move not the checker that now in eating process
+             */
             return null
         }
         if (squareFrom.color == 1 || squareTo.color == 1) {
@@ -40,17 +49,23 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
         val squareFromFigure = squareFrom.figure
         if (squareFromFigure != null) {
             if (squareTo.figure != null) {
-                //square to is not empty - can't move there
+                /**
+                 * square to is not empty - can't move there
+                 */
                 return null
             }
             if (squareFromFigure.color != turn.playerColor) {
-                //figure's color on "from" square isn't equal to player's color - illegal move
+                /**
+                 * figure's color on "from" square isn't equal to player's color - illegal move
+                 */
                 return null
             }
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
             if (abs(verticals) != abs(horizontals)) {
-                //Move is not diagonal
+                /**
+                 * Move is not diagonal
+                 */
                 return null
             }
             var numBetween = 0
@@ -60,12 +75,16 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
                 val y = turn.from.second + verticals.sign * d
 
                 if (board[x, y].eaten) {
-                    //square contained eaten checker
+                    /**
+                     * square contained eaten checker
+                     */
                     return null
                 }
                 if (board[x, y].figure != null) {
                     if (board[x, y].figure?.color == whoMoves) {
-                        //The checker between 'from' and 'to' squares has same color with moving player
+                        /**
+                         * The checker between 'from' and 'to' squares has same color with moving player
+                         */
                         return null
                     } else {
                         numBetween++
@@ -74,39 +93,58 @@ class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseModel() 
                 }
             }
             if (numBetween > 1) {
-                //More then 1 checker between 'from' and 'to' squares
+                /**
+                 * More then 1 checker between 'from' and 'to' squares
+                 */
                 return null
             }
             if (squareFromFigure.type == FigureType.Ordinary) {
                 if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1 && !canEat()) {
-                    //Move without eating
+                    /**
+                     * Move without eating
+                     */
                     return squareFrom
                 }
                 if (abs(horizontals) == 2 && numBetween == 1) {
-                    //Move with eating
+                    /**
+                     * Move with eating
+                     */
                     return squareBetween
                 }
-                //Incorrect move
+                /**
+                 * Incorrect move
+                 */
                 return null
             } else {
                 if (numBetween == 0 && !canEat()) {
-                    //Move without eating
+                    /**
+                     * Move without eating
+                     */
                     return squareFrom
                 }
                 if (numBetween == 1) {
-                    //Move with eating
+                    /**
+                     * Move with eating
+                     */
                     return squareBetween
                 }
-                //Incorrect move
+                /**
+                 * Incorrect move
+                 */
                 return null
             }
         } else {
-            //Square "from" is empty
+            /**
+             * Square "from" is empty
+             */
             return null
         }
     }
 
-    //Method checks whether one of the moving player checker eat
+    /**
+     * Method checks whether one of the moving player checker eat
+     * @return Boolean
+     */
     fun canEat() : Boolean {
         val figuresCoords = board.getCoords(whoMoves)
 

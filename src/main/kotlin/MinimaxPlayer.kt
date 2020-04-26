@@ -45,14 +45,22 @@ open class MinimaxPlayer(name: String, color: Color) : BasePlayer(color) {
 
     protected val turnsByHash : MutableMap<Int, BaseTurn> = mutableMapOf()
 
-    //Function that performs the necessary moves
+    /**
+     * Function that performs the necessary moves
+     * @param model CheckersModel
+     * @param depth Int
+     * @param maxDepth Int
+     * @return Pair<Int, BaseTurn?>
+     */
     private fun minimaxRecursive(model : CheckersModel, depth: Int, maxDepth: Int) : Pair<Int, BaseTurn?> {
         recCount++
         val isTerminalStateResult = isTerminalState(model, depth, maxDepth)
         if (isTerminalStateResult != null) {
             return isTerminalStateResult to null
         }
-        //Maybe, we already had this position in not so much depth, then we can use early result
+        /**
+         * Maybe, we already had this position in not so much depth, then we can use early result
+         */
         val turns =/* if (turnsByHash[model.hashCode()] != null)
             listOf(turnsByHash[model.hashCode()]!!)
         else*/
