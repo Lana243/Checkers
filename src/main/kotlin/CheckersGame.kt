@@ -1,5 +1,5 @@
-class CheckersGame (val model : CheckersModel, playerWhite : BasePlayer, playerBlack : BasePlayer) {
-    private val players = Array<BasePlayer>(2) { i -> if (i == 0) playerWhite else playerBlack}
+class CheckersGame (val model : CheckersModel, playerWhite : BasePlayer<CheckersModel>, playerBlack : BasePlayer<CheckersModel>) {
+    private val players = Array(2) { i -> if (i == 0) playerWhite else playerBlack}
 
     fun play() {
         while (model.gameState == GameState.PLAYING) {
