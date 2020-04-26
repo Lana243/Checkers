@@ -3,18 +3,26 @@ class CheckersGame (val model : CheckersModel, playerWhite : BasePlayer, playerB
 
     fun play() {
         var moves = 0
+        var queenMovesInRow = 0
         while (model.gameState == GameState.PLAYING) {
             //model.board.print()
             val turn = players[if (model.whoMoves == Color.WHITE) 0 else 1].makeTurn(model)
             //TODO("Add checking that game is not ended (state, updateState())
-            if (model.canMove(turn) == null) {
+            val canMoveResult = model.canMove(turn)
+            if (canMoveResult == null) {
                 println("Illegal turn. Please, try again")
             } else {
-                model.move(turn)
                 moves++
+                if (model.board[turn.from].figure?.type == FigureType.Queen &&
+                        model.board[turn.from] == canMoveResult)
+                    queenMovesInRow++
+                else
+                    queenMovesInRow = 0
+                model.move(turn)
             }
-            if (moves > 150)
-                break
+            if (queenMovesInRow > 30) {
+                model.gameState = GameState.DRAW
+            }
         }
         println(model.gameState.toString())
     }
