@@ -33,7 +33,9 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
         if (isTerminalStateResult != null) {
             return isTerminalStateResult to null
         }
-        //Maybe, we already had this position in not so much depth, then we can use early result
+        /**
+         * Maybe, we already had this position in not so much depth, then we can use early result
+         */
         val turns = /*if (turnsByHash[model.hashCode()] != null)
             listOf(turnsByHash[model.hashCode()]!!).toMutableList()
         else*/
@@ -73,7 +75,10 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
         return bestVal to bestTurn
     }
 
-    //Method for sorting turns list for more quickly working of AlphaBeta algorithm
+    /**
+     * Method for sorting turns list for more quickly working of AlphaBeta algorithm
+     * @param turns MutableList<BaseTurn>
+     */
     protected open fun sortTurns(turns: MutableList<BaseTurn>) {
         turns.shuffle(Random())
     }
