@@ -6,7 +6,8 @@ class CheckersGame (val model : CheckersModel, playerWhite : BasePlayer, playerB
             //model.board.print()
             val turn = players[if (model.whoMoves == Color.WHITE) 0 else 1].makeTurn(model)
             //TODO("Add checking that game is not ended (state, updateState())
-            if (model.canMove(turn) == null) {
+            val canMoveResult = model.canMove(turn)
+            if (canMoveResult == null) {
                 println("Illegal turn. Please, try again")
             } else {
                 model.move(turn)
