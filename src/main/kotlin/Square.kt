@@ -6,4 +6,9 @@ data class Square(val color: Int) {
      * @param eaten means that the square contains the checker that was eaten during the current turn
      */
     var eaten = false;
+    
+    constructor(square: Square) : this(square.color) {
+        figure = if (square.figure == null) null else Figure(square.figure!!)
+        eaten = square.eaten
+    }
 }
