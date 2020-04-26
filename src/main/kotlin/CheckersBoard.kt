@@ -40,7 +40,12 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         }
     }
 
-    //fun returns coords of squares that contain figures with playerColor
+    /**
+     * fun returns coords of squares that contain figures with playerColor
+     * @param playerColor Color
+     * @return List<Pair<Int, Int>>
+     */
+
     fun getCoords(playerColor: Color) : List<Pair<Int, Int>> {
         val list = emptyList<Pair<Int, Int>>().toMutableList()
         for (i in 0 until boardSize) {
@@ -54,7 +59,11 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return list
     }
 
-    //This method counts number of checkers with color = color
+    /**
+     * This method counts number of checkers with color = color
+     * @param color Color
+     * @return Int
+     */
     fun countCheckers(color: Color) : Int {
         var count = 0
         for (i in 0 until boardSize)
@@ -64,7 +73,11 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return count
     }
 
-    //This method counts number of queen checkers with color = color
+    /**
+     * This method counts number of queen checkers with color = color
+     * @param color Color
+     * @return Int
+     */
     fun countQueenCheckers(color: Color): Int {
         var count = 0
         for (i in 0 until boardSize)
@@ -74,7 +87,12 @@ class CheckersBoard(val boardSize: Int) : BaseBoard {
         return count
     }
 
-    //This method checks whether the coords is valid
+    /**
+     * This method checks whether the coords is valid
+     * @param i Int
+     * @param j Int
+     * @return Boolean
+     */
     fun isValidCoords(i : Int, j : Int) : Boolean {
         return (i >= 0 && j >= 0 && i < boardSize && j < boardSize)
     }
