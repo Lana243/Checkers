@@ -257,11 +257,12 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
     }
 
     fun possibleTurns() : List<BaseTurn> {
-        val list = emptyList<BaseTurn>().toMutableList()
-        for ((iFrom, jFrom) in board.getCoords(whoMoves)) {
-            for ((iTo, jTo) in List(board.boardSize * board.boardSize)
-            { it -> it / board.boardSize to it % board.boardSize}) {
-                val turn = BaseTurn(whoMoves, iFrom to jFrom, iTo to jTo)
+        val list = mutableListOf<BaseTurn>()
+        val bs = board.boardSize
+        for (ijFrom in board.getCoords(whoMoves)) {
+            for (i in 0 until bs * bs) {
+                val ijTo = (i / bs to i % bs)
+                val turn = BaseTurn(whoMoves, ijFrom, ijTo)
                 if (canMove(turn) != null) {
                     list.add(turn)
                 }
