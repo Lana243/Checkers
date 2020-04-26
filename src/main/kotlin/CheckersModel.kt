@@ -156,12 +156,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
      */
     fun canEat() : Boolean {
         val figuresCoords = board.getCoords(whoMoves)
-
-        for ((i, j) in figuresCoords) {
-            if (canEat(i to j))
-                return true
-        }
-        return false
+        return figuresCoords.any { canEat(it) }
     }
 
     private fun canEat(squareFromCoords : Pair<Int, Int>): Boolean {
