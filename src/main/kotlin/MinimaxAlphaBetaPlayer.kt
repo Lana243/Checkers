@@ -14,7 +14,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
     override fun makeTurn(model: CheckersModel): BaseTurn {
         val tmpModel = CheckersModel(model)
         recCount = 0
-        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, maxDepth).second!!
+        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, maxDepth).second ?: throw Exception("Can't find move")
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
