@@ -5,7 +5,7 @@ import java.util.logging.Logger
 import kotlin.math.max
 import kotlin.math.min
 
-open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(name, color) {
+open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDepth: Int) : MinimaxPlayer(name, color, maxDepth) {
 
     companion object {
         private val logger = Logger.getLogger(this::class.simpleName)
@@ -14,7 +14,7 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color) : MinimaxPlayer(na
     override fun makeTurn(model: BaseModel): BaseTurn {
         val tmpModel = CheckersModel(model as CheckersModel)
         recCount = 0
-        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, 8).second!!
+        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, maxDepth).second!!
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
