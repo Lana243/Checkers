@@ -168,12 +168,14 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         when (board[i, j].figure?.type) {
             FigureType.Ordinary -> {
                 for ((di, dj) in directions) {
-                    if (board.isValidCoords(i + 2 * di, j + 2 * dj) &&
-                        board[i + 2 * di, j + 2 * dj].figure == null &&
-                        board[i + di, j + dj].figure?.color ?: whoMoves == whoMoves.nextColor() &&
-                        !board[i + di, j + dj].eaten
-                    )
-                        return true
+                    if (board.isValidCoords(i + 2 * di, j + 2 * dj)) {
+                        val nextSquare = board[i + di, j + dj]
+                        val afterNextSquare = board[i + 2 * di, j + 2 * dj]
+                        if (afterNextSquare.figure == null &&
+                                nextSquare.figure?.color == whoMoves.nextColor() &&
+                                !nextSquare.eaten)
+                            return true
+                    }
                 }
             }
             FigureType.Queen -> {
@@ -181,10 +183,11 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                     var findOpponent = false
                     var d = 1
                     loop@ while (board.isValidCoords(i + d * di, j + d * dj)) {
-                        if (board[i + d * di, j + d * dj].eaten) {
+                        val currentSquare = board[i + d * di, j + d * dj]
+                        if (currentSquare.eaten) {
                             break@loop
                         }
-                        val fig = board[i + d * di, j + d * dj].figure
+                        val fig = currentSquare.figure
                         if (fig == null) {
                             if (findOpponent)
                                 return true
