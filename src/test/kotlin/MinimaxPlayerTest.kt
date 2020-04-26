@@ -14,6 +14,6 @@ class MinimaxPlayerTest {
                 GameState.DRAW -> {b++; w++}
             }
         }
-        assert(w >= 3)
+        assert(w >= 6)
     }
 }
