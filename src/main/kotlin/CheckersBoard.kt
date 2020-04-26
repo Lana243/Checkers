@@ -1,8 +1,14 @@
 data class CheckersBoard(val boardSize: Int) : BaseBoard {
     private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) -1 else 1)}
-
+    
     init {
         setStartPosition()
+    }
+    
+    constructor(other: CheckersBoard) : this(other.boardSize) {
+        for (i in 0 until boardSize)
+            for (j in 0 until boardSize)
+                this[i, j] = Square(other[i, j])
     }
 
     override fun equals(other: Any?) = other is CheckersBoard && boardSize == other.boardSize && board.contentEquals(other.board)
