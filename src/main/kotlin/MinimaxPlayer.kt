@@ -1,22 +1,25 @@
 import java.lang.Exception
+import java.lang.IllegalStateException
 import java.util.logging.Level
 import java.util.logging.Logger
 
-open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer(color) {
+open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer<CheckersModel>(color) {
 
     companion object {
+        const val MIN_VALUE = Int.MIN_VALUE / 5
+        const val MAX_VALUE = Int.MAX_VALUE / 5
         private val logger = Logger.getLogger(this::class.simpleName)
     }
 
     var recCount = 0
 
-    override fun makeTurn(model: BaseModel): BaseTurn {
-        if ((model as CheckersModel).possibleTurns().size == 1) {
-            return (model as CheckersModel).possibleTurns()[0]
+    override fun makeTurn(model: CheckersModel): BaseTurn {
+        if (model.possibleTurns().size == 1) {
+            return model.possibleTurns()[0]
         }
-        val tmpModel = CheckersModel(model as CheckersModel)
+        val tmpModel = CheckersModel(model)
         recCount = 0
-        val turn = minimaxRecursive(tmpModel, 0, maxDepth).second!!
+        val turn = minimaxRecursive(tmpModel, 0, maxDepth).second ?: throw Exception("Can't find move")
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
@@ -66,13 +69,13 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
         else*/
             model.possibleTurns()
 
-        var bestVal = -(Int.MAX_VALUE / 10)
+        var bestVal = MIN_VALUE
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
             try {
                 model.move(turn)
-            } catch (e : Exception) {
+            } catch (e : IllegalStateException) {
                 logger.log(Level.WARNING, turn.toString())
                 model.board.print()
             }
@@ -87,15 +90,15 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
                 bestTurn = turn
             }
         }
-        if (depth < maxDepth / 2) {
+        /*if (depth < maxDepth / 2) {
             turnsByHash[model.hashCode()] = bestTurn
-        }
+        }*/
         return bestVal to bestTurn
     }
 
     protected fun isTerminalState(model: CheckersModel, depth: Int, maxDepth: Int): Int? {
         if (model.gameState != GameState.PLAYING) {
-            var value = Int.MAX_VALUE / 5 + (100 - depth)
+            var value = MAX_VALUE - depth
             if (model.gameState.winnerColor() != model.whoMoves) {
                 value *= -1
             }

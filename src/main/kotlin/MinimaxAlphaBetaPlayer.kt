@@ -1,4 +1,5 @@
 import java.lang.Exception
+import java.lang.IllegalStateException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -11,20 +12,19 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
         private val logger = Logger.getLogger(this::class.simpleName)
     }
 
-    override fun makeTurn(model: BaseModel): BaseTurn {
-        val tmpModel = CheckersModel(model as CheckersModel)
+    override fun makeTurn(model: CheckersModel): BaseTurn {
+        val tmpModel = CheckersModel(model)
         recCount = 0
-        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, maxDepth).second!!
+        val turn = minimaxAlphaBetaRecursive(tmpModel, 0, maxDepth).second ?: throw Exception("Can't find move")
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
         return turn
     }
 
-    private val myMinValue = Int.MIN_VALUE / 10
     private fun minimaxAlphaBetaRecursive(model: CheckersModel,
                                           depth: Int,
                                           maxDepth: Int,
-                                          alpha: Int = myMinValue,
-                                          beta: Int = myMinValue,
+                                          alpha: Int = MIN_VALUE,
+                                          beta: Int = MIN_VALUE,
                                           changeColor: Boolean = false)
             : Pair<Int, BaseTurn?> {
 
@@ -42,13 +42,13 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
         else*/
             model.possibleTurns().toMutableList()
         sortTurns(turns)
-        var bestVal = myMinValue
+        var bestVal = MIN_VALUE
         var bestTurn = turns[0]
         for (turn in turns) {
             val retainer = ModelRetainer(model, turn)
             try {
                 model.move(turn)
-            } catch (e : Exception) {
+            } catch (e : IllegalStateException) {
                 logger.log(Level.WARNING, turn.toString())
                 model.board.print()
             }
@@ -70,9 +70,9 @@ open class MinimaxAlphaBetaPlayer(name: String, color: Color, private val maxDep
                 return bestVal to bestTurn
             }
         }
-        if (depth < maxDepth / 2) {
+        /*if (depth < maxDepth / 2) {
             turnsByHash[model.hashCode()] = bestTurn
-        }
+        }*/
         return bestVal to bestTurn
     }
 
