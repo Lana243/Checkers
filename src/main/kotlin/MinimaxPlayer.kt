@@ -6,8 +6,8 @@ import java.util.logging.Logger
 open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) : BasePlayer<CheckersModel>(color) {
 
     companion object {
-        const val MIN_VALUE = -(Int.MAX_VALUE / 5)
-        const val MAX_VALUE = (Int.MAX_VALUE / 5)
+        const val MIN_VALUE = Int.MIN_VALUE / 5
+        const val MAX_VALUE = Int.MAX_VALUE / 5
         private val logger = Logger.getLogger(this::class.simpleName)
     }
 
