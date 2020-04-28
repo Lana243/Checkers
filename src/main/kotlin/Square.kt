@@ -1,4 +1,4 @@
-data class Square(val color: Int) {
+data class Square(val color: Color) {
     var figure : Figure? = null
 
     /**
@@ -8,7 +8,7 @@ data class Square(val color: Int) {
      */
     var eaten = false
     
-    constructor(square: Square) : this(square.color) {
+    constructor(square: Square) : this(color = square.color) {
         figure = square.figure?.let { Figure(it) }
         eaten = square.eaten
     }

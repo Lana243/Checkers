@@ -1,5 +1,5 @@
 data class CheckersBoard(val boardSize: Int) : BaseBoard {
-    private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) -1 else 1)}
+    private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) Color.BLACK else Color.WHITE)}
     
     init {
         setStartPosition()
@@ -26,7 +26,7 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
     }
 
     override fun setStartPosition() {
-        forEachSquare { i, _, s -> s.figure = if (s.color == 1 || i == 3 || i == 4) null else Figure(if (i < 3) Color.WHITE else Color.BLACK) }
+        forEachSquare { i, _, s -> s.figure = if (s.color == Color.WHITE || i == 3 || i == 4) null else Figure(if (i < 3) Color.WHITE else Color.BLACK) }
     }
 
     /**
