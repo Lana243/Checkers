@@ -49,7 +49,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
             // try to move not the checker that now in eating process
             return null
         }
-        if (squareFrom.color == 1 || squareTo.color == 1) {
+        if (squareFrom.color == Color.WHITE || squareTo.color == Color.WHITE) {
             return null
         }
         val squareFromFigure = squareFrom.figure
