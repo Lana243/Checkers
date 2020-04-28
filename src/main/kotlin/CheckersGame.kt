@@ -3,9 +3,8 @@ class CheckersGame (val model : CheckersModel, playerWhite : BasePlayer<Checkers
 
     fun play() {
         while (model.gameState == GameState.PLAYING) {
-            //model.board.print()
+            model.board.print()
             val turn = players[if (model.whoMoves == Color.WHITE) 0 else 1].makeTurn(model)
-            //TODO("Add checking that game is not ended (state, updateState())
             val canMoveResult = model.canMove(turn)
             if (canMoveResult == null) {
                 println("Illegal turn. Please, try again")

@@ -20,6 +20,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
     private var eatenList = ArrayList<Square>()
 
     private var queenMovesInRow = 0
+
     /**
      * This functions checking turn for legacy and rules and also find checker, that will be eaten.
          Its return value has 3 options:
@@ -35,9 +36,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
     override fun canMove(turn: BaseTurn): Square? {
 
         if (turn.playerColor != whoMoves) {
-            /**
-             * player's color isn't correct
-             */
+            // player's color isn't correct
             return null
         }
 
@@ -47,9 +46,7 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
 
         val (squareFrom, squareTo) = board[turn]
         if (eatingChecker != null && eatingChecker != squareFrom) {
-            /**
-             * try to move not the checker that now in eating process
-             */
+            // try to move not the checker that now in eating process
             return null
         }
         if (squareFrom.color == 1 || squareTo.color == 1) {
@@ -58,23 +55,17 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
         val squareFromFigure = squareFrom.figure
         if (squareFromFigure != null) {
             if (squareTo.figure != null) {
-                /**
-                 * square to is not empty - can't move there
-                 */
+                // square to is not empty - can't move there
                 return null
             }
             if (squareFromFigure.color != turn.playerColor) {
-                /**
-                 * figure's color on "from" square isn't equal to player's color - illegal move
-                 */
+                // figure's color on "from" square isn't equal to player's color - illegal move
                 return null
             }
             val verticals = turn.to.second - turn.from.second
             val horizontals = turn.to.first - turn.from.first
             if (abs(verticals) != abs(horizontals)) {
-                /**
-                 * Move is not diagonal
-                 */
+                // the move is not diagonal
                 return null
             }
             var numBetween = 0
@@ -85,16 +76,12 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 val currentSquare = board[x, y]
 
                 if (currentSquare.eaten) {
-                    /**
-                     * square contained eaten checker
-                     */
+                    // the square contained eaten checker
                     return null
                 }
                 currentSquare.figure?.let {
                     if (it.color == whoMoves) {
-                        /**
-                         * The checker between 'from' and 'to' squares has same color with moving player
-                         */
+                        // the checker between 'from' and 'to' squares has same color with moving player
                         return null
                     } else {
                         numBetween++
@@ -103,53 +90,37 @@ data class CheckersModel(val board : CheckersBoard = CheckersBoard(8)) : BaseMod
                 }
             }
             if (numBetween > 1) {
-                /**
-                 * More then 1 checker between 'from' and 'to' squares
-                 */
+                // more then 1 checker between 'from' and 'to' squares
                 return null
             }
             when (squareFromFigure.type) {
                 FigureType.Ordinary -> {
                     if (horizontals == turn.playerColor.getDirection() && abs(verticals) == 1 && !canEat()) {
-                        /**
-                         * Move without eating
-                         */
+                        // move without eating
                         return squareFrom
                     }
                     if (abs(horizontals) == 2 && numBetween == 1) {
-                        /**
-                         * Move with eating
-                         */
+                        // move with eating
                         return betweenSquare
                     }
-                    /**
-                     * Incorrect move
-                     */
+                    // incorrect move
                     return null
                 }
                 FigureType.Queen -> {
                     if (numBetween == 0 && !canEat()) {
-                        /**
-                         * Move without eating
-                         */
+                        // move without eating
                         return squareFrom
                     }
                     if (numBetween == 1) {
-                        /**
-                         * Move with eating
-                         */
+                        // move with eating
                         return betweenSquare
                     }
-                    /**
-                     * Incorrect move
-                     */
+                    // incorrect move
                     return null
                 }
             }
         } else {
-            /**
-             * Square "from" is empty
-             */
+            // square "from" is empty
             return null
         }
     }

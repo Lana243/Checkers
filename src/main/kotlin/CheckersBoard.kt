@@ -30,7 +30,7 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
     }
 
     /**
-     * fun returns coords of squares that contain figures with playerColor
+     * Fun returns coords of squares that contain figures with playerColor
      * @param playerColor Color
      * @return List<Pair<Int, Int>>
      */

@@ -61,9 +61,8 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
         if (isTerminalStateResult != null) {
             return isTerminalStateResult to null
         }
-        /**
-         * Maybe, we already had this position in not so much depth, then we can use early result
-         */
+
+        // Maybe, we already had this position in not so much depth, then we can use early result
         val turns =/* if (turnsByHash[model.hashCode()] != null)
             listOf(turnsByHash[model.hashCode()]!!)
         else*/
@@ -90,6 +89,8 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
                 bestTurn = turn
             }
         }
+
+        //TODO(Make right hashing and then we can use this part)
         /*if (depth < maxDepth / 2) {
             turnsByHash[model.hashCode()] = bestTurn
         }*/
