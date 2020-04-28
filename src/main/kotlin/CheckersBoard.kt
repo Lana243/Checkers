@@ -26,25 +26,14 @@ data class CheckersBoard(val boardSize: Int) : BaseBoard {
     }
 
     override fun setStartPosition() {
-        for (i in 0 until boardSize) {
-            for (j in 0 until boardSize) {
-                this[i, j].apply {
-                    figure = if (color == 1 || i == 3 || i == 4) {
-                        null
-                    } else {
-                        Figure(if (i < 3) Color.WHITE else Color.BLACK)
-                    }
-                }
-            }
-        }
+        forEachSquare { i, _, s -> s.figure = if (s.color == 1 || i == 3 || i == 4) null else Figure(if (i < 3) Color.WHITE else Color.BLACK) }
     }
 
     /**
-     * fun returns coords of squares that contain figures with playerColor
+     * Fun returns coords of squares that contain figures with playerColor
      * @param playerColor Color
      * @return List<Pair<Int, Int>>
      */
-
     fun getCoords(playerColor: Color) : List<Pair<Int, Int>> {
         val list = mutableListOf<Pair<Int, Int>>()
         forEachSquare { i, j, s -> if (s.figure?.color == playerColor) list.add(i to j)}

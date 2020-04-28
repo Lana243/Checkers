@@ -2,7 +2,16 @@ enum class GameState {
     PLAYING,
     WHITE_WINS,
     BLACK_WINS,
-    DRAW
+    DRAW;
+
+    override fun toString(): String {
+        return when (this) {
+            BLACK_WINS -> "Black wins"
+            WHITE_WINS -> "White wins"
+            DRAW -> "Draw"
+            PLAYING -> "Game isn't ended"
+        }
+    }
 }
 
 fun GameState.winnerColor() : Color? {
@@ -11,14 +20,5 @@ fun GameState.winnerColor() : Color? {
            null
         GameState.WHITE_WINS -> Color.WHITE
         GameState.BLACK_WINS -> Color.BLACK
-    }
-}
-
-fun GameState.toString() : String {
-    return when (this) {
-        GameState.BLACK_WINS -> "Black wins"
-        GameState.WHITE_WINS -> "White wins"
-        GameState.DRAW -> "Draw"
-        GameState.PLAYING -> "Game isn't ended"
     }
 }
