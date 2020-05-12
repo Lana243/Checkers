@@ -60,10 +60,3 @@ project(":desktop") {
         api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     }
 }
-
-
-
-
-
-
-

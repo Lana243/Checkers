@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import kotlin.properties.Delegates.notNull
 
 
-class Square(private val texture: Texture) : Actor() {
+class GUISquare(private val texture: Texture) : Actor() {
 
     var checker: Checker? = null
     var posX by notNull<Int>()

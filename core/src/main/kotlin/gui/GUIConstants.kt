@@ -1,6 +1,6 @@
 package gui
 
-object Constants {
+object GUIConstants {
 
 
     /* ***Menu constants*** */
