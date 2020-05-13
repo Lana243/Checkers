@@ -1,9 +1,8 @@
 package checkers.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.MyGdxGame;
+import gui.MyGdxGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

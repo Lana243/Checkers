@@ -1,6 +1,5 @@
 package gui
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
@@ -18,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import kotlin.system.exitProcess
 
 
-class Menu(val game: Game) : Screen {
+class Menu(val game: com.badlogic.gdx.Game) : Screen {
 
     lateinit var stage: Stage
     lateinit var batch: SpriteBatch
@@ -39,7 +38,7 @@ class Menu(val game: Game) : Screen {
         newGame.setPosition(GUIConstants.newGameButtonX, GUIConstants.newGameButtonY)
         newGame.addListener(object : InputListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = gui.Game(game)
+                game.screen = Game(game)
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {

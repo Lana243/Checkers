@@ -4,19 +4,29 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import core.Color
-import kotlin.properties.Delegates
 
-class EatBoard(private var texture: Texture) : Actor() {
-
-    lateinit var color: Color
+class EatBoard(private val texture: Texture,
+               val color: Color,
+               var lastX: Float,
+               var lastY: Float,
+               val firstX: Float,
+               posX: Float,
+               posY: Float,
+               index: Int,
+               setWidth: Float,
+               setHeight: Float) : Actor() {
 
     var inRow: Int = GUIConstants.initEatInRow
     var inCol: Int = GUIConstants.initEatInCol
-    var lastX by Delegates.notNull<Float>()
-    var lastY by Delegates.notNull<Float>()
-    var firstX by Delegates.notNull<Float>()
-    var plusX: Int = GUIConstants.eatDeltaX
-    var plusY: Int = GUIConstants.eatDeltaY
+    val plusX: Int = GUIConstants.eatDeltaX
+    val plusY: Int = GUIConstants.eatDeltaY
+
+    init {
+        x = posX
+        y = posY
+        zIndex = index
+        setSize(setWidth, setHeight)
+    }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)

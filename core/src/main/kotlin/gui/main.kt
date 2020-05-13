@@ -1,9 +1,6 @@
-package com.mygdx.game
+package gui
 
-import com.badlogic.gdx.Game
-import gui.Menu
-
-class MyGdxGame : Game() {
+class MyGdxGame : com.badlogic.gdx.Game() {
     override fun create() {
         setScreen(Menu(this));
     }

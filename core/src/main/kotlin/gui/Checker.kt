@@ -3,17 +3,30 @@ package gui
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import core.Color
 
 
-class Checker() : Actor() {
+class Checker(val color: Color,
+              posX: Float,
+              posY: Float,
+              index: Int,
+              setWidth: Float,
+              setHeight: Float,
+              private var isQueen: Boolean = false,
+              var transform: Boolean = false,
+              private var time: Int = GUIConstants.initTime,
+              private var stage: Int = GUIConstants.initStage,
+              val frames: MutableList<TextureRegion> = mutableListOf<TextureRegion>()) : Actor() {
 
-    var isQueen: Boolean = false
-    var transform: Boolean = false
-    var time: Int = GUIConstants.initTime
-    var stage: Int = GUIConstants.initStage
-    lateinit var color: Color
-    var frames = mutableListOf<TextureRegion>()
+
+    init {
+        x = posX
+        y = posY
+        zIndex = index
+        setSize(setWidth, setHeight)
+        touchable = Touchable.disabled
+    }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         if (transform) {
