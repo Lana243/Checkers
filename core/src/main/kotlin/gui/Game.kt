@@ -17,9 +17,7 @@ import core.Color
 
 class Game(val game: Game) : Screen {
 
-    var board = MutableList(GUIConstants.boardHeight) { mutableListOf<GUISquare>() }
-    lateinit var blackEatBoard: EatBoard
-    lateinit var whiteEatBoard: EatBoard
+    lateinit var board: Board
     lateinit var stage: Stage
     lateinit var group: Group
 
@@ -53,7 +51,7 @@ class Game(val game: Game) : Screen {
         square.touchable = Touchable.enabled;
         square.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                eat(square.posX, square.posY, this@Game)
+                board.eat(square.posX, square.posY)
                 /**
                  * Send(square.x)
                  * Send(square.y)
@@ -70,6 +68,12 @@ class Game(val game: Game) : Screen {
 
     private fun initStage() {
 
+        val blackEatBoard = setBoardEat(Color.WHITE, GUIConstants.whiteEatX, GUIConstants.whiteEatY,
+                Texture(GUIConstants.whiteEatPath))
+        val whiteEatBoard = setBoardEat(Color.BLACK, GUIConstants.blackEatX, GUIConstants.blackEatY,
+                Texture(GUIConstants.blackEatPath))
+
+        board = Board(blackEatBoard, whiteEatBoard)
         for (i in 0 until GUIConstants.boardHeight) {
             for (j in 0 until GUIConstants.boardWeight) {
                 val texture: Texture = if ((i + j) % GUIConstants.evenSquare == 0) {
@@ -95,13 +99,9 @@ class Game(val game: Game) : Screen {
                                 GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
                     } //place black
                 }
-                board[i].add(square)
+                board.squares[i].add(square)
             }
         }
-        whiteEatBoard = setBoardEat(Color.BLACK, GUIConstants.blackEatX, GUIConstants.blackEatY,
-                Texture(GUIConstants.blackEatPath))
-        blackEatBoard = setBoardEat(Color.WHITE, GUIConstants.whiteEatX, GUIConstants.whiteEatY,
-                Texture(GUIConstants.whiteEatPath))
         stage.addActor(group)
     }
 

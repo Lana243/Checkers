@@ -25,6 +25,7 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
     lateinit var titleSprite: Sprite
+    val myGame = Game(game)
 
     private fun setNewGame() {
         val skinNew = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
@@ -38,7 +39,7 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
         newGame.setPosition(GUIConstants.newGameButtonX, GUIConstants.newGameButtonY)
         newGame.addListener(object : InputListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = Game(game)
+                game.screen = myGame
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {

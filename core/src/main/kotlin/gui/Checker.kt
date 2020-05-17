@@ -17,7 +17,7 @@ class Checker(val color: Color,
               var transform: Boolean = false,
               private var time: Int = GUIConstants.initTime,
               private var stage: Int = GUIConstants.initStage,
-              val frames: MutableList<TextureRegion> = mutableListOf<TextureRegion>()) : Actor() {
+              val frames: MutableList<TextureRegion> = mutableListOf()) : Actor() {
 
 
     init {
