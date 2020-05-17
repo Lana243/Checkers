@@ -7,10 +7,8 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Group
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.Touchable
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.Color
 
@@ -38,32 +36,18 @@ class Game(val game: Game) : Screen {
         }
     }
 
-    private fun placeChecker(checkerTexture: Texture, GUISquare: GUISquare, color: Color, sizeX: Int, sizeY: Int) {
+    private fun placeChecker(checkerTexture: Texture, guiSquare: GUISquare, color: Color, sizeX: Int, sizeY: Int) {
         checkerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
-        val checker = Checker(color, GUISquare.x, GUISquare.y, GUIConstants.checkerZ,
+        val checker = Checker(color, guiSquare.x, guiSquare.y, GUIConstants.checkerZ,
                 GUIConstants.checkerWidth, GUIConstants.checkerHeight)
         setCheckerSpriteList(checker, checkerTexture, sizeX, sizeY)
-        GUISquare.checker = checker
+        guiSquare.checker = checker
         group.addActor(checker)
     }
 
     private fun addSquareListener(square: GUISquare) {
         square.touchable = Touchable.enabled;
-        square.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                board.eat(square.posX, square.posY)
-                /**
-                 * Send(square.x)
-                 * Send(square.y)
-                 * @wait for 'send to core data' method
-                 */
-            }
-
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
+        square.enableTouch(board, square)
     }
 
     private fun initStage() {

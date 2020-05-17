@@ -25,11 +25,16 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
     lateinit var titleSprite: Sprite
+    
+    private val skinNew = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
+    private val newGame = ImageTextButton(GUIConstants.newGameText, skinNew, GUIConstants.styleName)
+    private val skinExit = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
+    private val exit = ImageTextButton(GUIConstants.exitText, skinExit, GUIConstants.styleName)
+
     val myGame = Game(game)
 
+
     private fun setNewGame() {
-        val skinNew = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
-        val newGame = ImageTextButton(GUIConstants.newGameText, skinNew, GUIConstants.styleName)
         newGame.isTransform = true;
         newGame.setScale(GUIConstants.buttonsScale)
         newGame.style.imageUp =
@@ -50,8 +55,6 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
     }
 
     private fun setExit() {
-        val skinExit = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
-        val exit = ImageTextButton(GUIConstants.exitText, skinExit, GUIConstants.styleName)
         exit.isTransform = true;
         exit.setScale(GUIConstants.buttonsScale)
         exit.style.imageUp =
@@ -89,7 +92,6 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
                 titleSprite.height * GUIConstants.checkerTextSize)
 
     }
-
 
     override fun show() {
         batch = SpriteBatch()

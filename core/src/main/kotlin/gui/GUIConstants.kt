@@ -110,7 +110,7 @@ object GUIConstants {
     const val eatMaxInRow: Int = 4
 
 
-    /* ***Receive methods*** */
+    /* ***Become queen methods*** */
 
     const val toCenterX: Float = 600f
     const val toCenterY: Float = 300f

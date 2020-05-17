@@ -9,7 +9,7 @@ class EatBoard(private val texture: Texture,
                val color: Color,
                var lastX: Float,
                var lastY: Float,
-               val firstX: Float,
+               private val firstX: Float,
                posX: Float,
                posY: Float,
                index: Int,
@@ -18,14 +18,25 @@ class EatBoard(private val texture: Texture,
 
     var inRow: Int = GUIConstants.initEatInRow
     var inCol: Int = GUIConstants.initEatInCol
-    val plusX: Int = GUIConstants.eatDeltaX
-    val plusY: Int = GUIConstants.eatDeltaY
+    private val plusX: Int = GUIConstants.eatDeltaX
+    private val plusY: Int = GUIConstants.eatDeltaY
 
     init {
         x = posX
         y = posY
         zIndex = index
         setSize(setWidth, setHeight)
+    }
+
+    fun place() {
+        inRow++
+        inCol++
+        lastX += plusX
+        if (inRow == GUIConstants.eatMaxInRow) {
+            inRow = 0
+            lastY += plusY
+            lastX = firstX
+        }
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
