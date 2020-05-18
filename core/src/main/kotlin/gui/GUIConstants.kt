@@ -18,21 +18,40 @@ object GUIConstants {
     const val checkerTextY: Float = 420f
     const val checkerTextSize: Float = 0.2f
 
+    /* ***Download constants*** */
+
+    const val downloadRotation: Float = 1000f
+    const val downloadPosX: Float = 770f
+    const val downloadPosY: Float = 450f
+    const val downloadPosWidth: Float = 360f
+    const val downloadPosHeight: Float = 360f
+    const val slower: Float = 15f
+    const val downloadSize: Int = 436
+    const val downloadPath: String = "Wait.png"
+
     /* ***Button constants*** */
 
-    const val textSkinPath: String = "skin/freezing-ui.json"
-    const val styleName: String = "default"
-    const val buttonsScale: Float = 2.5f
-    const val buttonPath: String = "button.png"
-    const val buttonDownPath: String = "button-down.png"
-
+    const val newGameButtonUpPath: String = "NewGameUp.png"
+    const val newGameButtonDownPath: String = "NewGameDown.png"
     const val newGameButtonX: Float = 600f
     const val newGameButtonY: Float = 450f
-    const val newGameText = "New Game"
+    const val newGameButtonWidth: Float = 400f
+    const val newGameButtonHeight: Float = 200f
+    const val newGameButtonXS: Float = 1280f
+    const val newGameButtonYS: Float = 760f
+    const val newGameButtonWidthS: Float = 200f
+    const val newGameButtonHeightS: Float = 100f
 
-    const val exitButtonX: Float = 600f
+    const val exitButtonUpPath: String = "ExitUp.png"
+    const val exitButtonDownPath: String = "ExitDown.png"
+    const val exitButtonX: Float = 700f
     const val exitButtonY: Float = 200f
-    const val exitText = "     Exit     "
+    const val exitButtonWidth: Float = 400f
+    const val exitButtonHeight: Float = 200f
+    const val exitButtonXS: Float = 1220f
+    const val exitButtonYS: Float = 650f
+    const val exitButtonWidthS: Float = 200f
+    const val exitButtonHeightS: Float = 100f
 
     const val red: Float = 0.90f
     const val green: Float = 0.96f

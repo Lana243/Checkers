@@ -8,16 +8,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import kotlin.system.exitProcess
 
-
-class Menu(val game: com.badlogic.gdx.Game) : Screen {
+class Menu(private val game: com.badlogic.gdx.Game) : Screen {
 
     lateinit var stage: Stage
     lateinit var batch: SpriteBatch
@@ -25,53 +21,55 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
     lateinit var titleSprite: Sprite
-    
-    private val skinNew = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
-    private val newGame = ImageTextButton(GUIConstants.newGameText, skinNew, GUIConstants.styleName)
-    private val skinExit = Skin(Gdx.files.internal(GUIConstants.textSkinPath))
-    private val exit = ImageTextButton(GUIConstants.exitText, skinExit, GUIConstants.styleName)
+    private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
+            Texture(GUIConstants.newGameButtonDownPath),
+            GUIConstants.newGameButtonX, GUIConstants.newGameButtonY,
+            GUIConstants.newGameButtonWidth, GUIConstants.newGameButtonHeight)
 
-    val myGame = Game(game)
+    private val exitButton = Button(Texture(GUIConstants.exitButtonUpPath),
+            Texture(GUIConstants.exitButtonDownPath),
+            GUIConstants.exitButtonX, GUIConstants.exitButtonY,
+            GUIConstants.exitButtonWidth, GUIConstants.exitButtonHeight)
 
-
-    private fun setNewGame() {
-        newGame.isTransform = true;
-        newGame.setScale(GUIConstants.buttonsScale)
-        newGame.style.imageUp =
-                TextureRegionDrawable(TextureRegion(Texture(Gdx.files.internal(GUIConstants.buttonPath))))
-        newGame.style.imageDown =
-                TextureRegionDrawable(TextureRegion(Texture(Gdx.files.internal(GUIConstants.buttonDownPath))))
-        newGame.setPosition(GUIConstants.newGameButtonX, GUIConstants.newGameButtonY)
-        newGame.addListener(object : InputListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = myGame
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-        stage.addActor(newGame)
+    /***
+     *This what should draw when gamer push "New Game" button and wait but smth went wrong
+     *  and I still don't understand properly how traits are working(in my interpretation they don't work at all)
+     */
+    private fun waitMenu() {
+        newGameButton.remove()
+        exitButton.remove()
+        checkerSprite.setColor(0f, 0f, 0f, 0f)
+        titleSprite.setColor(0f, 0f, 0f, 0f)
+        stage.addActor(Download(GUIConstants.downloadPosX, GUIConstants.downloadPosY,
+                GUIConstants.downloadPosWidth, GUIConstants.downloadPosHeight,
+                TextureRegion(Texture(GUIConstants.downloadPath),
+                        GUIConstants.downloadSize, GUIConstants.downloadSize)))
     }
 
-    private fun setExit() {
-        exit.isTransform = true;
-        exit.setScale(GUIConstants.buttonsScale)
-        exit.style.imageUp =
-                TextureRegionDrawable(TextureRegion(Texture(Gdx.files.internal(GUIConstants.buttonPath))))
-        exit.style.imageDown =
-                TextureRegionDrawable(TextureRegion(Texture(Gdx.files.internal(GUIConstants.buttonDownPath))))
-        exit.setPosition(GUIConstants.exitButtonX, GUIConstants.exitButtonY)
-        exit.addListener(object : InputListener() {
+    private fun setButtons() {
+
+        newGameButton.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                exitProcess(0);
+                game.screen = Game(game)
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 return true
             }
         })
-        stage.addActor(exit)
+
+        exitButton.addListener(object : ClickListener() {
+            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
+                exitProcess(0)
+            }
+
+            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                return true
+            }
+        })
+
+        stage.addActor(newGameButton)
+        stage.addActor(exitButton)
     }
 
     private fun setBackGround() {
@@ -98,8 +96,7 @@ class Menu(val game: com.badlogic.gdx.Game) : Screen {
         stage = Stage(ScreenViewport())
         Gdx.input.inputProcessor = stage
         setBackGround()
-        setNewGame()
-        setExit()
+        setButtons()
     }
 
     override fun render(delta: Float) {

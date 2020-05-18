@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Group
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.Touchable
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.Color
+import kotlin.system.exitProcess
 
 
 class Game(val game: Game) : Screen {
@@ -18,6 +21,16 @@ class Game(val game: Game) : Screen {
     lateinit var board: Board
     lateinit var stage: Stage
     lateinit var group: Group
+    private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
+            Texture(GUIConstants.newGameButtonDownPath),
+            GUIConstants.newGameButtonXS, GUIConstants.newGameButtonYS,
+            GUIConstants.newGameButtonWidthS, GUIConstants.newGameButtonHeightS)
+
+    private val exitButton = Button(Texture(GUIConstants.exitButtonUpPath),
+            Texture(GUIConstants.exitButtonDownPath),
+            GUIConstants.exitButtonXS, GUIConstants.exitButtonYS,
+            GUIConstants.exitButtonWidthS, GUIConstants.exitButtonHeightS)
+
 
     private fun setBoardEat(color: Color, x: Float, y: Float, texture: Texture): EatBoard {
         val eatBoard = EatBoard(texture, color, x + GUIConstants.eatBoardDeltaX,
@@ -48,6 +61,32 @@ class Game(val game: Game) : Screen {
     private fun addSquareListener(square: GUISquare) {
         square.touchable = Touchable.enabled;
         square.enableTouch(board, square)
+    }
+
+    private fun setButtons() {
+
+        newGameButton.addListener(object : ClickListener() {
+            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
+                game.screen = Game(game)
+            }
+
+            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                return true
+            }
+        })
+
+        exitButton.addListener(object : ClickListener() {
+            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
+                exitProcess(0)
+            }
+
+            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                return true
+            }
+        })
+
+        stage.addActor(newGameButton)
+        stage.addActor(exitButton)
     }
 
     private fun initStage() {
@@ -86,6 +125,7 @@ class Game(val game: Game) : Screen {
                 board.squares[i].add(square)
             }
         }
+        setButtons()
         stage.addActor(group)
     }
 
