@@ -16,7 +16,7 @@ import kotlin.system.exitProcess
 class Menu(private val game: com.badlogic.gdx.Game) : Screen {
 
     lateinit var stage: Stage
-    lateinit var batch: SpriteBatch
+    private lateinit var batch: SpriteBatch
     lateinit var checker: Texture
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
@@ -89,15 +89,15 @@ class Menu(private val game: com.badlogic.gdx.Game) : Screen {
                 titleSprite.width * GUIConstants.checkerTextSize,
                 titleSprite.height * GUIConstants.checkerTextSize)
 
-        stage.addActor(Star(GUIConstants.starX, GUIConstants.starY, GUIConstants.starSize, GUIConstants.starSize,
+        stage.addActor(PopActor(GUIConstants.starX, GUIConstants.starY, GUIConstants.starSize, GUIConstants.starSize,
                 TextureRegion(Texture(GUIConstants.starPath)), GUIConstants.starSmooth))
-        stage.addActor(Star(GUIConstants.starX2, GUIConstants.starY2, GUIConstants.starSize2, GUIConstants.starSize2,
+        stage.addActor(PopActor(GUIConstants.starX2, GUIConstants.starY2, GUIConstants.starSize2, GUIConstants.starSize2,
                 TextureRegion(Texture(GUIConstants.starPath2)), GUIConstants.starSmooth2))
-        stage.addActor(Star(GUIConstants.starX3, GUIConstants.starY3, GUIConstants.starSize3, GUIConstants.starSize3,
+        stage.addActor(PopActor(GUIConstants.starX3, GUIConstants.starY3, GUIConstants.starSize3, GUIConstants.starSize3,
                 TextureRegion(Texture(GUIConstants.starPath3)), GUIConstants.starSmooth3))
-        stage.addActor(Star(GUIConstants.starX4, GUIConstants.starY4, GUIConstants.starSize4, GUIConstants.starSize4,
+        stage.addActor(PopActor(GUIConstants.starX4, GUIConstants.starY4, GUIConstants.starSize4, GUIConstants.starSize4,
                 TextureRegion(Texture(GUIConstants.starPath4)), GUIConstants.starSmooth4))
-        stage.addActor(Star(GUIConstants.starX5, GUIConstants.starY5, GUIConstants.starSize5, GUIConstants.starSize5,
+        stage.addActor(PopActor(GUIConstants.starX5, GUIConstants.starY5, GUIConstants.starSize5, GUIConstants.starSize5,
                 TextureRegion(Texture(GUIConstants.starPath5)), GUIConstants.starSmooth5))
     }
 

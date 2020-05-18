@@ -2,6 +2,7 @@ package gui
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Touchable
@@ -14,12 +15,12 @@ class Button(
         posY: Float,
         setWidth: Float,
         setHeight: Float,
-        private val frames: MutableList<Texture> = mutableListOf(),
-        var now: Int = 0) : Actor() {
+        private val frames: MutableList<TextureRegion> = mutableListOf(),
+        private var now: Int = 0) : Actor() {
 
     init {
-        frames.add(up)
-        frames.add(down)
+        frames.add(TextureRegion(up))
+        frames.add(TextureRegion(down))
         x = posX
         y = posY
         setSize(setWidth, setHeight)
@@ -40,9 +41,7 @@ class Button(
         })
     }
 
-
     override fun draw(batch: Batch?, parentAlpha: Float) {
-        frames[now].setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
-        batch!!.draw(frames[now], x, y, width, height)
+        batch!!.draw(frames[now], x, y, originX, originY, width, height, scaleX, scaleY, rotation)
     }
 }

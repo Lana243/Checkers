@@ -75,12 +75,27 @@ object GUIConstants {
     const val exitButtonDownPath: String = "ExitDown.png"
     const val exitButtonX: Float = 700f
     const val exitButtonY: Float = 200f
+    const val exitButtonXE: Float = 100f
+    const val exitButtonYE: Float = 100f
     const val exitButtonWidth: Float = 400f
     const val exitButtonHeight: Float = 200f
     const val exitButtonXS: Float = 1220f
-    const val exitButtonYS: Float = 650f
+    const val exitButtonYS: Float = 625f
     const val exitButtonWidthS: Float = 200f
     const val exitButtonHeightS: Float = 100f
+    const val exitButtonWidthSE: Float = 300f
+    const val exitButtonHeightSE: Float = 150f
+
+    const val menuButtonUpPath: String = "MenuUp.png"
+    const val menuButtonDownPath: String = "MenuDown.png"
+    const val menuButtonX: Float = 1150f
+    const val menuButtonY: Float = 700f
+    const val menuButtonWidth: Float = 300f
+    const val menuButtonHeight: Float = 150f
+    const val menuButtonXS: Float = 1330f
+    const val menuButtonYS: Float = 500f
+    const val menuButtonWidthS: Float = 200f
+    const val menuButtonHeightS: Float = 100f
 
     const val red: Float = 0.90f
     const val green: Float = 0.96f
@@ -158,7 +173,7 @@ object GUIConstants {
     const val eatMaxInRow: Int = 4
 
 
-    /* ***Become queen methods*** */
+    /* ***Become queen constants*** */
 
     const val toCenterX: Float = 600f
     const val toCenterY: Float = 300f
@@ -167,4 +182,20 @@ object GUIConstants {
     const val scaleBackWidth: Float = 1f
     const val scaleBackHeight: Float = 1f
     const val smooth: Float = 0.8f
+
+    /* *** End game constants *** */
+
+    const val backImagePath: String = "Back.png"
+    const val backWidth: Float = 1600f
+    const val backHeight: Float = 900f
+    const val backPosX: Float = 0f
+    const val backPosY: Float = 0f
+    const val whiteWins: String = "Won.png"
+    const val blackWins: String = "Lose.png"
+    const val stateX: Float = 440f
+    const val stateY: Float = 370f
+    const val stateWidth: Float = 800f
+    const val stateHeight: Float = 250f
+    const val stateSmooth: Float = 1.2f
+
 }

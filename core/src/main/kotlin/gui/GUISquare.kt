@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import core.GameState
 
 
 class GUISquare(private val texture: Texture,
@@ -23,10 +24,10 @@ class GUISquare(private val texture: Texture,
         setSize(width, height)
     }
 
-    fun enableTouch(board: Board, square: GUISquare) {
+    fun enableTouch(board: Game.Board, square: GUISquare) {
         addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                board.becomeQueen(square.posX, square.posY)
+                board.changeState(GameState.BLACK_WINS)
                 /**
                  * Send(square.x)
                  * Send(square.y)
