@@ -10,6 +10,11 @@ object GUIConstants {
 
     const val checkerImagePath: String = "menu_checker.png"
     const val checkerTextPath: String = "checkers_text.png"
+    const val starPath: String = "Star.png"
+    const val starPath2: String = "Star2.png"
+    const val starPath3: String = "Star3.png"
+    const val starPath4: String = "Star4.png"
+    const val starPath5: String = "Star5.png"
     const val checkerImageX: Float = 150f
     const val checkerImageY: Float = 150f
     const val checkerImageSize: Float = 1.3f
@@ -17,6 +22,30 @@ object GUIConstants {
     const val checkerTextX: Float = 250f
     const val checkerTextY: Float = 420f
     const val checkerTextSize: Float = 0.2f
+    const val starX: Float = 1070f
+    const val starY: Float = 350f
+    const val starSize: Float = 320f
+    const val starSmooth: Float = 0.8f
+    const val starX2: Float = 70f
+    const val starY2: Float = 640f
+    const val starSize2: Float = 280f
+    const val starSmooth2: Float = 1.3f
+    const val starX3: Float = 1310f
+    const val starY3: Float = 130f
+    const val starSize3: Float = 270f
+    const val starSmooth3: Float = 0.85f
+    const val starX4: Float = 1370f
+    const val starY4: Float = 670f
+    const val starSize4: Float = 200f
+    const val starSmooth4: Float = 1.5f
+    const val starX5: Float = 450f
+    const val starY5: Float = 80f
+    const val starSize5: Float = 230f
+    const val starSmooth5: Float = 0.55f
+    const val scaleToStarW: Float = 1.04f
+    const val scaleToStarH: Float = 1.04f
+    const val scaleFromStarW: Float = 1f
+    const val scaleFromStarH: Float = 1f
 
     /* ***Download constants*** */
 
