@@ -24,10 +24,10 @@ class GUISquare(private val texture: Texture,
         setSize(width, height)
     }
 
-    fun enableTouch(board: Game.Board, square: GUISquare) {
+    fun enableTouch(board: Checkers.Board) {
         addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                board.changeState(GameState.BLACK_WINS)
+                board.changeState(GameState.WHITE_WINS)
                 /**
                  * Send(square.x)
                  * Send(square.y)

@@ -1,6 +1,5 @@
 package gui
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
@@ -17,11 +16,13 @@ import core.GameState
 import kotlin.system.exitProcess
 
 
-class Game(val game: Game) : Screen {
+class Checkers(val game: gui.Game,
+               var colorPlayer: Color) : Screen {
 
     lateinit var board: Board
     lateinit var stage: Stage
     lateinit var group: Group
+
     private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
             Texture(GUIConstants.newGameButtonDownPath),
             GUIConstants.newGameButtonXS, GUIConstants.newGameButtonYS,
@@ -55,16 +56,7 @@ class Game(val game: Game) : Screen {
     }
 
     fun gameEnd(state: GameState) {
-
-        val texture: Texture = if (state == GameState.BLACK_WINS) {
-            Texture(GUIConstants.blackWins)
-        } else {
-            Texture(GUIConstants.whiteWins)
-        }
-        val stateAction = PopActor(GUIConstants.stateX, GUIConstants.stateY,
-                GUIConstants.stateWidth, GUIConstants.stateHeight,
-                TextureRegion(texture), GUIConstants.stateSmooth)
-        game.screen = EndGame(game, stateAction)
+        game.setWinner(state)
     }
 
     private fun placeChecker(checkerTexture: Texture, guiSquare: GUISquare, color: Color, sizeX: Int, sizeY: Int) {
@@ -78,14 +70,14 @@ class Game(val game: Game) : Screen {
 
     private fun addSquareListener(square: GUISquare) {
         square.touchable = Touchable.enabled;
-        square.enableTouch(board, square)
+        square.enableTouch(board)
     }
 
     private fun setButtons() {
 
         newGameButton.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = Game(game)
+                game.setNewGame()
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -105,7 +97,7 @@ class Game(val game: Game) : Screen {
 
         menuButton.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = Menu(game)
+                game.setMenu()
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -142,12 +134,24 @@ class Game(val game: Game) : Screen {
                 if (((i + j) % GUIConstants.evenSquare == 0) &&
                         ((j <= GUIConstants.myLastRow) || (j >= GUIConstants.oppositeFirstRow))) {
                     if (j <= GUIConstants.myLastRow) {
-                        placeChecker(Texture(GUIConstants.whiteCheckerPath), square, Color.WHITE,
-                                GUIConstants.whiteCheckerSizeX, GUIConstants.whiteCheckerSizeY)
+                        if (colorPlayer == Color.WHITE) {
+                            placeChecker(Texture(GUIConstants.whiteCheckerPath), square, Color.WHITE,
+                                    GUIConstants.whiteCheckerSizeX, GUIConstants.whiteCheckerSizeY)
+                        } else {
+                            placeChecker(Texture(GUIConstants.blackCheckerPath), square, Color.BLACK,
+                                    GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
+                        }
                     } // place white
                     if (j >= GUIConstants.oppositeFirstRow) {
-                        placeChecker(Texture(GUIConstants.blackCheckerPath), square, Color.BLACK,
-                                GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
+                        if (colorPlayer == Color.WHITE) {
+                            placeChecker(Texture(GUIConstants.blackCheckerPath), square, Color.BLACK,
+                                    GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
+                        } else {
+                            placeChecker(Texture(GUIConstants.whiteCheckerPath), square, Color.WHITE,
+                                    GUIConstants.whiteCheckerSizeX, GUIConstants.whiteCheckerSizeY)
+
+                        }
+
                     } //place black
                 }
                 board.squares[i].add(square)

@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import kotlin.system.exitProcess
 
-class Menu(private val game: com.badlogic.gdx.Game) : Screen {
+class Menu(private val game: gui.Game) : Screen {
 
     lateinit var stage: Stage
     private lateinit var batch: SpriteBatch
@@ -21,6 +21,7 @@ class Menu(private val game: com.badlogic.gdx.Game) : Screen {
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
     lateinit var titleSprite: Sprite
+
     private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
             Texture(GUIConstants.newGameButtonDownPath),
             GUIConstants.newGameButtonX, GUIConstants.newGameButtonY,
@@ -30,6 +31,12 @@ class Menu(private val game: com.badlogic.gdx.Game) : Screen {
             Texture(GUIConstants.exitButtonDownPath),
             GUIConstants.exitButtonX, GUIConstants.exitButtonY,
             GUIConstants.exitButtonWidth, GUIConstants.exitButtonHeight)
+
+    private val colorButton = Button(Texture(GUIConstants.colorButtonUpPath),
+            Texture(GUIConstants.colorButtonDownPath),
+            GUIConstants.colorButtonX, GUIConstants.colorButtonY,
+            GUIConstants.colorButtonWidth, GUIConstants.colorButtonHeight)
+
 
     /***
      *This what should draw when gamer push "New Game" button and wait but smth went wrong
@@ -50,7 +57,7 @@ class Menu(private val game: com.badlogic.gdx.Game) : Screen {
 
         newGameButton.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = Game(game)
+                game.setNewGame()
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -68,8 +75,19 @@ class Menu(private val game: com.badlogic.gdx.Game) : Screen {
             }
         })
 
+        colorButton.addListener(object : ClickListener() {
+            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
+                game.chooseColor()
+            }
+
+            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                return true
+            }
+        })
+
         stage.addActor(newGameButton)
         stage.addActor(exitButton)
+        stage.addActor(colorButton)
     }
 
     private fun setBackGround() {
@@ -90,15 +108,15 @@ class Menu(private val game: com.badlogic.gdx.Game) : Screen {
                 titleSprite.height * GUIConstants.checkerTextSize)
 
         stage.addActor(PopActor(GUIConstants.starX, GUIConstants.starY, GUIConstants.starSize, GUIConstants.starSize,
-                TextureRegion(Texture(GUIConstants.starPath)), GUIConstants.starSmooth))
+                TextureRegion(Texture(GUIConstants.starPath)), GUIConstants.starSmooth, game))
         stage.addActor(PopActor(GUIConstants.starX2, GUIConstants.starY2, GUIConstants.starSize2, GUIConstants.starSize2,
-                TextureRegion(Texture(GUIConstants.starPath2)), GUIConstants.starSmooth2))
+                TextureRegion(Texture(GUIConstants.starPath2)), GUIConstants.starSmooth2, game))
         stage.addActor(PopActor(GUIConstants.starX3, GUIConstants.starY3, GUIConstants.starSize3, GUIConstants.starSize3,
-                TextureRegion(Texture(GUIConstants.starPath3)), GUIConstants.starSmooth3))
+                TextureRegion(Texture(GUIConstants.starPath3)), GUIConstants.starSmooth3, game))
         stage.addActor(PopActor(GUIConstants.starX4, GUIConstants.starY4, GUIConstants.starSize4, GUIConstants.starSize4,
-                TextureRegion(Texture(GUIConstants.starPath4)), GUIConstants.starSmooth4))
+                TextureRegion(Texture(GUIConstants.starPath4)), GUIConstants.starSmooth4, game))
         stage.addActor(PopActor(GUIConstants.starX5, GUIConstants.starY5, GUIConstants.starSize5, GUIConstants.starSize5,
-                TextureRegion(Texture(GUIConstants.starPath5)), GUIConstants.starSmooth5))
+                TextureRegion(Texture(GUIConstants.starPath5)), GUIConstants.starSmooth5, game))
     }
 
     override fun show() {

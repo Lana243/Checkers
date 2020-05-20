@@ -1,24 +1,26 @@
 package gui
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import core.GameState
 import kotlin.system.exitProcess
 
-class EndGame(val game: Game, private val state: PopActor) : Screen {
+class EndGame(val game: Game, private val state: GameState) : Screen {
 
     lateinit var stage: Stage
     lateinit var back: Texture
     lateinit var batch: SpriteBatch
     lateinit var backSprite: Sprite
+
     private val menuButton = Button(Texture(GUIConstants.menuButtonUpPath),
             Texture(GUIConstants.menuButtonDownPath),
             GUIConstants.menuButtonX, GUIConstants.menuButtonY,
@@ -42,7 +44,7 @@ class EndGame(val game: Game, private val state: PopActor) : Screen {
     private fun setButtons() {
         menuButton.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = Menu(game)
+                game.setMenu()
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -64,13 +66,25 @@ class EndGame(val game: Game, private val state: PopActor) : Screen {
         stage.addActor(exitButton)
     }
 
+    private fun textAction() {
+        val texture: Texture = if (state == GameState.BLACK_WINS) {
+            Texture(GUIConstants.blackWins)
+        } else {
+            Texture(GUIConstants.whiteWins)
+        }
+        val stateAction = PopActor(GUIConstants.stateX, GUIConstants.stateY,
+                GUIConstants.stateWidth, GUIConstants.stateHeight,
+                TextureRegion(texture), GUIConstants.stateSmooth, game)
+        stage.addActor(stateAction)
+    }
+
     override fun show() {
         batch = SpriteBatch()
         stage = Stage(ScreenViewport())
         Gdx.input.inputProcessor = stage
-        stage.addActor(state)
         setBackGround()
         setButtons()
+        textAction()
     }
 
     override fun render(delta: Float) {

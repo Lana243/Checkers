@@ -7,18 +7,21 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import core.Color
 
-class PopActor(posX: Float,
-               posY: Float,
-               setWidth: Float,
-               setHeight: Float,
-               private val texture: TextureRegion,
-               private val smooth: Float,
-               private val sequence: SequenceAction = SequenceAction(
-                       Actions.scaleTo(GUIConstants.scaleToStarW, GUIConstants.scaleToStarH, smooth),
-                       Actions.scaleTo(GUIConstants.scaleFromStarW, GUIConstants.scaleFromStarH, smooth)
-               ),
-               private val infiniteLoop: RepeatAction = RepeatAction()) : Actor() {
+open class PopActor(posX: Float,
+                    posY: Float,
+                    setWidth: Float,
+                    setHeight: Float,
+                    private val texture: TextureRegion,
+                    private val smooth: Float,
+                    protected val game: Game,
+                    protected val color: Color = Color.WHITE,
+                    protected val sequence: SequenceAction = SequenceAction(
+                            Actions.scaleTo(GUIConstants.scaleToStarW, GUIConstants.scaleToStarH, smooth),
+                            Actions.scaleTo(GUIConstants.scaleFromStarW, GUIConstants.scaleFromStarH, smooth)
+                    ),
+                    protected val infiniteLoop: RepeatAction = RepeatAction()) : Actor() {
     init {
         x = posX
         y = posY
@@ -27,7 +30,7 @@ class PopActor(posX: Float,
         scale()
     }
 
-    private fun scale() {
+    open fun scale() {
         infiniteLoop.count = RepeatAction.FOREVER
         infiniteLoop.action = sequence
         addAction(infiniteLoop)
