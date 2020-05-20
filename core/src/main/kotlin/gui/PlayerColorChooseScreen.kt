@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.Color
 
-class PlayerColorChoose(val game: Game) : Screen {
+class PlayerColorChooseScreen(val game: Game) : Screen {
 
     lateinit var stage: Stage
     lateinit var back: Texture

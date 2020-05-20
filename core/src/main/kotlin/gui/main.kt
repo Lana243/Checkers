@@ -5,14 +5,14 @@ import core.GameState
 
 class Game : com.badlogic.gdx.Game() {
 
-    lateinit var menu: Menu
-    lateinit var choose: PlayerColorChoose
+    private lateinit var menuScreen: MenuScreen
+    lateinit var chooseScreen: PlayerColorChooseScreen
     private lateinit var gameColor: Color
 
     override fun create() {
         gameColor = Color.WHITE
-        menu = Menu(this)
-        choose = PlayerColorChoose(this)
+        menuScreen = MenuScreen(this)
+        chooseScreen = PlayerColorChooseScreen(this)
         setMenu()
     }
 
@@ -25,18 +25,18 @@ class Game : com.badlogic.gdx.Game() {
     }
 
     fun chooseColor() {
-        setScreen(choose)
+        setScreen(chooseScreen)
     }
 
     fun setMenu() {
-        setScreen(menu)
+        setScreen(menuScreen)
     }
 
     fun setNewGame() {
-        setScreen(Checkers(this, gameColor))
+        setScreen(CheckersScreen(this, gameColor))
     }
 
     fun setWinner(gameState: GameState) {
-        setScreen(EndGame(this, gameState))
+        setScreen(EndGameScreen(this, gameState))
     }
 }

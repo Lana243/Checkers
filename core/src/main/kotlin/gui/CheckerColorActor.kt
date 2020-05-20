@@ -31,7 +31,7 @@ class CheckerColorActor(posX: Float,
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
                 game.setColor(color)
                 scale()
-                game.choose.changeState(state)
+                game.chooseScreen.changeState(state)
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {

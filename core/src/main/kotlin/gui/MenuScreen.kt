@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import kotlin.system.exitProcess
 
-class Menu(private val game: gui.Game) : Screen {
+class MenuScreen(private val game: gui.Game) : Screen {
 
     lateinit var stage: Stage
     private lateinit var batch: SpriteBatch

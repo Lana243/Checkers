@@ -24,7 +24,7 @@ class GUISquare(private val texture: Texture,
         setSize(width, height)
     }
 
-    fun enableTouch(board: Checkers.Board) {
+    fun enableTouch(board: CheckersScreen.Board) {
         addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
                 board.changeState(GameState.WHITE_WINS)

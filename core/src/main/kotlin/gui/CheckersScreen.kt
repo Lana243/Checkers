@@ -16,8 +16,8 @@ import core.GameState
 import kotlin.system.exitProcess
 
 
-class Checkers(val game: gui.Game,
-               var colorPlayer: Color) : Screen {
+class CheckersScreen(val game: gui.Game,
+                     var colorPlayer: Color) : Screen {
 
     lateinit var board: Board
     lateinit var stage: Stage
@@ -38,8 +38,8 @@ class Checkers(val game: gui.Game,
             GUIConstants.menuButtonWidthS, GUIConstants.menuButtonHeightS)
 
 
-    private fun setBoardEat(color: Color, x: Float, y: Float, texture: Texture): EatBoard {
-        val eatBoard = EatBoard(texture, color, x + GUIConstants.eatBoardDeltaX,
+    private fun setBoardEat(color: Color, x: Float, y: Float, texture: Texture): EatenCheckersBoard {
+        val eatBoard = EatenCheckersBoard(texture, color, x + GUIConstants.eatBoardDeltaX,
                 y + GUIConstants.eatBoardDeltaY, x + GUIConstants.eatBoardDeltaX,
                 x, y, GUIConstants.eatBoardZ, GUIConstants.eatBoardWidth, GUIConstants.eatBoardHeight)
         group.addActor(eatBoard)
@@ -161,8 +161,8 @@ class Checkers(val game: gui.Game,
         stage.addActor(group)
     }
 
-    inner class Board(private val blackEatBoard: EatBoard,
-                      private val whiteEatBoard: EatBoard,
+    inner class Board(private val blackEatenCheckersBoard: EatenCheckersBoard,
+                      private val whiteEatenCheckersBoard: EatenCheckersBoard,
                       val squares: MutableList<MutableList<GUISquare>> =
                               MutableList(GUIConstants.boardHeight) { mutableListOf<GUISquare>() }) {
 
@@ -172,15 +172,15 @@ class Checkers(val game: gui.Game,
             squares[toX][toY].checker!!.move(squares[toX][toY].x, squares[toX][toY].y)
         }
 
-        private fun replaceEat(eatBoard: EatBoard, posX: Int, posY: Int) {
-            squares[posX][posY].checker!!.move(eatBoard.lastX, eatBoard.lastY)
-            eatBoard.place()
+        private fun replaceEat(eatenCheckersBoard: EatenCheckersBoard, posX: Int, posY: Int) {
+            squares[posX][posY].checker!!.move(eatenCheckersBoard.lastX, eatenCheckersBoard.lastY)
+            eatenCheckersBoard.place()
             squares[posX][posY].checker = null
         }
 
         fun eat(posX: Int, posY: Int) {
-            replaceEat(if (squares[posX][posY].checker!!.color == Color.WHITE) blackEatBoard
-            else whiteEatBoard, posX, posY)
+            replaceEat(if (squares[posX][posY].checker!!.color == Color.WHITE) blackEatenCheckersBoard
+            else whiteEatenCheckersBoard, posX, posY)
         }
 
         fun becomeQueen(posX: Int, posY: Int) {

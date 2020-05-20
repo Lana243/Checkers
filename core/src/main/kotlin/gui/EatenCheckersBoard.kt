@@ -5,16 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import core.Color
 
-class EatBoard(private val texture: Texture,
-               val color: Color,
-               var lastX: Float,
-               var lastY: Float,
-               private val firstX: Float,
-               posX: Float,
-               posY: Float,
-               index: Int,
-               setWidth: Float,
-               setHeight: Float) : Actor() {
+class EatenCheckersBoard(private val texture: Texture,
+                         val color: Color,
+                         var lastX: Float,
+                         var lastY: Float,
+                         private val firstX: Float,
+                         posX: Float,
+                         posY: Float,
+                         index: Int,
+                         setWidth: Float,
+                         setHeight: Float) : Actor() {
 
     var inRow: Int = GUIConstants.initEatInRow
     var inCol: Int = GUIConstants.initEatInCol

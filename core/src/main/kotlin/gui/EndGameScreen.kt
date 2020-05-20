@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.GameState
 import kotlin.system.exitProcess
 
-class EndGame(val game: Game, private val state: GameState) : Screen {
+class EndGameScreen(val game: Game, private val state: GameState) : Screen {
 
     lateinit var stage: Stage
     lateinit var back: Texture
