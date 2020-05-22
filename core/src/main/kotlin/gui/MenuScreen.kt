@@ -2,7 +2,9 @@ package gui
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.PerspectiveCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -10,8 +12,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import com.badlogic.gdx.utils.viewport.Viewport
 import kotlin.system.exitProcess
+
 
 class MenuScreen(private val game: gui.Game) : Screen {
 
@@ -21,6 +26,9 @@ class MenuScreen(private val game: gui.Game) : Screen {
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
     lateinit var titleSprite: Sprite
+    private lateinit var viewport: Viewport
+    private lateinit var camera: Camera
+
 
     private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
             Texture(GUIConstants.newGameButtonDownPath),
@@ -36,22 +44,6 @@ class MenuScreen(private val game: gui.Game) : Screen {
             Texture(GUIConstants.colorButtonDownPath),
             GUIConstants.colorButtonX, GUIConstants.colorButtonY,
             GUIConstants.colorButtonWidth, GUIConstants.colorButtonHeight)
-
-
-    /***
-     *This what should draw when gamer push "New Game" button and wait but smth went wrong
-     *  and I still don't understand properly how traits are working(in my interpretation they don't work at all)
-     */
-    private fun waitMenu() {
-        newGameButton.remove()
-        exitButton.remove()
-        checkerSprite.setColor(0f, 0f, 0f, 0f)
-        titleSprite.setColor(0f, 0f, 0f, 0f)
-        stage.addActor(Download(GUIConstants.downloadPosX, GUIConstants.downloadPosY,
-                GUIConstants.downloadPosWidth, GUIConstants.downloadPosHeight,
-                TextureRegion(Texture(GUIConstants.downloadPath),
-                        GUIConstants.downloadSize, GUIConstants.downloadSize)))
-    }
 
     private fun setButtons() {
 
@@ -120,6 +112,8 @@ class MenuScreen(private val game: gui.Game) : Screen {
     }
 
     override fun show() {
+        camera = PerspectiveCamera()
+        viewport = FitViewport(800f, 480f, camera)
         batch = SpriteBatch()
         stage = Stage(ScreenViewport())
         Gdx.input.inputProcessor = stage
@@ -150,6 +144,10 @@ class MenuScreen(private val game: gui.Game) : Screen {
 
     override fun resume() {}
 
-    override fun resize(width: Int, height: Int) {}
+    override fun resize(width: Int, height: Int) {
+        viewport.update(width, height);
+        //stage.setViewport(getFitViewport(stage.getCamera()));
+        stage.viewport.update(width, height, true)
+    }
 
 }

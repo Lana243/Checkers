@@ -39,8 +39,6 @@ class Button(
                 return true
             }
         })
-
-
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {

@@ -9,6 +9,7 @@ object GUIConstants {
 
     const val checkerImagePath: String = "menu_checker.png"
     const val checkerTextPath: String = "checkers_text.png"
+    const val backWaitImagePath: String = "Wait.png"
     const val starPath: String = "Star.png"
     const val starPath2: String = "Star2.png"
     const val starPath3: String = "Star3.png"
