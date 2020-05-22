@@ -37,9 +37,7 @@ class CheckersGUIGame(val model: CheckersModel, val board: CheckersScreen.Board,
                     board.becomeQueen(turnResult.to.first, turnResult.to.second)
                 }
             }
-            break;
         }
-        model.gameState = GameState.WHITE_WINS
         board.changeState(model.gameState)
         return model.gameState
 //        println(model.gameState.toString())
