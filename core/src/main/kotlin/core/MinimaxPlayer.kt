@@ -13,7 +13,7 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
 
     var recCount = 0
 
-    override fun makeTurn(model: CheckersModel): BaseTurn {
+    override suspend fun makeTurn(model: CheckersModel): BaseTurn {
         if (model.possibleTurns().size == 1) {
             return model.possibleTurns()[0]
         }

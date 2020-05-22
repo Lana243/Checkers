@@ -116,7 +116,7 @@ object GUIConstants {
     /* ***Init board constants*** */
 
     const val boardHeight: Int = 8
-    const val boardWeight: Int = 8
+    const val boardWidth: Int = 8
 
     const val squareZ: Int = 1000
     const val checkerZ: Int = 2000

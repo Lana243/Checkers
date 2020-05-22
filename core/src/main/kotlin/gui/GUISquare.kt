@@ -5,36 +5,31 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import core.GameState
 
 
 class GUISquare(private val texture: Texture,
-                val posX: Int,
-                val posY: Int,
+                val horizontal: Int,
+                val vertical: Int,
                 index: Int,
                 setPosX: Float,
                 setPosY: Float,
                 width: Float,
                 height: Float,
+                val game: Game,
                 var checker: Checker? = null) : Actor() {
 
     init {
         zIndex = index
         setPosition(setPosX, setPosY)
         setSize(width, height)
+
     }
 
     fun enableTouch(board: CheckersScreen.Board) {
         addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                board.changeState(GameState.WHITE_WINS)
-                /**
-                 * Send(square.x)
-                 * Send(square.y)
-                 * @wait for 'send to core data' method
-                 */
+                game.checkersScreen.guiPlayer.setXY(horizontal, vertical)
             }
-
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 return true

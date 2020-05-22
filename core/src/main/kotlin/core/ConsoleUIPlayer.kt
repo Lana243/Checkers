@@ -8,7 +8,7 @@ enum class InputType {
 class ConsoleUIPlayer(private val name : String,
                       col : Color,
                       private val inputType: InputType = InputType.STANDARD_CHESSBOARD_NOTATION) : BasePlayer<CheckersModel>(col) {
-    override fun makeTurn(model : CheckersModel): BaseTurn {
+    override suspend fun makeTurn(model: CheckersModel): BaseTurn {
         println("Player $name - it's your turn.")
         while (true) {
             try {

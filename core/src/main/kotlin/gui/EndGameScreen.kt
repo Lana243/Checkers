@@ -12,14 +12,24 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.GameState
+import java.util.logging.Level
+import java.util.logging.Logger
 import kotlin.system.exitProcess
 
 class EndGameScreen(val game: Game, private val state: GameState) : Screen {
+
+    init {
+        logger.log(Level.INFO, "EndGameScreen's constructor")
+    }
 
     lateinit var stage: Stage
     lateinit var back: Texture
     lateinit var batch: SpriteBatch
     lateinit var backSprite: Sprite
+
+    companion object {
+        private val logger = Logger.getLogger(this::class.simpleName)
+    }
 
     private val menuButton = Button(Texture(GUIConstants.menuButtonUpPath),
             Texture(GUIConstants.menuButtonDownPath),

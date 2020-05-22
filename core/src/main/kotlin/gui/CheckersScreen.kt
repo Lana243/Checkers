@@ -11,8 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
-import core.Color
-import core.GameState
+import core.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.logging.Level
+import java.util.logging.Logger
 import kotlin.system.exitProcess
 
 
@@ -22,6 +25,13 @@ class CheckersScreen(val game: gui.Game,
     lateinit var board: Board
     lateinit var stage: Stage
     lateinit var group: Group
+
+    companion object {
+        private val logger = Logger.getLogger(this::class.simpleName)
+    }
+
+    val guiPlayer = GUIPlayer(colorPlayer)
+    private lateinit var gameModel: CheckersGUIGame
 
     private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
             Texture(GUIConstants.newGameButtonDownPath),
@@ -56,6 +66,7 @@ class CheckersScreen(val game: gui.Game,
     }
 
     fun gameEnd(state: GameState) {
+        logger.log(Level.INFO, "The game is ended!")
         game.setWinner(state)
     }
 
@@ -118,7 +129,7 @@ class CheckersScreen(val game: gui.Game,
 
         board = Board(blackEatBoard, whiteEatBoard)
         for (i in 0 until GUIConstants.boardHeight) {
-            for (j in 0 until GUIConstants.boardWeight) {
+            for (j in 0 until GUIConstants.boardWidth) {
                 val texture: Texture = if ((i + j) % GUIConstants.evenSquare == 0) {
                     Texture(GUIConstants.blackSquarePath)
                 } else {
@@ -126,31 +137,31 @@ class CheckersScreen(val game: gui.Game,
                 }
                 texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
                 val square = GUISquare(texture, i, j, GUIConstants.squareZ,
-                        i * GUIConstants.squareSpaceX + GUIConstants.squareLeftCornerX,
-                        j * GUIConstants.squareSpaceY + GUIConstants.squareLeftCornerY,
-                        GUIConstants.squareWidth, GUIConstants.squareHeight)
+                        j * GUIConstants.squareSpaceX + GUIConstants.squareLeftCornerX,
+                        i * GUIConstants.squareSpaceY + GUIConstants.squareLeftCornerY,
+                        GUIConstants.squareWidth, GUIConstants.squareHeight, game)
                 addSquareListener(square)
                 group.addActor(square)
                 if (((i + j) % GUIConstants.evenSquare == 0) &&
-                        ((j <= GUIConstants.myLastRow) || (j >= GUIConstants.oppositeFirstRow))) {
-                    if (j <= GUIConstants.myLastRow) {
-                        if (colorPlayer == Color.WHITE) {
-                            placeChecker(Texture(GUIConstants.whiteCheckerPath), square, Color.WHITE,
-                                    GUIConstants.whiteCheckerSizeX, GUIConstants.whiteCheckerSizeY)
-                        } else {
+                        ((i <= GUIConstants.myLastRow) || (i >= GUIConstants.oppositeFirstRow))) {
+                    if (i <= GUIConstants.myLastRow) {
+                        //if (colorPlayer == Color.WHITE) {
+                        placeChecker(Texture(GUIConstants.whiteCheckerPath), square, Color.WHITE,
+                                GUIConstants.whiteCheckerSizeX, GUIConstants.whiteCheckerSizeY)
+                        /*} else {
                             placeChecker(Texture(GUIConstants.blackCheckerPath), square, Color.BLACK,
                                     GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
-                        }
+                        }*/
                     } // place white
-                    if (j >= GUIConstants.oppositeFirstRow) {
-                        if (colorPlayer == Color.WHITE) {
-                            placeChecker(Texture(GUIConstants.blackCheckerPath), square, Color.BLACK,
-                                    GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
-                        } else {
+                    if (i >= GUIConstants.oppositeFirstRow) {
+                        //if (colorPlayer == Color.WHITE) {
+                        placeChecker(Texture(GUIConstants.blackCheckerPath), square, Color.BLACK,
+                                GUIConstants.blackCheckerSizeX, GUIConstants.blackCheckerSizeY)
+                        /*} else {
                             placeChecker(Texture(GUIConstants.whiteCheckerPath), square, Color.WHITE,
                                     GUIConstants.whiteCheckerSizeX, GUIConstants.whiteCheckerSizeY)
 
-                        }
+                        }*/
 
                     } //place black
                 }
@@ -159,6 +170,17 @@ class CheckersScreen(val game: gui.Game,
         }
         setButtons()
         stage.addActor(group)
+
+        gameModel = if (colorPlayer == Color.WHITE)
+            CheckersGUIGame(CheckersModel(),
+                    board,
+                    guiPlayer,
+                    MinimaxAlphaBetaPlayer("AlphaBeta", Color.BLACK, 10))
+        else
+            CheckersGUIGame(CheckersModel(),
+                    board,
+                    MinimaxAlphaBetaPlayer("AlphaBeta", Color.WHITE, 10),
+                    guiPlayer)
     }
 
     inner class Board(private val blackEatenCheckersBoard: EatenCheckersBoard,
@@ -166,7 +188,13 @@ class CheckersScreen(val game: gui.Game,
                       val squares: MutableList<MutableList<GUISquare>> =
                               MutableList(GUIConstants.boardHeight) { mutableListOf<GUISquare>() }) {
 
-        fun turn(fromX: Int, fromY: Int, toX: Int, toY: Int) {
+
+        fun turn(turn: BaseTurn) {
+            turn(turn.from.first, turn.from.second, turn.to.first, turn.to.second)
+        }
+
+        private fun turn(fromX: Int, fromY: Int, toX: Int, toY: Int) {
+            logger.log(Level.INFO, "Try to show turn: $fromX, $fromY to $toX $toY")
             squares[toX][toY].checker = squares[fromX][fromY].checker
             squares[fromX][fromY].checker = null
             squares[toX][toY].checker!!.move(squares[toX][toY].x, squares[toX][toY].y)
@@ -193,12 +221,14 @@ class CheckersScreen(val game: gui.Game,
 
     }
 
-
     override fun show() {
         stage = Stage(ScreenViewport())
         group = Group()
         Gdx.input.inputProcessor = stage
         initStage()
+        GlobalScope.launch {
+            gameModel.play()
+        }
     }
 
     override fun render(delta: Float) {

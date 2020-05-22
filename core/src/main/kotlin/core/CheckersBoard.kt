@@ -1,7 +1,7 @@
 package core
 
 data class CheckersBoard(val boardSize: Int) : BaseBoard {
-    private val board = Array(boardSize * boardSize) {i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) Color.BLACK else Color.WHITE)}
+    private val board = Array(boardSize * boardSize) { i -> Square(if ((i / boardSize + i % boardSize) % 2 == 0) Color.BLACK else Color.WHITE, i / boardSize, i % boardSize) }
 
     init {
         setStartPosition()

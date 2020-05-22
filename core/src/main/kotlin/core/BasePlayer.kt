@@ -1,5 +1,5 @@
 package core
 
 abstract class BasePlayer<ModelT : BaseModel>(val color : Color) {
-    abstract fun makeTurn(model : ModelT) : BaseTurn
+    abstract suspend fun makeTurn(model: ModelT): BaseTurn
 }

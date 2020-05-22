@@ -2,13 +2,20 @@ package gui
 
 import core.Color
 import core.GameState
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class Game : com.badlogic.gdx.Game() {
 
     private lateinit var menuScreen: MenuScreen
     private lateinit var waitScreen: DownloadScreen
+    lateinit var checkersScreen: CheckersScreen
     lateinit var chooseScreen: PlayerColorChooseScreen
     private lateinit var gameColor: Color
+
+    companion object {
+        private val logger = Logger.getLogger(this::class.simpleName)
+    }
 
     override fun create() {
         gameColor = Color.WHITE
@@ -35,10 +42,12 @@ class Game : com.badlogic.gdx.Game() {
     }
 
     fun setNewGame() {
-        setScreen(CheckersScreen(this, gameColor))
+        checkersScreen = CheckersScreen(this, gameColor)
+        setScreen(checkersScreen)
     }
 
     fun setWinner(gameState: GameState) {
+        logger.log(Level.INFO, "setWinner()")
         setScreen(EndGameScreen(this, gameState))
     }
 }
