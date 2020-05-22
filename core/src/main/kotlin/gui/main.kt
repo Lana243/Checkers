@@ -2,7 +2,6 @@ package gui
 
 import core.Color
 import core.GameState
-import kotlin.concurrent.thread
 
 class Game : com.badlogic.gdx.Game() {
 
@@ -36,14 +35,7 @@ class Game : com.badlogic.gdx.Game() {
     }
 
     fun setNewGame() {
-        setScreen(waitScreen)
-        val v = thread {
-            //delay(1000)
-            println("lalala")
-            setScreen(CheckersScreen(this@Game, gameColor))
-        }
-        v.join()
-
+        setScreen(CheckersScreen(this, gameColor))
     }
 
     fun setWinner(gameState: GameState) {
