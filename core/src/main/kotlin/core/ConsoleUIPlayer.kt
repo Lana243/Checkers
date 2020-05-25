@@ -45,6 +45,6 @@ class ConsoleUIPlayer(private val name : String,
     }
 
     override fun illegalTurn() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }
