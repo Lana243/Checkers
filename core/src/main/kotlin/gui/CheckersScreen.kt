@@ -19,7 +19,7 @@ import java.util.logging.Logger
 import kotlin.system.exitProcess
 
 
-class CheckersScreen(val game: gui.Game,
+class CheckersScreen(val game: Game,
                      var colorPlayer: Color) : Screen {
 
     lateinit var board: Board
@@ -80,7 +80,7 @@ class CheckersScreen(val game: gui.Game,
     }
 
     private fun addSquareListener(square: GUISquare) {
-        square.touchable = Touchable.enabled;
+        square.touchable = Touchable.enabled
         square.enableTouch(board)
     }
 
@@ -216,7 +216,8 @@ class CheckersScreen(val game: gui.Game,
         }
 
         fun changeState(state: GameState) {
-            gameEnd(state)
+            if (state != GameState.PLAYING)
+                gameEnd(state)
         }
 
     }
@@ -226,9 +227,6 @@ class CheckersScreen(val game: gui.Game,
         group = Group()
         Gdx.input.inputProcessor = stage
         initStage()
-        GlobalScope.launch {
-            gameModel.play()
-        }
     }
 
     override fun render(delta: Float) {

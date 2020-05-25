@@ -8,12 +8,13 @@ enum class InputType {
 class ConsoleUIPlayer(private val name : String,
                       col : Color,
                       private val inputType: InputType = InputType.STANDARD_CHESSBOARD_NOTATION) : BasePlayer<CheckersModel>(col) {
-    override suspend fun makeTurn(model: CheckersModel): BaseTurn {
+
+    override fun makeTurn() {
         println("Player $name - it's your turn.")
         while (true) {
             try {
                 val turn = readTurn()
-                return turn!!
+                baseGame.makeTurn(turn)
             } catch (e: Throwable) {
                 println("Invalid input. Please, try again")
             }
@@ -37,5 +38,13 @@ class ConsoleUIPlayer(private val name : String,
             }
         }
         throw Exception("Wrong turn")
+    }
+
+    override fun update() {
+        this.makeTurn()
+    }
+
+    override fun illegalTurn() {
+        //TODO("Not yet implemented")
     }
 }

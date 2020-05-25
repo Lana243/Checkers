@@ -28,7 +28,7 @@ class GUISquare(private val texture: Texture,
     fun enableTouch(board: CheckersScreen.Board) {
         addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.checkersScreen.guiPlayer.setXY(horizontal, vertical)
+                game.checkersScreen.guiPlayer.addXY(horizontal, vertical)
             }
 
             override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
