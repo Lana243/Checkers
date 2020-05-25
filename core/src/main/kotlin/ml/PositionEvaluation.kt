@@ -4,7 +4,7 @@ import core.CheckersModel
 import core.Color
 import core.FigureType
 
-class PositionEvaluation(val model: CheckersModel, val color: Color, val eval: Int) {
+class PositionEvaluation(val model: CheckersModel, val color: Color) {
     private val params = calc()
 
     val checkers = Pair(params[0], params[1])

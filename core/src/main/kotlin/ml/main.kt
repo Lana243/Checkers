@@ -4,7 +4,8 @@ import core.CheckersModel
 import core.Color
 
 fun main(args: Array<String>){
-    val m = DatasetCreator()
-    m.createDataset()
+    val model = CheckersModel()
+    val eval = PositionEvaluation(model, Color.WHITE)
+
 }
 
