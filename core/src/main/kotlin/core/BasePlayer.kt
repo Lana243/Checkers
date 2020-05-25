@@ -1,5 +1,11 @@
 package core
 
 abstract class BasePlayer<ModelT : BaseModel>(val color : Color) {
-    abstract suspend fun makeTurn(model: ModelT): BaseTurn
+    lateinit var baseGame: BaseGame
+    abstract fun makeTurn()
+    abstract fun update()
+    abstract fun illegalTurn()
+    fun setGame(game: BaseGame) {
+        this.baseGame = game
+    }
 }

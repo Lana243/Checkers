@@ -13,15 +13,21 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
 
     var recCount = 0
 
-    override suspend fun makeTurn(model: CheckersModel): BaseTurn {
-        if (model.possibleTurns().size == 1) {
-            return model.possibleTurns()[0]
+    override fun makeTurn() {
+        if (baseGame.getModel().possibleTurns().size == 1) {
+            baseGame.makeTurn(baseGame.getModel().possibleTurns()[0])
         }
-        val tmpModel = CheckersModel(model)
+        val tmpModel = CheckersModel(baseGame.getModel())
         recCount = 0
         val turn = minimaxRecursive(tmpModel, 0, maxDepth).second ?: throw Exception("Can't find move")
         logger.log(Level.INFO, "Number of recursive calls is $recCount")
-        return turn
+        baseGame.makeTurn(turn)
+    }
+
+    override fun illegalTurn() {}
+
+    override fun update() {
+        makeTurn()
     }
 
     protected class ModelRetainer (model: CheckersModel, turn: BaseTurn) {

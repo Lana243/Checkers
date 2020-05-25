@@ -6,7 +6,7 @@ import kotlinx.coroutines.async
 class CheckersGame(val model: CheckersModel, playerWhite: BasePlayer<CheckersModel>, playerBlack: BasePlayer<CheckersModel>) {
     private val players = Array(2) { i -> if (i == 0) playerWhite else playerBlack }
 
-    suspend fun play() {
+    /*fun play() {
         while (model.gameState == GameState.PLAYING) {
             model.board.print()
             val turn = GlobalScope.async { players[if (model.whoMoves == Color.WHITE) 0 else 1].makeTurn(model) }
@@ -19,5 +19,5 @@ class CheckersGame(val model: CheckersModel, playerWhite: BasePlayer<CheckersMod
             }
         }
         println(model.gameState.toString())
-    }
+    }*/
 }
