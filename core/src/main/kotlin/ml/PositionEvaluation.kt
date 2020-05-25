@@ -56,10 +56,14 @@ class PositionEvaluation(val model: CheckersModel, val color: Color) {
                     ans[4 + r]++
                 ans[6 + r] += j
                 ans[8 + r] += i
-                val neighbouringCheckers = countNeighbouringCheckers(i, j)
-                if (neighbouringCheckers >= 2)
+                val neighbouringCheckers = countNeighbouringCheckers(i, j, 1) to countNeighbouringCheckers(i, j, -1)
+                if (neighbouringCheckers.first >= 2)
                     ans[12 + r]++
-                if (neighbouringCheckers >= 3)
+                if (neighbouringCheckers.second >= 2)
+                    ans[12 + r]++
+                if (neighbouringCheckers.first >= 3)
+                    ans[14 + r]++
+                if (neighbouringCheckers.second >= 3)
                     ans[14 + r]++
                 val triangles = calcTriangles(i, j, 1) to calcTriangles(i, j, -1)
                 if (model.board[i, j].figure?.color == Color.WHITE) {
@@ -82,22 +86,16 @@ class PositionEvaluation(val model: CheckersModel, val color: Color) {
         return true
     }
 
-    private fun countNeighbouringCheckers(i: Int, j: Int) : Int {
-        var max = 0
-        for (dj in -1..1 step 2) {
-            var ans = 0
-            var ti = i
-            var tj = j
-            while (model.board.isValidCoords(ti, tj) && model.board[i, j].figure?.color == model.board[ti, tj].figure?.color) {
-                ans++
-                ti++
-                tj += dj
-            }
-            max = kotlin.math.max(max, ans)
-            if (max == 3)
-                break
+    private fun countNeighbouringCheckers(i: Int, j: Int, dj: Int) : Int {
+        var ans = 0
+        var ti = i
+        var tj = j
+        while (model.board.isValidCoords(ti, tj) && model.board[i, j].figure?.color == model.board[ti, tj].figure?.color) {
+            ans++
+            ti++
+            tj += dj
         }
-        return max
+        return ans
     }
 
     private fun calcTriangles(i: Int, j: Int, di: Int) : Int {
