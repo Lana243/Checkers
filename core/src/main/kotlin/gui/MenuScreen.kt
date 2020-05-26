@@ -99,16 +99,10 @@ class MenuScreen(private val game: gui.Game) : Screen {
                 titleSprite.width * GUIConstants.checkerTextSize,
                 titleSprite.height * GUIConstants.checkerTextSize)
 
-        stage.addActor(PopActor(GUIConstants.starX, GUIConstants.starY, GUIConstants.starSize, GUIConstants.starSize,
-                TextureRegion(Texture(GUIConstants.starPath)), GUIConstants.starSmooth, game))
-        stage.addActor(PopActor(GUIConstants.starX2, GUIConstants.starY2, GUIConstants.starSize2, GUIConstants.starSize2,
-                TextureRegion(Texture(GUIConstants.starPath2)), GUIConstants.starSmooth2, game))
-        stage.addActor(PopActor(GUIConstants.starX3, GUIConstants.starY3, GUIConstants.starSize3, GUIConstants.starSize3,
-                TextureRegion(Texture(GUIConstants.starPath3)), GUIConstants.starSmooth3, game))
-        stage.addActor(PopActor(GUIConstants.starX4, GUIConstants.starY4, GUIConstants.starSize4, GUIConstants.starSize4,
-                TextureRegion(Texture(GUIConstants.starPath4)), GUIConstants.starSmooth4, game))
-        stage.addActor(PopActor(GUIConstants.starX5, GUIConstants.starY5, GUIConstants.starSize5, GUIConstants.starSize5,
-                TextureRegion(Texture(GUIConstants.starPath5)), GUIConstants.starSmooth5, game))
+        for (i in 0 until GUIConstants.starPath.size) {
+            stage.addActor(PopActor(GUIConstants.starX[i], GUIConstants.starY[i], GUIConstants.starSize[i], GUIConstants.starSize[i],
+                TextureRegion(Texture(GUIConstants.starPath[i])), GUIConstants.starSmooth[i], game))
+        }
     }
 
     override fun show() {

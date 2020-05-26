@@ -1,5 +1,6 @@
 package gui
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -8,6 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import core.Color
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.logging.Level
+import java.util.logging.Logger
 
 
 class Checker(val color: Color,
@@ -16,11 +21,17 @@ class Checker(val color: Color,
               index: Int,
               setWidth: Float,
               setHeight: Float,
+              val screen: CheckersScreen,
               private var isQueen: Boolean = false,
               var transform: Boolean = false,
               private var time: Int = GUIConstants.initTime,
               private var stage: Int = GUIConstants.initStage,
-              val frames: MutableList<TextureRegion> = mutableListOf()) : Actor() {
+              val frames: MutableList<TextureRegion> = mutableListOf())
+    : Actor() {
+
+    companion object {
+        private val logger = Logger.getLogger(this::class.simpleName)
+    }
 
 
     init {
@@ -33,7 +44,10 @@ class Checker(val color: Color,
 
     fun move(toX: Float, toY: Float) {
         zIndex = GUIConstants.moveZ
+        logger.log(Level.INFO, "start to move")
         addAction(Actions.moveTo(toX, toY, GUIConstants.smooth))
+        Gdx.graphics.requestRendering()
+        logger.log(Level.INFO, "moved")
         zIndex = GUIConstants.checkerZ
     }
 
