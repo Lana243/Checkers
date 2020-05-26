@@ -175,12 +175,16 @@ class CheckersScreen(val game: Game,
             CheckersGUIGame(CheckersModel(),
                     board,
                     guiPlayer,
-                    MinimaxAlphaBetaPlayer("AlphaBeta", Color.BLACK, 10))
+                    MinimaxAlphaBetaPlayerWithVector("AB", Color.BLACK, 10, intArrayOf(31, -29, 290, -296, 10, 4, 0, 1, 8, -11, 2, -5, 2, 4, -5, -4, 0, -1, 1, 1, -26, -3, -4, 9, -2, -6, 8, 4, -4, 12))
+                    //MinimaxAlphaBetaPlayer("AlphaBeta", Color.BLACK, 10))
+            )
         else
             CheckersGUIGame(CheckersModel(),
                     board,
-                    MinimaxAlphaBetaPlayer("AlphaBeta", Color.WHITE, 10),
-                    guiPlayer)
+                    MinimaxAlphaBetaPlayerWithVector("AB", Color.WHITE, 10, intArrayOf(31, -29, 290, -296, 10, 4, 0, 1, 8, -11, 2, -5, 2, 4, -5, -4, 0, -1, 1, 1, -26, -3, -4, 9, -2, -6, 8, 4, -4, 12)),
+                    //MinimaxAlphaBetaPlayer("AlphaBeta", Color.WHITE, 10),
+                    guiPlayer
+            )
     }
 
     inner class Board(private val blackEatenCheckersBoard: EatenCheckersBoard,

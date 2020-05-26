@@ -19,11 +19,11 @@ class GeneticTesting {
     }
 
     val vecSize = 30
-    val bestSize = 4
-    val randomAdd = 3
+    val bestSize = 5
+    val randomAdd = 0
     val genSize = bestSize * (bestSize - 1) / 2 + bestSize + randomAdd
 
-    val baseVec: IntArray = arrayOf(3, -3, 30, -30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).toIntArray()
+    val baseVec: IntArray = arrayOf(30, -30, 300, -300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).toIntArray()
 
     inner class Generation() {
         var generation = ArrayList<Pair<IntArray, Int>>().toMutableList()
@@ -36,7 +36,7 @@ class GeneticTesting {
             for (i in 0 until genSize - 1) {
                 val vec = IntArray(vecSize)
                 for (j in 0 until vecSize) {
-                    vec[j] = Random.nextInt(-50, 50)
+                    vec[j] = Random.nextInt(-500, 500)
                 }
                 generation.add(vec to 0)
             }
@@ -63,7 +63,7 @@ class GeneticTesting {
             val newVec = IntArray(vecSize)
             for (i in 0 until vecSize) {
                 val d = Random.nextDouble(0.33, 0.95)
-                newVec[i] = (d * vec1[i].toDouble() + (1.0-d) * vec2[i].toDouble()).roundToInt()
+                newVec[i] = (d * vec1[i].toDouble() + (1.0-d) * vec2[i].toDouble()).roundToInt() + Random.nextInt(-1, 1)
             }
             return newVec
         }
