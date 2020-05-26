@@ -28,7 +28,8 @@ class GUIPlayer(color: Color) : core.BasePlayer<CheckersModel>(color) {
     }
 
     override fun illegalTurn() {
-        //TODO("Show message about this situation")
+        (baseGame as CheckersGUIGame).board.invalidTurn()
+        update()
     }
 
     private val cache = mutableListOf<Pair<Int, Int>>()

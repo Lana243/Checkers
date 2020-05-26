@@ -46,6 +46,9 @@ class CheckersScreen(val game: Game,
             Texture(GUIConstants.menuButtonDownPath),
             GUIConstants.menuButtonXS, GUIConstants.menuButtonYS,
             GUIConstants.menuButtonWidthS, GUIConstants.menuButtonHeightS)
+    private val invalidText = InvalidText(GUIConstants.invalidPosX, GUIConstants.invalidPosY,
+            GUIConstants.invalidPosWidth, GUIConstants.invalidPosHeight,
+            Texture(GUIConstants.invalidPath))
 
 
     private fun setBoardEat(color: Color, x: Float, y: Float, texture: Texture): EatenCheckersBoard {
@@ -73,7 +76,7 @@ class CheckersScreen(val game: Game,
     private fun placeChecker(checkerTexture: Texture, guiSquare: GUISquare, color: Color, sizeX: Int, sizeY: Int) {
         checkerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
         val checker = Checker(color, guiSquare.x, guiSquare.y, GUIConstants.checkerZ,
-                GUIConstants.checkerWidth, GUIConstants.checkerHeight)
+                GUIConstants.checkerWidth, GUIConstants.checkerHeight, this)
         setCheckerSpriteList(checker, checkerTexture, sizeX, sizeY)
         guiSquare.checker = checker
         group.addActor(checker)
@@ -169,6 +172,7 @@ class CheckersScreen(val game: Game,
             }
         }
         setButtons()
+        group.addActor(invalidText)
         stage.addActor(group)
 
         gameModel = if (colorPlayer == Color.WHITE)
@@ -197,11 +201,11 @@ class CheckersScreen(val game: Game,
             logger.log(Level.INFO, "Try to show turn: $fromX, $fromY to $toX $toY")
             squares[toX][toY].checker = squares[fromX][fromY].checker
             squares[fromX][fromY].checker = null
-            squares[toX][toY].checker!!.move(squares[toX][toY].x, squares[toX][toY].y)
+            squares[toX][toY].checker?.move(squares[toX][toY].x, squares[toX][toY].y)
         }
 
         private fun replaceEat(eatenCheckersBoard: EatenCheckersBoard, posX: Int, posY: Int) {
-            squares[posX][posY].checker!!.move(eatenCheckersBoard.lastX, eatenCheckersBoard.lastY)
+            squares[posX][posY].checker?.move(eatenCheckersBoard.lastX, eatenCheckersBoard.lastY)
             eatenCheckersBoard.place()
             squares[posX][posY].checker = null
         }
@@ -212,12 +216,16 @@ class CheckersScreen(val game: Game,
         }
 
         fun becomeQueen(posX: Int, posY: Int) {
-            squares[posX][posY].checker!!.turnIntoQueen(squares[posX][posY].x, squares[posX][posY].y)
+            squares[posX][posY].checker?.turnIntoQueen(squares[posX][posY].x, squares[posX][posY].y)
         }
 
         fun changeState(state: GameState) {
             if (state != GameState.PLAYING)
                 gameEnd(state)
+        }
+
+        fun invalidTurn() {
+            invalidText.setVisible()
         }
 
     }
@@ -227,6 +235,7 @@ class CheckersScreen(val game: Game,
         group = Group()
         Gdx.input.inputProcessor = stage
         initStage()
+        gameModel.start()
     }
 
     override fun render(delta: Float) {
@@ -234,6 +243,7 @@ class CheckersScreen(val game: Game,
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         stage.draw()
         stage.act()
+        board.changeState(gameModel.getModel().gameState)
     }
 
     override fun dispose() {

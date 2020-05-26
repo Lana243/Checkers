@@ -1,12 +1,18 @@
 package gui
 
+import com.badlogic.gdx.Gdx
 import core.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScreen.Board, playerWhite: BasePlayer<CheckersModel>, playerBlack: BasePlayer<CheckersModel>) : BaseGame{
+class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScreen.Board, playerWhite: BasePlayer<CheckersModel>, playerBlack: BasePlayer<CheckersModel>) : BaseGame {
     private val players = Array(2) { i -> if (i == 0) playerWhite else playerBlack }
+
     init {
         for (player in players) {
             player.setGame(this)
@@ -15,6 +21,10 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
 
     companion object {
         private val logger = Logger.getLogger(this::class.simpleName)
+    }
+
+    fun start() {
+        players[0].update()
     }
 
     override fun makeTurn(turn: BaseTurn) {
@@ -28,15 +38,22 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
         }
         board.turn(turn)
         if (canMoveResult != model.board[turn.from]) {
-            board.eat(canMoveResult.X, canMoveResult.Y)
+            GlobalScope.launch {
+                delay(1000)
+                board.eat(canMoveResult.X, canMoveResult.Y)
+            }
         }
         val typeBefore = model.board[turn.from].figure?.type
         model.move(turn)
         if (typeBefore != model.board[turn.to].figure?.type) {
             board.becomeQueen(turn.to.first, turn.to.second)
         }
-        board.changeState(model.gameState)
-        players[if (model.whoMoves == Color.WHITE) 0 else 1].update()
+        if (model.gameState == GameState.PLAYING) {
+            GlobalScope.launch {
+                delay(1000)
+                players[if (model.whoMoves == Color.WHITE) 0 else 1].update()
+            }
+        }
     }
 
     override fun getModel(): CheckersModel {
