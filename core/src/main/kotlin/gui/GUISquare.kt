@@ -22,7 +22,6 @@ class GUISquare(private val texture: Texture,
         zIndex = index
         setPosition(setPosX, setPosY)
         setSize(width, height)
-
     }
 
     fun enableTouch(board: CheckersScreen.Board) {

@@ -40,6 +40,15 @@ object GUIConstants {
     const val downloadSize: Int = 436
     const val downloadPath: String = "Wait.png"
 
+    /* ***Invalid constants *** */
+
+    const val invalidPath = "invalid.png"
+    const val invalidPosX: Float = 350f
+    const val invalidPosY: Float = 300f
+    const val invalidPosWidth: Float = 800f
+    const val invalidPosHeight: Float = 400f
+    const val invalidZIndex: Float = 10000f
+
     /* ***Button constants*** */
 
     const val newGameButtonUpPath: String = "NewGameUp.png"
@@ -204,8 +213,8 @@ object GUIConstants {
     const val blackCheckerChooseState: Int = 0
     const val checkerChooseX: Float = 100f
     const val checkerChooseY: Float = 100f
-    const val checkerChooseWF: Float = 719.7f
-    const val checkerChooseHF: Float = 128.55f
+    const val checkerChooseWF: Float = 1079f
+    const val checkerChooseHF: Float = 193f
     const val checkerChooseW: Int = 4798
     const val checkerChooseH: Int = 857
     const val checkerChoosePath: String = "textPlayer.png"
