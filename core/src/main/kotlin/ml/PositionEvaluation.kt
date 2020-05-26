@@ -5,7 +5,7 @@ import core.Color
 import core.FigureType
 
 class PositionEvaluation(val model: CheckersModel, val color: Color) {
-    private val params = calc()
+    val params = calc()
 
     val checkers = Pair(params[0], params[1])
     val queens = Pair(params[2], params[3])
@@ -20,14 +20,14 @@ class PositionEvaluation(val model: CheckersModel, val color: Color) {
     val triangles = Pair(params[16], params[17])
     val flippedTriangles = Pair(params[18], params[19])
 
-    val c5_f4 = calcSpecialPositions(4, 2)
-    val e5_d4 = calcSpecialPositions(4, 4)
-    val a7_h2 = calcSpecialPositions(6, 0)
-    val a3_h6 = calcSpecialPositions(2, 0)
-    val h4_a5 = calcSpecialPositions(3, 7)
+    lateinit var c5_f4: Pair<Int, Int>
+    lateinit var e5_d4: Pair<Int, Int>
+    lateinit var a7_h2: Pair<Int, Int>
+    lateinit var a3_h6: Pair<Int, Int>
+    lateinit var h4_a5: Pair<Int, Int>
 
     private fun calc() : IntArray {
-        val ans = IntArray(20, {0})
+        val ans = IntArray(30) {0}
         /**
          * ans[2 * i] for color player, ans[2 * i + 1] for adversary
          * ans[0] - number of checkers
@@ -74,6 +74,16 @@ class PositionEvaluation(val model: CheckersModel, val color: Color) {
                     ans[18 + r] += triangles.first
                 }
             }
+        c5_f4 = calcSpecialPositions(4, 2)
+        e5_d4 = calcSpecialPositions(4, 4)
+        a7_h2 = calcSpecialPositions(6, 0)
+        a3_h6 = calcSpecialPositions(2, 0)
+        h4_a5 = calcSpecialPositions(3, 7)
+        ans[20] = c5_f4.first; ans[21] = c5_f4.second
+        ans[22] = e5_d4.first; ans[23] = e5_d4.second
+        ans[24] = a7_h2.first; ans[25] = a7_h2.second
+        ans[26] = a3_h6.first; ans[27] = a3_h6.second
+        ans[28] = h4_a5.first; ans[29] = h4_a5.second
         return ans
     }
 

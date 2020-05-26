@@ -16,6 +16,7 @@ open class MinimaxPlayer(name: String, color: Color, private val maxDepth: Int) 
     override fun makeTurn() {
         if (baseGame.getModel().possibleTurns().size == 1) {
             baseGame.makeTurn(baseGame.getModel().possibleTurns()[0])
+            return
         }
         val tmpModel = CheckersModel(baseGame.getModel())
         recCount = 0
