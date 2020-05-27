@@ -12,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.logging.Level
 import java.util.logging.Logger
 import kotlin.system.exitProcess
@@ -206,9 +204,9 @@ class CheckersScreen(val game: Game,
                 }
             }
         } else {
-            for (i in GUIConstants.boardHeight - 1 downTo  0) {
-                for (j in GUIConstants.boardWidth - 1 downTo  0) {
-                    board.squares[GUIConstants.boardHeight - i - 1].add(helpSquares[i][j])
+            for (i in GUIConstants.boardHeight - 1 downTo 0) {
+                for (j in GUIConstants.boardWidth - 1 downTo 0) {
+                    board.squares[GUIConstants.boardHeight - 1 - i].add(helpSquares[i][j])
                 }
             }
         }
