@@ -47,7 +47,7 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
         board.turn(turn)
         if (canMoveResult != model.board[turn.from]) {
             Thread.sleep(1000)
-            board.eat(canMoveResult.X, canMoveResult.Y)
+            board.eat(canMoveResult.x, canMoveResult.y)
         }
         if (typeBefore != model.board[turn.to].figure?.type) {
             board.becomeQueen(turn.to.first, turn.to.second)
