@@ -72,8 +72,9 @@ class Checker(val color: Color,
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         if (batch == null) throw Exception()
+        val now: Int
         if (transform) {
-            batch.draw(frames[stage], x, y, originX, originY, width, height, scaleX, scaleY, rotation)
+            now = stage
             time++
             if (time == GUIConstants.maxTime) {
                 time = GUIConstants.initTime
@@ -84,11 +85,10 @@ class Checker(val color: Color,
                 isQueen = true
             }
         } else if (!isQueen) {
-            batch.draw(frames[GUIConstants.simpleChecker],
-                    x, y, originX, originY, width, height, scaleX, scaleY, rotation)
+            now = GUIConstants.simpleChecker
         } else {
-            batch.draw(frames[GUIConstants.queenChecker],
-                    x, y, originX, originY, width, height, scaleX, scaleY, rotation)
+            now = GUIConstants.queenChecker
         }
+        batch.draw(frames[now], x, y, originX, originY, width, height, scaleX, scaleY, rotation)
     }
 }

@@ -21,7 +21,9 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
     }
 
     fun start() {
-        players[0].update()
+        GlobalScope.launch {
+            players[0].update()
+        }
     }
 
     override fun makeTurn(turn: BaseTurn) {
@@ -33,21 +35,26 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
             players[if (model.whoMoves == Color.WHITE) 0 else 1].illegalTurn()
             return
         }
-        board.turn(turn)
-        if (canMoveResult != model.board[turn.from]) {
-            GlobalScope.launch {
-                delay(1000)
-                board.eat(canMoveResult.x, canMoveResult.y)
-            }
-        }
+
         val typeBefore = model.board[turn.from].figure?.type
         model.move(turn)
+
+        GlobalScope.launch {
+            delay(750)
+            board.setColor(model.whoMoves)
+        }
+
+        board.turn(turn)
+        if (canMoveResult != model.board[turn.from]) {
+            Thread.sleep(1000)
+            board.eat(canMoveResult.X, canMoveResult.Y)
+        }
         if (typeBefore != model.board[turn.to].figure?.type) {
             board.becomeQueen(turn.to.first, turn.to.second)
         }
         if (model.gameState == GameState.PLAYING) {
             GlobalScope.launch {
-                delay(1000)
+                delay(800)
                 players[if (model.whoMoves == Color.WHITE) 0 else 1].update()
             }
         }

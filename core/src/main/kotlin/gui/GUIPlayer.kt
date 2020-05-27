@@ -1,14 +1,10 @@
 package gui
 
-import com.badlogic.gdx.utils.compression.lzma.Base
-import core.BaseGame
 import core.BaseTurn
 import core.CheckersModel
 import core.Color
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import java.lang.Exception
+import kotlinx.coroutines.launch
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -19,8 +15,10 @@ class GUIPlayer(color: Color) : core.BasePlayer<CheckersModel>(color) {
     }
 
     override fun makeTurn() {
-        baseGame.makeTurn(BaseTurn(color, cache[0], cache[1]))
-        cache.clear()
+        GlobalScope.launch {
+            baseGame.makeTurn(BaseTurn(color, cache[0], cache[1]))
+            cache.clear()
+        }
     }
 
     override fun update() {

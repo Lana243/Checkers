@@ -16,13 +16,13 @@ object GUIConstants {
     const val checkerImageY: Float = 150f
     const val checkerImageSize: Float = 1.3f
     const val checkerImageRotation: Float = 15f
-    const val checkerTextX: Float = 250f
-    const val checkerTextY: Float = 420f
+    const val checkerTextX: Float = 300f
+    const val checkerTextY: Float = 480f
     const val checkerTextSize: Float = 0.2f
 
-    val starX = listOf(1070f, 70f, 1310f, 1370f, 450f)
-    val starY = listOf(350f, 640f, 130f, 670f, 80f)
-    val starSize = listOf(320f, 280f, 270f, 200f, 230f)
+    val starX = listOf(1100f, 70f, 1350f, 1450f, 450f)
+    val starY = listOf(350f, 640f, 100f, 650f, 80f)
+    val starSize = listOf(500f, 300f, 350f, 300f, 270f)
     val starSmooth = listOf(0.8f, 1.3f, 0.85f, 1.5f, 0.55f)
     const val scaleToStarW: Float = 1.04f
     const val scaleToStarH: Float = 1.04f
@@ -43,31 +43,31 @@ object GUIConstants {
     /* ***Invalid constants *** */
 
     const val invalidPath = "invalid.png"
-    const val invalidPosX: Float = 350f
+    const val invalidPosX: Float = 380f
     const val invalidPosY: Float = 300f
-    const val invalidPosWidth: Float = 800f
-    const val invalidPosHeight: Float = 400f
+    const val invalidPosWidth: Float = 1000f
+    const val invalidPosHeight: Float = 500f
     const val invalidZIndex: Float = 10000f
 
     /* ***Button constants*** */
 
     const val newGameButtonUpPath: String = "NewGameUp.png"
     const val newGameButtonDownPath: String = "NewGameDown.png"
-    const val newGameButtonX: Float = 560f
-    const val newGameButtonY: Float = 430f
-    const val newGameButtonWidth: Float = 400f
-    const val newGameButtonHeight: Float = 200f
-    const val newGameButtonXS: Float = 1280f
-    const val newGameButtonYS: Float = 760f
-    const val newGameButtonWidthS: Float = 200f
-    const val newGameButtonHeightS: Float = 100f
+    const val newGameButtonX: Float = 600f
+    const val newGameButtonY: Float = 500f
+    const val newGameButtonWidth: Float = 600f
+    const val newGameButtonHeight: Float = 300f
+    const val newGameButtonXS: Float = 1500f
+    const val newGameButtonYS: Float = 850f
+    const val newGameButtonWidthS: Float = 300f
+    const val newGameButtonHeightS: Float = 150f
 
     const val colorButtonUpPath: String = "ChooseUp.png"
     const val colorButtonDownPath: String = "ChooseDown.png"
     const val colorButtonX: Float = 1000f
     const val colorButtonY: Float = 275f
-    const val colorButtonWidth: Float = 320f
-    const val colorButtonHeight: Float = 160f
+    const val colorButtonWidth: Float = 400f
+    const val colorButtonHeight: Float = 200f
 
     const val exitButtonUpPath: String = "ExitUp.png"
     const val exitButtonDownPath: String = "ExitDown.png"
@@ -77,23 +77,23 @@ object GUIConstants {
     const val exitButtonYE: Float = 100f
     const val exitButtonWidth: Float = 260f
     const val exitButtonHeight: Float = 130f
-    const val exitButtonXS: Float = 1220f
-    const val exitButtonYS: Float = 625f
-    const val exitButtonWidthS: Float = 200f
-    const val exitButtonHeightS: Float = 100f
+    const val exitButtonXS: Float = 1350f
+    const val exitButtonYS: Float = 700f
+    const val exitButtonWidthS: Float = 300f
+    const val exitButtonHeightS: Float = 150f
     const val exitButtonWidthSE: Float = 300f
     const val exitButtonHeightSE: Float = 150f
 
     const val menuButtonUpPath: String = "MenuUp.png"
     const val menuButtonDownPath: String = "MenuDown.png"
-    const val menuButtonX: Float = 1150f
+    const val menuButtonX: Float = 1300f
     const val menuButtonY: Float = 700f
-    const val menuButtonWidth: Float = 300f
-    const val menuButtonHeight: Float = 150f
-    const val menuButtonXS: Float = 1330f
-    const val menuButtonYS: Float = 500f
-    const val menuButtonWidthS: Float = 200f
-    const val menuButtonHeightS: Float = 100f
+    const val menuButtonWidth: Float = 400f
+    const val menuButtonHeight: Float = 200f
+    const val menuButtonXS: Float = 1500f
+    const val menuButtonYS: Float = 550f
+    const val menuButtonWidthS: Float = 300f
+    const val menuButtonHeightS: Float = 150f
 
     const val red: Float = 0.90f
     const val green: Float = 0.96f
@@ -114,15 +114,15 @@ object GUIConstants {
     const val moveZ: Int = 3000
     const val eatBoardZ: Int = 500 //Z-indexes of players
 
-    const val eatBoardWidth: Float = 300f
-    const val eatBoardHeight: Float = 300f
+    const val eatBoardWidth: Float = 404f
+    const val eatBoardHeight: Float = 400f
     const val eatBoardDeltaX: Float = 25f
     const val eatBoardDeltaY: Float = 20f
     const val blackEatPath: String = "BlackEat.png"
     const val whiteEatPath: String = "WhiteEat.png"
-    const val whiteEatX: Float = 50f
+    const val whiteEatX: Float = 20f
     const val whiteEatY: Float = 550f
-    const val blackEatX: Float = 1150f
+    const val blackEatX: Float = 1330f
     const val blackEatY: Float = 100f
 
 
@@ -130,8 +130,8 @@ object GUIConstants {
     const val whiteCheckerPath: String = "whiteChecker.png"
     const val spriteCheckersInRow: Int = 3
     const val spriteCheckersInCol: Int = 2
-    const val checkerWidth: Float = 90f
-    const val checkerHeight: Float = 90f
+    const val checkerWidth: Float = 120f
+    const val checkerHeight: Float = 120f
     const val whiteCheckerSizeX: Int = 626
     const val whiteCheckerSizeY: Int = 626
     const val blackCheckerSizeX: Int = 644
@@ -140,12 +140,12 @@ object GUIConstants {
 
     const val blackSquarePath: String = "black_square.png"
     const val whiteSquarePath: String = "white_square.png"
-    const val squareWidth: Float = 90f
-    const val squareHeight: Float = 90f
-    const val squareSpaceX: Float = 85f
-    const val squareSpaceY: Float = 85f
+    const val squareWidth: Float = 120f
+    const val squareHeight: Float = 120f
+    const val squareSpaceX: Float = 110f
+    const val squareSpaceY: Float = 110f
     const val squareLeftCornerX: Float = 420f
-    const val squareLeftCornerY: Float = 150f
+    const val squareLeftCornerY: Float = 70f
 
     const val myLastRow: Int = 2
     const val oppositeFirstRow: Int = 5
@@ -185,16 +185,16 @@ object GUIConstants {
     /* *** End game constants *** */
 
     const val backImagePath: String = "Back.png"
-    const val backWidth: Float = 1600f
-    const val backHeight: Float = 900f
+    const val backWidth: Float = 2000f
+    const val backHeight: Float = 1125f
     const val backPosX: Float = 0f
     const val backPosY: Float = 0f
-    const val whiteWins: String = "Won.png"
-    const val blackWins: String = "Lose.png"
-    const val stateX: Float = 440f
-    const val stateY: Float = 370f
-    const val stateWidth: Float = 800f
-    const val stateHeight: Float = 250f
+    const val playerWins: String = "Won.png"
+    const val computerWins: String = "Lose.png"
+    const val stateX: Float = 400f
+    const val stateY: Float = 300f
+    const val stateWidth: Float = 1300f
+    const val stateHeight: Float = 400f
     const val stateSmooth: Float = 1.2f
 
     /* *** Choose color constants *** */
@@ -203,20 +203,24 @@ object GUIConstants {
     const val blackCheckerChoose: String = "black_checker.png"
     const val whiteCheckerChooseX: Float = 100f
     const val whiteCheckerChooseY: Float = 280f
-    const val whiteCheckerChooseSize: Float = 600f
+    const val whiteCheckerChooseSize: Float = 800f
     const val whiteCheckerChooseSmooth: Float = 0.8f
     const val blackCheckerChooseX: Float = 900f
-    const val blackCheckerChooseY: Float = 80f
-    const val blackCheckerChooseSize: Float = 600f
+    const val blackCheckerChooseY: Float = -100f
+    const val blackCheckerChooseSize: Float = 800f
     const val blackCheckerChooseSmooth: Float = 0.9f
     const val whiteCheckerChooseState: Int = 1
     const val blackCheckerChooseState: Int = 0
     const val checkerChooseX: Float = 100f
     const val checkerChooseY: Float = 100f
+    const val checkerChooseXS: Float = 50f
+    const val checkerChooseYS: Float = 200f
     const val checkerChooseWF: Float = 1079f
     const val checkerChooseHF: Float = 193f
     const val checkerChooseW: Int = 4798
     const val checkerChooseH: Int = 857
+    const val checkerChooseWS: Float = 809f
+    const val checkerChooseHS: Float = 144f
     const val checkerChoosePath: String = "textPlayer.png"
     const val checkersColorsCount: Int = 2
 
