@@ -1,2 +1,2 @@
-1 - генерация: 4 лучших выживают, скрещиваясь между собой + 3 рандомных добавляется, 17 поколений
-2 - генерация: 5 лучших выживают, скрещиваясь между собой + 3 рандомных добавляется, 13 поколений
+1 - procedure: 4 best are survived and mutated + 3 random are added, 17 generations
+2 - procedure: 5 best are survived and mutated + 3 random are added, 13 generations

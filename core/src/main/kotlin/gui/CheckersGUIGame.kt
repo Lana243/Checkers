@@ -5,11 +5,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import java.util.logging.Level
 import java.util.logging.Logger
 
 class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScreen.Board, playerWhite: BasePlayer<CheckersModel>, playerBlack: BasePlayer<CheckersModel>) : BaseGame {
-    private val players = Array(2) { i -> if (i == 0) playerWhite else playerBlack }
+    private val players = arrayOf(playerWhite, playerBlack)
 
     init {
         for (player in players) {
@@ -47,11 +46,8 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
 
         board.turn(turn)
         if (canMoveResult != model.board[turn.from]) {
-            //GlobalScope.launch {
-                //delay(1000)
             Thread.sleep(1000)
             board.eat(canMoveResult.X, canMoveResult.Y)
-            //}
         }
         if (typeBefore != model.board[turn.to].figure?.type) {
             board.becomeQueen(turn.to.first, turn.to.second)

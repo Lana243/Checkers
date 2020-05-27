@@ -4,8 +4,8 @@ import core.*
 import java.lang.Exception
 import java.util.logging.Logger
 
-class TestingGame(private val model: CheckersModel, playerWhite: BasePlayer<CheckersModel>, playerBlack: BasePlayer<CheckersModel>): BaseGame {
-    private val players = Array(2) { i -> if (i == 0) playerWhite else playerBlack }
+class NoUIGame(private val model: CheckersModel, playerWhite: BasePlayer<CheckersModel>, playerBlack: BasePlayer<CheckersModel>): BaseGame {
+    private val players = arrayOf(playerWhite, playerBlack)
 
     init {
         for (player in players) {

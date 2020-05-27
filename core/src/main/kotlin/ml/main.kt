@@ -1,9 +1,5 @@
 package ml
 
-import core.CheckersModel
-import core.Color
-import java.io.File
-
 fun main(args: Array<String>){
     /*val model = CheckersModel()
     val e = PositionEvaluation(model, Color.WHITE)
@@ -12,6 +8,6 @@ fun main(args: Array<String>){
             "${e.threeDiag} ${e.triangles} ${e.flippedTriangles} ${e.c5_f4} ${e.e5_d4} " +
             "${e.a7_h2} ${e.a3_h6} ${e.h4_a5}")*/
     //GeneticTesting().test()
-    GeneticTesting().start()
+    GeneticTeaching().start()
 }
 

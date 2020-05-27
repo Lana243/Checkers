@@ -12,7 +12,7 @@ import java.util.logging.Logger
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-class GeneticTesting {
+class GeneticTeaching {
 
     companion object {
         private val logger = Logger.getLogger(this::class.simpleName)
@@ -94,7 +94,7 @@ class GeneticTesting {
                     for (j in 0 until genSize) {
                         if (i == j)
                             continue
-                        val tg: TestingGame = TestingGame(CheckersModel(), MinimaxAlphaBetaPlayerWithVector(i.toString(), Color.WHITE, 6, generation[i]), MinimaxAlphaBetaPlayerWithVector(j.toString(), Color.BLACK, 6, generation[j]))
+                        val tg: NoUIGame = NoUIGame(CheckersModel(), MinimaxAlphaBetaPlayerWithVector(i.toString(), Color.WHITE, 6, generation[i]), MinimaxAlphaBetaPlayerWithVector(j.toString(), Color.BLACK, 6, generation[j]))
                         list.add(GlobalScope.launch {
                             try {
                                 tg.start()
