@@ -38,7 +38,7 @@ class Game : com.badlogic.gdx.Game() {
     }
 
     fun setMenu() {
-        setScreen(menuScreen)
+        setScreen(MenuScreen(this))
     }
 
     fun setNewGame() {

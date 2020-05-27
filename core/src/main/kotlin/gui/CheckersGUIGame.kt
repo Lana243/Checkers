@@ -24,7 +24,9 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
     }
 
     fun start() {
-        players[0].update()
+        GlobalScope.launch {
+            players[0].update()
+        }
     }
 
     override fun makeTurn(turn: BaseTurn) {
@@ -53,6 +55,10 @@ class CheckersGUIGame(private val model: CheckersModel, val board: CheckersScree
                 delay(1000)
                 players[if (model.whoMoves == Color.WHITE) 0 else 1].update()
             }
+        }
+        GlobalScope.launch {
+            delay(1000)
+            board.setColor(model.whoMoves)
         }
     }
 
