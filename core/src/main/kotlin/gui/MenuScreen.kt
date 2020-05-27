@@ -26,8 +26,6 @@ class MenuScreen(private val game: gui.Game) : Screen {
     lateinit var title: Texture
     lateinit var checkerSprite: Sprite
     lateinit var titleSprite: Sprite
-    private lateinit var viewport: Viewport
-    private lateinit var camera: Camera
 
 
     private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
@@ -99,15 +97,13 @@ class MenuScreen(private val game: gui.Game) : Screen {
                 titleSprite.width * GUIConstants.checkerTextSize,
                 titleSprite.height * GUIConstants.checkerTextSize)
 
-        for (i in 0 until GUIConstants.starPath.size) {
+        for (i in GUIConstants.starPath.indices) {
             stage.addActor(PopActor(GUIConstants.starX[i], GUIConstants.starY[i], GUIConstants.starSize[i], GUIConstants.starSize[i],
                 TextureRegion(Texture(GUIConstants.starPath[i])), GUIConstants.starSmooth[i], game))
         }
     }
 
     override fun show() {
-        camera = PerspectiveCamera()
-        viewport = FitViewport(800f, 480f, camera)
         batch = SpriteBatch()
         stage = Stage(ScreenViewport())
         Gdx.input.inputProcessor = stage
@@ -138,10 +134,6 @@ class MenuScreen(private val game: gui.Game) : Screen {
 
     override fun resume() {}
 
-    override fun resize(width: Int, height: Int) {
-        viewport.update(width, height);
-        //stage.setViewport(getFitViewport(stage.getCamera()));
-        stage.viewport.update(width, height, true)
-    }
+    override fun resize(width: Int, height: Int) {}
 
 }

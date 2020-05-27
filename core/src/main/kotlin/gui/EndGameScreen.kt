@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import core.GameState
+import core.winnerColor
 import java.util.logging.Level
 import java.util.logging.Logger
 import kotlin.system.exitProcess
@@ -77,10 +78,10 @@ class EndGameScreen(val game: Game, private val state: GameState) : Screen {
     }
 
     private fun textAction() {
-        val texture: Texture = if (state == GameState.BLACK_WINS) {
-            Texture(GUIConstants.blackWins)
+        val texture: Texture = if (state.winnerColor() == game.getColor()) {
+            Texture(GUIConstants.playerWins)
         } else {
-            Texture(GUIConstants.whiteWins)
+            Texture(GUIConstants.computerWins)
         }
         val stateAction = PopActor(GUIConstants.stateX, GUIConstants.stateY,
                 GUIConstants.stateWidth, GUIConstants.stateHeight,
