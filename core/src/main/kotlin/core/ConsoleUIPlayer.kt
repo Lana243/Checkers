@@ -44,7 +44,5 @@ class ConsoleUIPlayer(private val name : String,
         this.makeTurn()
     }
 
-    override fun illegalTurn() {
-        //TODO("Not yet implemented")
-    }
+    override fun illegalTurn() {}
 }

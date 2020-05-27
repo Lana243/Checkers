@@ -1,6 +1,6 @@
 package core
 
-data class Square(val color: Color, val X: Int, val Y: Int) {
+data class Square(val color: Color, val x: Int, val y: Int) {
     var figure: Figure? = null
 
     /**
@@ -10,7 +10,7 @@ data class Square(val color: Color, val X: Int, val Y: Int) {
      */
     var eaten = false
 
-    constructor(square: Square) : this(color = square.color, X = square.X, Y = square.Y) {
+    constructor(square: Square) : this(color = square.color, x = square.x, y = square.y) {
         figure = square.figure?.let { Figure(it) }
         eaten = square.eaten
     }
