@@ -102,36 +102,10 @@ class CheckersScreen(val game: Game,
     }
 
     private fun setButtons() {
+        newGameButton.addListener(ButtonClickListener { game.setNewGame() })
+        exitButton.addListener(ButtonClickListener { exitProcess(0) })
+        menuButton.addListener(ButtonClickListener { game.setMenu() })
 
-        newGameButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.setNewGame()
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-
-        exitButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                exitProcess(0)
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-
-        menuButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.setMenu()
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
         stage.addActor(newGameButton)
         stage.addActor(exitButton)
         stage.addActor(menuButton)

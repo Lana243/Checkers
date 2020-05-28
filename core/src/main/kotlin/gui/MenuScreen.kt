@@ -45,35 +45,9 @@ class MenuScreen(private val game: gui.Game) : Screen {
 
     private fun setButtons() {
 
-        newGameButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.setNewGame()
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-
-        exitButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                exitProcess(0)
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-
-        colorButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.chooseColor()
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
+        newGameButton.addListener(ButtonClickListener { game.setNewGame() })
+        exitButton.addListener(ButtonClickListener { exitProcess(0) })
+        colorButton.addListener(ButtonClickListener {game.chooseColor() })
 
         stage.addActor(newGameButton)
         stage.addActor(exitButton)

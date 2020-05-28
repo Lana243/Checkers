@@ -53,26 +53,9 @@ class EndGameScreen(val game: Game, private val state: GameState) : Screen {
     }
 
     private fun setButtons() {
-        menuButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                game.setMenu()
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-
-        exitButton.addListener(object : ClickListener() {
-            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                exitProcess(0)
-            }
-
-            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return true
-            }
-        })
-
+        menuButton.addListener(ButtonClickListener { game.setMenu() })
+        exitButton.addListener(ButtonClickListener { exitProcess(0) })
+        
         stage.addActor(menuButton)
         stage.addActor(exitButton)
     }
