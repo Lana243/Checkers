@@ -36,7 +36,6 @@ class CheckersScreen(val game: Game,
             Texture(GUIConstants.newGameButton.downPath),
             GUIConstants.newGameButton.xS, GUIConstants.newGameButton.yS,
             GUIConstants.newGameButton.widthS, GUIConstants.newGameButton.heightS)
-
     private val exitButton = Button(Texture(GUIConstants.exitButton.upPath),
             Texture(GUIConstants.exitButton.downPath),
             GUIConstants.exitButton.xS, GUIConstants.exitButton.yS,

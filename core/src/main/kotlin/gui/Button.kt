@@ -18,6 +18,10 @@ class Button(
         private val frames: MutableList<TextureRegion> = mutableListOf(),
         private var now: Int = 0) : Actor() {
 
+    constructor(values: ButtonSettings):
+            this(Texture(values.upPath), Texture(values.downPath),
+                    values.x, values.y, values.width, values.height)
+
     init {
         frames.add(TextureRegion(up))
         frames.add(TextureRegion(down))

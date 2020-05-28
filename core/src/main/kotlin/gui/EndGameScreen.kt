@@ -32,10 +32,7 @@ class EndGameScreen(val game: Game, private val state: GameState) : Screen {
         private val logger = Logger.getLogger(this::class.simpleName)
     }
 
-    private val menuButton = Button(Texture(GUIConstants.menuButton.upPath),
-            Texture(GUIConstants.menuButton.downPath),
-            GUIConstants.menuButton.x, GUIConstants.menuButton.y,
-            GUIConstants.menuButton.width, GUIConstants.menuButton.height)
+    private val menuButton = Button(GUIConstants.menuButton)
 
     private val exitButton = Button(Texture(GUIConstants.exitButton.upPath),
             Texture(GUIConstants.exitButton.downPath),

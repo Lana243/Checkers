@@ -21,10 +21,7 @@ class PlayerColorChooseScreen(val game: Game) : Screen {
     lateinit var backSprite: Sprite
     lateinit var text: BaseChangeActor
 
-    private val menuButton = Button(Texture(GUIConstants.menuButton.upPath),
-            Texture(GUIConstants.menuButton.downPath),
-            GUIConstants.menuButton.x, GUIConstants.menuButton.y,
-            GUIConstants.menuButton.width, GUIConstants.menuButton.height)
+    private val menuButton = Button(GUIConstants.menuButton)
 
     private fun setButtons() {
         menuButton.addListener(object : ClickListener() {

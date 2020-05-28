@@ -28,20 +28,9 @@ class MenuScreen(private val game: gui.Game) : Screen {
     lateinit var titleSprite: Sprite
 
 
-    private val newGameButton = Button(Texture(GUIConstants.newGameButton.upPath),
-            Texture(GUIConstants.newGameButton.downPath),
-            GUIConstants.newGameButton.x, GUIConstants.newGameButton.y,
-            GUIConstants.newGameButton.width, GUIConstants.newGameButton.height)
-
-    private val exitButton = Button(Texture(GUIConstants.exitButton.upPath),
-            Texture(GUIConstants.exitButton.downPath),
-            GUIConstants.exitButton.x, GUIConstants.exitButton.y,
-            GUIConstants.exitButton.width, GUIConstants.exitButton.height)
-
-    private val colorButton = Button(Texture(GUIConstants.colorButton.upPath),
-            Texture(GUIConstants.colorButton.downPath),
-            GUIConstants.colorButton.x, GUIConstants.colorButton.y,
-            GUIConstants.colorButton.width, GUIConstants.colorButton.height)
+    private val newGameButton = Button(GUIConstants.newGameButton)
+    private val exitButton = Button(GUIConstants.exitButton)
+    private val colorButton = Button(GUIConstants.colorButton)
 
     private fun setButtons() {
 
