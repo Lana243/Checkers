@@ -32,15 +32,15 @@ class EndGameScreen(val game: Game, private val state: GameState) : Screen {
         private val logger = Logger.getLogger(this::class.simpleName)
     }
 
-    private val menuButton = Button(Texture(GUIConstants.menuButtonUpPath),
-            Texture(GUIConstants.menuButtonDownPath),
-            GUIConstants.menuButtonX, GUIConstants.menuButtonY,
-            GUIConstants.menuButtonWidth, GUIConstants.menuButtonHeight)
+    private val menuButton = Button(Texture(GUIConstants.menuButton.upPath),
+            Texture(GUIConstants.menuButton.downPath),
+            GUIConstants.menuButton.x, GUIConstants.menuButton.y,
+            GUIConstants.menuButton.width, GUIConstants.menuButton.height)
 
-    private val exitButton = Button(Texture(GUIConstants.exitButtonUpPath),
-            Texture(GUIConstants.exitButtonDownPath),
-            GUIConstants.exitButtonXE, GUIConstants.exitButtonYE,
-            GUIConstants.exitButtonWidthSE, GUIConstants.exitButtonHeightSE)
+    private val exitButton = Button(Texture(GUIConstants.exitButton.upPath),
+            Texture(GUIConstants.exitButton.downPath),
+            GUIConstants.exitButton.xE, GUIConstants.exitButton.yE,
+            GUIConstants.exitButton.widthSE, GUIConstants.exitButton.heightSE)
 
 
     private fun setBackGround() {
@@ -55,7 +55,7 @@ class EndGameScreen(val game: Game, private val state: GameState) : Screen {
     private fun setButtons() {
         menuButton.addListener(ButtonClickListener { game.setMenu() })
         exitButton.addListener(ButtonClickListener { exitProcess(0) })
-        
+
         stage.addActor(menuButton)
         stage.addActor(exitButton)
     }

@@ -1,5 +1,21 @@
 package gui
 
+data class ButtonConstants(val upPath: String,
+                           val downPath: String,
+                           val x: Float,
+                           val y: Float,
+                           val width: Float,
+                           val height: Float,
+                           val xS: Float = 0.0F,
+                           val yS: Float = 0.0F,
+                           val widthS: Float = 0.0F,
+                           val heightS: Float = 0.0F,
+                           val xE: Float = 0.0F,
+                           val yE: Float = 0.0F,
+                           val widthSE: Float = 0.0F,
+                           val heightSE: Float = 0.0F
+                           )
+
 object GUIConstants {
 
     /* ***Menu constants*** */
@@ -51,7 +67,10 @@ object GUIConstants {
 
     /* ***Button constants*** */
 
-    const val newGameButtonUpPath: String = "NewGameUp.png"
+    val newGameButton = ButtonConstants("NewGameUp.png", "NewGameDown.png",
+            600f, 500f, 600f, 300f,
+            1500f, 850f, 300f,150f)
+    /*const val newGameButtonUpPath: String = "NewGameUp.png"
     const val newGameButtonDownPath: String = "NewGameDown.png"
     const val newGameButtonX: Float = 600f
     const val newGameButtonY: Float = 500f
@@ -60,31 +79,40 @@ object GUIConstants {
     const val newGameButtonXS: Float = 1500f
     const val newGameButtonYS: Float = 850f
     const val newGameButtonWidthS: Float = 300f
-    const val newGameButtonHeightS: Float = 150f
+    const val newGameButtonHeightS: Float = 150f*/
 
-    const val colorButtonUpPath: String = "ChooseUp.png"
+    val colorButton = ButtonConstants("ChooseUp.png", "ChooseDown.png",
+            1000f, 275f, 400f, 200f)
+    /*const val colorButtonUpPath: String = "ChooseUp.png"
     const val colorButtonDownPath: String = "ChooseDown.png"
     const val colorButtonX: Float = 1000f
     const val colorButtonY: Float = 275f
     const val colorButtonWidth: Float = 400f
-    const val colorButtonHeight: Float = 200f
+    const val colorButtonHeight: Float = 200f*/
 
-    const val exitButtonUpPath: String = "ExitUp.png"
+    val exitButton = ButtonConstants(upPath = "ExitUp.png", downPath = "ExitDown.png",
+            x = 800f, y = 110f, width = 260f, height = 130f,
+            xS = 1350f, yS = 700f, widthS = 300f, heightS = 150f,
+            xE = 100f, yE = 100f, widthSE = 300f, heightSE = 150f)
+    /*const val exitButtonUpPath: String = "ExitUp.png"
     const val exitButtonDownPath: String = "ExitDown.png"
     const val exitButtonX: Float = 800f
     const val exitButtonY: Float = 110f
-    const val exitButtonXE: Float = 100f
-    const val exitButtonYE: Float = 100f
     const val exitButtonWidth: Float = 260f
     const val exitButtonHeight: Float = 130f
     const val exitButtonXS: Float = 1350f
     const val exitButtonYS: Float = 700f
     const val exitButtonWidthS: Float = 300f
     const val exitButtonHeightS: Float = 150f
+    const val exitButtonXE: Float = 100f
+    const val exitButtonYE: Float = 100f
     const val exitButtonWidthSE: Float = 300f
-    const val exitButtonHeightSE: Float = 150f
+    const val exitButtonHeightSE: Float = 150f*/
 
-    const val menuButtonUpPath: String = "MenuUp.png"
+    val menuButton = ButtonConstants(upPath = "MenuUp.png", downPath = "MenuDown.png",
+            x = 1300f, y = 700f, width = 400f, height = 200f,
+            xS = 1500f, yS = 550f, widthS = 300f, heightS = 150f)
+    /*const val menuButtonUpPath: String = "MenuUp.png"
     const val menuButtonDownPath: String = "MenuDown.png"
     const val menuButtonX: Float = 1300f
     const val menuButtonY: Float = 700f
@@ -93,7 +121,7 @@ object GUIConstants {
     const val menuButtonXS: Float = 1500f
     const val menuButtonYS: Float = 550f
     const val menuButtonWidthS: Float = 300f
-    const val menuButtonHeightS: Float = 150f
+    const val menuButtonHeightS: Float = 150f*/
 
     const val red: Float = 0.90f
     const val green: Float = 0.96f

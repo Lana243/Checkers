@@ -32,19 +32,19 @@ class CheckersScreen(val game: Game,
     val guiPlayer = GUIPlayer(colorPlayer)
     private lateinit var gameModel: CheckersGUIGame
 
-    private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
-            Texture(GUIConstants.newGameButtonDownPath),
-            GUIConstants.newGameButtonXS, GUIConstants.newGameButtonYS,
-            GUIConstants.newGameButtonWidthS, GUIConstants.newGameButtonHeightS)
+    private val newGameButton = Button(Texture(GUIConstants.newGameButton.upPath),
+            Texture(GUIConstants.newGameButton.downPath),
+            GUIConstants.newGameButton.xS, GUIConstants.newGameButton.yS,
+            GUIConstants.newGameButton.widthS, GUIConstants.newGameButton.heightS)
 
-    private val exitButton = Button(Texture(GUIConstants.exitButtonUpPath),
-            Texture(GUIConstants.exitButtonDownPath),
-            GUIConstants.exitButtonXS, GUIConstants.exitButtonYS,
-            GUIConstants.exitButtonWidthS, GUIConstants.exitButtonHeightS)
-    private val menuButton = Button(Texture(GUIConstants.menuButtonUpPath),
-            Texture(GUIConstants.menuButtonDownPath),
-            GUIConstants.menuButtonXS, GUIConstants.menuButtonYS,
-            GUIConstants.menuButtonWidthS, GUIConstants.menuButtonHeightS)
+    private val exitButton = Button(Texture(GUIConstants.exitButton.upPath),
+            Texture(GUIConstants.exitButton.downPath),
+            GUIConstants.exitButton.xS, GUIConstants.exitButton.yS,
+            GUIConstants.exitButton.widthS, GUIConstants.exitButton.heightS)
+    private val menuButton = Button(Texture(GUIConstants.menuButton.upPath),
+            Texture(GUIConstants.menuButton.downPath),
+            GUIConstants.menuButton.xS, GUIConstants.menuButton.yS,
+            GUIConstants.menuButton.widthS, GUIConstants.menuButton.heightS)
     private val invalidText = InvalidText(GUIConstants.invalidPosX, GUIConstants.invalidPosY,
             GUIConstants.invalidPosWidth, GUIConstants.invalidPosHeight,
             Texture(GUIConstants.invalidPath))

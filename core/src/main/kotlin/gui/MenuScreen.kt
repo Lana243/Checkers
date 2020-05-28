@@ -28,20 +28,20 @@ class MenuScreen(private val game: gui.Game) : Screen {
     lateinit var titleSprite: Sprite
 
 
-    private val newGameButton = Button(Texture(GUIConstants.newGameButtonUpPath),
-            Texture(GUIConstants.newGameButtonDownPath),
-            GUIConstants.newGameButtonX, GUIConstants.newGameButtonY,
-            GUIConstants.newGameButtonWidth, GUIConstants.newGameButtonHeight)
+    private val newGameButton = Button(Texture(GUIConstants.newGameButton.upPath),
+            Texture(GUIConstants.newGameButton.downPath),
+            GUIConstants.newGameButton.x, GUIConstants.newGameButton.y,
+            GUIConstants.newGameButton.width, GUIConstants.newGameButton.height)
 
-    private val exitButton = Button(Texture(GUIConstants.exitButtonUpPath),
-            Texture(GUIConstants.exitButtonDownPath),
-            GUIConstants.exitButtonX, GUIConstants.exitButtonY,
-            GUIConstants.exitButtonWidth, GUIConstants.exitButtonHeight)
+    private val exitButton = Button(Texture(GUIConstants.exitButton.upPath),
+            Texture(GUIConstants.exitButton.downPath),
+            GUIConstants.exitButton.x, GUIConstants.exitButton.y,
+            GUIConstants.exitButton.width, GUIConstants.exitButton.height)
 
-    private val colorButton = Button(Texture(GUIConstants.colorButtonUpPath),
-            Texture(GUIConstants.colorButtonDownPath),
-            GUIConstants.colorButtonX, GUIConstants.colorButtonY,
-            GUIConstants.colorButtonWidth, GUIConstants.colorButtonHeight)
+    private val colorButton = Button(Texture(GUIConstants.colorButton.upPath),
+            Texture(GUIConstants.colorButton.downPath),
+            GUIConstants.colorButton.x, GUIConstants.colorButton.y,
+            GUIConstants.colorButton.width, GUIConstants.colorButton.height)
 
     private fun setButtons() {
 
